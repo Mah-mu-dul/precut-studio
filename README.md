@@ -1,38 +1,68 @@
-# React + TypeScript + Vite
+# Precut Studio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, high-performance React application built with Vite and Tailwind CSS. The platform serves as a cinematic video editing agency storefront, featuring scroll-driven animations and a premium SaaS aesthetic.
 
-Currently, two official plugins are available:
+## 🚀 Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Framework:** [React 18](https://reactjs.org/) + [TypeScript](https://www.typescriptlang.org/)
+- **Build Tool:** [Vite](https://vitejs.dev/)
+- **Styling:** [Tailwind CSS v3](https://tailwindcss.com/)
+- **Icons:** [Lucide React](https://lucide.dev/)
+- **Animations:** Custom CSS & pure native DOM `requestAnimationFrame`
 
-## React Compiler
+## ✨ Core Features
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+- **High-Performance Architecture:** Pure React components with minimal external dependencies to ensure ultra-fast load times.
+- **Scroll-Driven Interpolation:** The "Subscription Model" pricing section utilizes a strictly scroll-scrubbed, jank-free `IntersectionObserver` and `requestAnimationFrame` lerp loop for 1:1 user-scroll "jelly fan-out" animation.
+- **Brand Theming:** Strictly adheres to the defined color palette — Sky Blue (`#87CEEB`), Dark Navy (`#091549`), and Beige/Off-white (`#F5F5DC`).
+- **Typography Engine:** Dual-font setup mapping Google Fonts **Space Mono** (Headlines & CTAs) and **DM Sans** (Body & Subtext).
+- **Responsive Layout:** fully fluid layouts relying on flexbox and CSS grids, guaranteed to work flawlessly from mobile breakpoints up to 4K displays.
 
-Note: This will impact Vite dev & build performances.
+## 📦 Getting Started
 
-## Expanding the ESLint configuration
+### Prerequisites
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Ensure you have [Node.js](https://nodejs.org/) (v18+ recommended) and `npm` installed.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Installation
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Mah-mu-dul/precut-studio.git
+   cd precut-studio
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+## 🏗️ Project Structure
+
+- `src/components/layout/` - Core shell components (Navbar, Footer, etc.)
+- `src/components/sections/` - Individual page blocks (Hero, Portfolio, Pricing, How It Works, Testimonials)
+- `src/index.css` - Global styles and Tailwind directives
+- `tailwind.config.js` - Centralized theme tokens and design system variables
+
+## 🛠️ Build & Deployment
+
+To build a highly optimized, minified bundle for production:
+
+```bash
+npm run build
+```
+
+This will output the compiled static assets into the `/dist` directory, ready to be deployed to Vercel, Netlify, or AWS S3.    tseslint.configs.recommendedTypeChecked,
       // Alternatively, use this for stricter rules
       tseslint.configs.strictTypeChecked,
       // Optionally, add this for stylistic rules
       tseslint.configs.stylisticTypeChecked,
 
-      // Other configs...
     ],
     languageOptions: {
       parserOptions: {
