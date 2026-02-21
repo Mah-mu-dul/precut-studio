@@ -1,0 +1,232 @@
+﻿⭐ Branding
+PRECUT STUDIO
+
+Brand Colors
+
+
+  
+
+1️⃣ Primary Color – Sky Blue #87CEEB
+* Use for: Highlights, buttons, links, icons, hover states
+* Feels: Fresh, modern, creative
+________________
+
+
+2️⃣ Secondary Color – Dark Navy #091549
+* Use for: Backgrounds, headers, footers, main text on light areas, bold sections
+* Feels: Premium, trustworthy, strong contrast
+________________
+
+
+3️⃣ Neutral / Base – Beige #F5F5DC
+* Use for: Backgrounds, cards, section fills, secondary elements
+* Feels: Warm, soft, balances bold blues
+
+4️⃣ Accent / Gradient
+   * Combine Sky Blue → Dark Navy for hover effects, CTA buttons, or subtle gradients
+   * Example gradient: linear-gradient(135deg, #87CEEB 0%, #091549 100%)
+________________
+
+
+5️⃣ Typography Colors
+   * Main text: Dark Navy (#091549)
+   * Secondary text / highlights: Sky Blue (#87CEEB) or Beige (#F5F5DC) depending on background
+
+________________
+
+
+6️⃣ Example Usage
+Element
+	Color
+	Page background
+	    Beige (#F5F5DC)
+	Hero section
+	    Dark Navy (#091549)
+	CTA buttons
+	    Sky Blue (#87CEEB)
+	CTA hover / gradient
+	    Sky → Dark Navy
+	Headlines / titles
+	    Dark Navy (#091549)
+	Icons / highlights
+	    Sky Blue (#87CEEB)
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+Brand Fonts
+
+
+
+
+Primary: Space Mono
+Secondary:  DM Sans Medium
+
+
+
+
+
+Examples:
+    
+Font Usage Recommendation
+1️⃣ Primary Font – Space Mono
+      * Use for: Headlines, hero section, titles, navigation, CTA buttons
+      * Why: Monospaced, geometric, modern — gives personality and makes your brand feel creative and distinctive
+      * Bold, techy, and attention-grabbing; perfect for your key brand statements
+________________
+2️⃣ Secondary Font – DM Sans Medium
+         * Use for: Body text, subheadings, captions, descriptions, small labels
+         * Why: Highly readable, minimal, and balances the more rigid Space Mono
+         * Clean, readable, versatile; complements Space Mono without competing for attention
+
+Example:
+  
+
+
+
+
+🖥️ Website Niches
+1. Real Estate Agents (Easiest to Close)
+
+
+            * They need Reels constantly
+            * High commission → can afford $300
+            * Visual industry
+            * Very strong niche for ads.
+
+
+
+2. Coaches (Business / Fitness / Mindset)
+
+
+               * Already spending on ads
+               * Need content consistently
+               * Good lifetime value
+
+
+
+3. Podcast Creators
+
+
+                  * Need long form → short form repurposing
+                  * Recurring monthly need
+
+
+
+
+4. YouTube Automation Channels
+
+
+                     * Need bulk editing
+                     * Volume-based
+
+
+
+
+5. Shopify / Ecom Brands
+
+
+                        * Need UGC style edits
+                        * But competitive
+AD RUN STRATEGY:
+- For first 2 weeks, we’ll be sticking with Real estate & Podcast creators.
+
+
+💡 Inspiration Vault
+        Website Inspirations
+
+
+
+https://becreatives.co
+dsqr.studio
+https://www.superside.com/pricing
+https://pitch.com/
+https://www.framer.com/
+https://payjustnow.com/business/
+https://nfinitepaper.com/
+https://www.dylanbrouwer.design/
+https://jeskojets.com/
+
+
+
+
+
+
+From studying these:
+1. Strong Hero Section
+                        * Big headline like: “Unlimited Video Editing for Growing Brands”
+                        * Subheading: Fast. Reliable. Subscription-based.
+                        * CTA: [Book a Call] [View Portfolio]
+
+2. Clear Pricing Section
+                           * Don’t hide pricing. US/ Canada clients prefer transparency.
+
+3. Social Proof Above The Fold
+                              * Even 2–3 testimonials massively increase trust.
+
+4. Simple 3-Step Process
+                                 * Submit footage
+                                 * We edit
+                                 * Receive final video
+
+
+
+
+For a winning structure, the homepage should have:
+                                 1. Hero (bold statement + CTA)
+                                 2. Portfolio samples
+                                 3. How it works
+                                 4. Pricing
+                                 5. Testimonials
+                                 6. Final CTA
+
+
+
+
+
+
+
+
+
+
+
+
+Video Inspirations
+
+
+                                 * https://www.instagram.com/p/DJ_zyzpSIgx/
+                                 * https://www.instagram.com/p/DMp8tEuMj6h/
+                                 * https://www.instagram.com/p/DPtWXSakyd_/
+                                 * https://www.instagram.com/p/DMF2S_gS57D/
+                                 * https://www.instagram.com/p/DMDT2vuoJDB/
+                                 * https://www.instagram.com/p/DJeZMT9sGfU/
+                                 * https://www.instagram.com/reels/DPohNsukvAw/
+                                 *                                  * [ paste link here ]
+                                 * [ paste link here ]
+                                 * [ paste link here ]
+
+
+👤 Client Acquisition Update
+Will be updated later by Sifu . . . . .

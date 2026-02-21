@@ -1,0 +1,298 @@
+﻿🌟 Opening Animation
+       Scene 1 – Black Screen (Initial Load)
+* Full dark navy blue background
+* A faint glow appears in center, could be sky blue
+https://www.dylanbrouwer.design/
+
+
+
+Then:
+   * A 3D monitor slowly fades into view.
+Camera angle:Slight perspective (not flat front). Upon scrolling it could be flat, but in the initial stage it should be slightly tilted in any angle. 
+
+Inside the monitor:
+   * Our glowing logo on a dark background.
+Very minimal UI elements:(if possible)
+   * Soft reflection on monitor glass
+   * Subtle light sweep across screen
+
+NOTE: No aggressive animation, all should be smooth. 
+
+
+
+
+
+
+
+
+     Scene 2: Transition to Main Website
+The logo scales down and becomes:
+      * Either your navbar logo( Just like jeskojets.com) 
+OR
+      * Dissolves into hero headline, and then the PRECUT STUDIO text logo appears there.
+Whatever is easier! 
+Then the main hero content appears,the headline fades up.
+Now we’re officially inside the site! 
+________________
+
+
+Why This Is Strong
+It:
+         * Feels cinematic
+         * Creates brand memory
+         * Makes user participate (scroll to enter)
+         * Builds anticipation
+
+But it doesn’t waste time.
+Total duration:
+            * 2–4 seconds max depending on scroll speed.
+Very important:
+Allow users to skip.
+Options:
+            * “Skip Intro” small text
+OR
+            * If user scrolls fast → immediately transition
+
+Never trap users.Luxury is smooth, not forced.
+
+
+🌐 Nav Bar
+NAVIGATION STRUCTURE
+Top Left  Navigation:
+               * Our work
+               * Why us
+Top Right Navigation:
+               * Book a Call (Primary CTA button style)
+               * Pricing
+               * More section with dropdown (like this website’s header: www.dsqr.studio/) 
+
+
+Make “Book a Call” visually different:
+                  * Solid gradient background (Navy blue and sky blue)
+                  * Slight glow or shiny animation (like this website’s BOOK A CALL: www.dsqr.studio/) 
+                  * Rounded corners
+Inside “More” dropdown:
+                  * About Us
+                  * Privacy Policy
+                  * Terms & Conditions
+                  * Affiliate Program
+
+Keep dropdown minimal
+💬 Hero Statement
+Hero Text:
+Keep the hero text center aligned
+
+
+Unlimited video editing
+One subscription, Zero bottlenecks.
+
+
+Brand Showreel( Main video of our website to say who we are ):
+
+
+Flow will be
+                     * Hero text
+                     * Slight scroll
+                     * A video frame appears below
+                     * As user scrolls more → it expands and becomes dominant on screen, and the upper hero text becomes blurry 
+                     * Example: lusion.co/
+
+
+NOTE: 
+DO NOT:
+                     * Force autoplay the video with loud sound, keep muted
+                     * Make it full screen instantly
+                     * Make user wait to hit play 
+Our goal is - with video it should enhance, not interrupt the smoothness. 
+
+
+🔥 Portfolio Showcase
+Portfolio Showcase( MOST IMPORTANT PART ): 
+After a slight scroll, the PORTFOLIO part will appear.
+
+
+Headline:
+Everything You Need.
+In one Creative Studio.
+
+Supporting Text:
+From short-form to brand films, we turn simple footage into performance-driven cinematic content.
+
+
+
+Portfolio video’s Layout & Animation Direction:
+
+Marquee Scroll
+                     * Horizontal auto-moving row ( example: www.dsqr.studio/) 
+                     * Continuous loop 
+                     * Videos muted, subtle movement
+                     * On hover → enlarge slightly
+
+
+
+
+
+Animation Part Idea
+Inspiration: https://www.framer.com/
+👥 Testimonial
+Testimonials: 
+
+After scrolling up from the Portfolio section, there will be a text coming up, with subtle animation
+
+Submit your request.
+We handle the execution.
+You focus on growth. ( can see example here:  www.dsqr.studio/) 
+
+Animations u can do:
+                        * As user scrolls, each line reveals with highlight sweep (like a subtle underline animation)
+                        * Or each line fades in with slight upward motion
+                        * Or word-by-word reveal (but slow)
+
+Avoid heavy typing animation here.
+Let it feel intentional.
+
+
+
+
+
+
+
+
+
+
+Testimonial Section:
+
+Upon scrolling those texts, those will go up and fade out or blurred, after that,
+
+Heading text:
+Success Stories
+from the Creative Frontline
+
+Assisting text:
+Trusted by creators and brands who demand performance-driven visuals.
+
+
+Testimonial Layout:
+
+Will be like this
+  
+
+
+
+                           * According to our branding guide and colors.
+                           * For the details, you can ask me.
+
+💲 Pricing
+Subscription Model
+
+Section name will be Subscription Model. After scrolling up a bit, 
+
+Heading text:
+One Scalable Subscription.
+Built for Brands That Move Fast.
+
+Assisting text:
+Unlimited video editing. Flexible plans. Built to scale with you.
+
+
+Then on the left side, or slightly below, there will be 3 sections:
+
+STARTER — $399 USD/month
+Best for individual creators & early-stage brands.
+Includes:
+                              * Unlimited video requests
+                              * 1 active video every 48 hours
+                              * Unlimited revisions
+                              * Monday–Friday workflow
+                              * Upgrade or downgrade anytime
+
+
+
+PRO — $699 USD/month
+Best for scaling brands & content-driven teams.
+Includes:
+                              * Unlimited video requests
+                              * 2 videos every 48 hours
+                              * Unlimited revisions
+                              * Dedicated Project Manager
+                              * Priority turnaround
+                              * Monday–Friday workflow
+                              * Upgrade or downgrade anytime
+                              * Enhanced motion graphics upon request
+                              * Advanced color grading
+
+
+AGENCY — $1,199 USD/month
+Built for agencies & high-volume brands.
+Includes:
+                              * Unlimited video requests
+                              * 4 videos every 48 hours
+                              * Unlimited revisions
+                              * Dedicated Project Manager & editor
+                              * Highest queue priority
+                              * Free thumbnails for every video
+                              * Advanced motion + sound design
+                              * Monday–Friday workflow
+                              * Upgrade or downgrade anytime
+
+
+Layout Suggestion
+Three cards side by side.
+Middle plan slightly highlighted (Pro).
+                              * Slight scale difference
+                              * Soft glow
+                              * “Best deal” tag in the corner (example: becreatives.co/pricing) 
+
+
+
+Animation For Pricing Section
+As section scrolls in:
+                              * Heading fades up
+                              * Supporting text fades
+                              * Pricing cards stagger in (left → right)
+                              * Slight upward motion
+                              * Hover: card lifts slightly
+When user hovers a plan:
+                              * Subtle background shift
+                              * Price slightly scales
+
+NOTE: at the bottom of pricing section, can keep very small text: 
+Transparent pricing. No hidden fees.
+
+
+
+
+
+
+❓ CTA Section
+After a bit of scrolling, CTA section will come.
+
+Why Us?
+
+Let’s Make Magic Together.
+No contracts. No delays.
+Just consistent, high-performance content — delivered when you need it.
+
+
+Schedule a quick strategy call.
+Your next level starts here.
+
+
+
+Preferred Layout:
+Left side:
+                                 * Headline
+                                 * Supporting text
+                                 * Short reassurance line
+                                 * Primary CTA button
+Right side:
+                                 * Embedded calendar preview (or visual calendar mockup)
+
+Important:
+- Make the calendar feel integrated, not pasted.
+
+Subtle shadow.
+- Rounded edges.
+- Clean frame.
+At the bottom there will be basics, like about us, contact us, terms & conditions, privacy and policy. And all the other things like dsqr.studio
+ASSETS

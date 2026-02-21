@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-navy-blue text-off-white font-sans antialiased overflow-x-hidden selection:bg-sky-blue selection:text-navy-blue;
+  }
+}
+
+/* Custom Utilities for aesthetic touches */
+@layer utilities {
+  .glass-panel {
+    @apply bg-white/5 backdrop-blur-md border border-white/10;
+  }
+}
