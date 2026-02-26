@@ -4,9 +4,9 @@ const Footer: React.FC = () => {
   return (
     <footer className="w-full bg-[#050A18] py-16 border-t border-white/5 relative z-10">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-12">
           
-          <div className="col-span-1 md:col-span-2">
+          <div className="col-span-2">
             <a href="#" className="text-2xl font-bold tracking-[0.2em] text-white block mb-4">
               PRECUT<span className="text-sky-blue">STUDIO</span>
             </a>
@@ -15,7 +15,7 @@ const Footer: React.FC = () => {
             </p>
           </div>
           
-          <div>
+          <div className="col-span-1">
             <h4 className="text-white font-medium mb-4 uppercase tracking-wider text-sm">Navigation</h4>
             <ul className="space-y-3 text-sm text-white/50">
               <li><a href="#work" className="hover:text-sky-blue transition-colors">Our Work</a></li>
@@ -24,7 +24,7 @@ const Footer: React.FC = () => {
             </ul>
           </div>
           
-          <div>
+          <div className="col-span-1">
             <h4 className="text-white font-medium mb-4 uppercase tracking-wider text-sm">Legal & More</h4>
             <ul className="space-y-3 text-sm text-white/50">
               <li><a href="#about" className="hover:text-sky-blue transition-colors">About Us</a></li>

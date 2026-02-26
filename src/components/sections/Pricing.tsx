@@ -13,7 +13,17 @@ const Pricing: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (!isDesktop) return;
+    if (!isDesktop) {
+      // Clear out any lingering inline styles if we resized from desktop
+      cardsRef.current.forEach(card => {
+        if (card) {
+          card.style.transform = '';
+          card.style.opacity = '';
+          card.style.zIndex = '';
+        }
+      });
+      return;
+    }
 
     let animationFrameId: number;
     let currentP = 0;
@@ -24,11 +34,9 @@ const Pricing: React.FC = () => {
       const rect = sectionRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
       
-      // The section is 200vh tall. 
-      // Animation starts when the top of the section hits the top of the viewport (rect.top = 0).
-      // Animation ends earlier, so it holds stable for reading. Let's finish when we scroll 60% of windowHeight.
-      // (Originally we waited until rect.top = -windowHeight, now we wait until -windowHeight * 0.6)
-      let p = -rect.top / (windowHeight * 0.6);
+      // Proportional scroll range: reaches 1.0 after 1.5 screen heights of scrolling
+      // This ensures the pinning feels "locked" until the cards are fully open
+      let p = -rect.top / (windowHeight * 1.5);
       p = Math.max(0, Math.min(1, p));
       
       targetP = p;
@@ -41,8 +49,8 @@ const Pricing: React.FC = () => {
       
       // We want to fan out based on p.
       // p=0: stacked at the bottom center. p=1: perfectly fanned out side-by-side.
-      const stackedY = 200; // start 200px lower
-      const spreadX = 110;  // 110% to left and right
+      const stackedY = 50;  // minimal vertical movement so it stays centered
+      const spreadX = 95;   // keep it on screen
 
       if (cardsRef.current[0]) {
         // Left Card
@@ -51,11 +59,11 @@ const Pricing: React.FC = () => {
         const angle = (1 - p) * -15; // Rotates back to 0 at p=1
         const scale = 0.85; // Slightly smaller overall to easily fit screen
         // Initially starts slightly smaller behind the middle card
-        const initialScale = 0.7; 
+        const initialScale = 0.6; 
         const currentScale = initialScale + (p * (scale - initialScale));
         
         cardsRef.current[0].style.transform = `translate3d(${x}%, ${y}px, 0) rotate(${angle}deg) scale(${currentScale})`;
-        cardsRef.current[0].style.opacity = Math.min(1, p + 0.2).toString(); // Slow fade in
+        cardsRef.current[0].style.opacity = '1'; // Solid cards always
       }
       
       if (cardsRef.current[1]) {
@@ -66,7 +74,7 @@ const Pricing: React.FC = () => {
         const currentScale = initialScale + (p * (scale - initialScale));
         
         cardsRef.current[1].style.transform = `translate3d(0, ${y}px, 0) scale(${currentScale})`;
-        cardsRef.current[1].style.opacity = Math.min(1, p + 0.5).toString(); 
+        cardsRef.current[1].style.opacity = '1'; 
         cardsRef.current[1].style.zIndex = '10'; 
       }
       
@@ -76,11 +84,11 @@ const Pricing: React.FC = () => {
         const y = (1 - p) * stackedY;
         const angle = (1 - p) * 15; // Rotates back to 0 at p=1
         const scale = 0.85;
-        const initialScale = 0.7;
+        const initialScale = 0.6;
         const currentScale = initialScale + (p * (scale - initialScale));
         
         cardsRef.current[2].style.transform = `translate3d(${x}%, ${y}px, 0) rotate(${angle}deg) scale(${currentScale})`;
-        cardsRef.current[2].style.opacity = Math.min(1, p + 0.2).toString();
+        cardsRef.current[2].style.opacity = '1';
       }
 
       animationFrameId = requestAnimationFrame(updateAnimation);
@@ -144,62 +152,68 @@ const Pricing: React.FC = () => {
   ];
 
   return (
-    <section id="pricing" ref={sectionRef} className="relative z-20 h-[200vh]">
-      {/* Sticky container stays on screen while scrolling the 200vh height */}
-      <div className="sticky top-0 h-screen w-full flex flex-col justify-center overflow-hidden py-12">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 w-full">
+    <section ref={sectionRef} className="relative z-20 md:h-[300vh]">
+      {/* Hidden anchor point positioned so that scrolling to it sets p >= 1.0 */}
+      {/* Animation reaches 1.0 after 1.5 screen heights (150vh). We put the anchor there. */}
+      <div id="pricing" className="absolute top-0 md:top-[150vh] left-0 pointer-events-none w-full"></div>
+      
+      {/* Sticky container stays on screen while scrolling the height on desktop */}
+      <div className="md:mt-20 p-0 md:sticky top-[80px] md:h-[calc(100vh-80px)] w-full flex flex-col justify-center overflow-visible md:py-12 ">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 w-full mt-4 md:mt-0">
           
-          <div className="text-center">
+          <div className="text-center mb-10 md:mb-0 ">
              <div className="text-sky-blue tracking-widest uppercase text-[10px] font-bold mb-2">Subscription Model</div>
-             <h2 className="text-3xl md:text-4xl font-mono font-bold mb-3 text-navy-blue">
+             <h2 className="text-3xl md:text-4xl font-mono font-bold mb-3 text-navy-blue ">
                One Scalable Subscription.<br/>
                <span className="font-sans text-navy-blue/80">Built for Brands That Move Fast.</span>
              </h2>
              <p className="text-navy-blue/60 text-base">Unlimited video editing. Flexible plans. Built to scale with you.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center max-w-5xl mx-auto relative perspective-[1200px]">
+          <div className="flex flex-col md:grid md:grid-cols-3 gap-6 md:gap-4 items-center max-w-5xl mx-auto relative perspective-[1200px]">
              {tiers.map((tier, idx) => (
                <div 
                  key={tier.name}
                  ref={(el) => { if (el) cardsRef.current[idx] = el; }}
                  style={{ willChange: 'transform, opacity' }}
-                 className={!isDesktop ? "mb-6" : "absolute inset-0 md:relative"} // On mobile, stack normally. On desktop, absolute stack them for animation.
+                 className={`w-full max-w-sm mx-auto ${!isDesktop ? "relative !opacity-100 !transform-none" : "absolute inset-0 md:relative"}`} 
+                 // Note: We use !important in tailwind equivalent classes to override the inline styles set by JS if `isDesktop` is false
                >
-                 <div className={`h-full relative rounded-[2rem] transition-shadow duration-300 ${
+                 <div className={`h-full relative rounded-[2rem] transition-all duration-300 hover:scale-105 ${
                    tier.highlighted 
                      ? 'bg-navy-blue text-white shadow-[0_20px_40px_rgba(9,21,73,0.15)] hover:shadow-[0_25px_50px_rgba(9,21,73,0.25)]' 
                      : 'bg-white text-navy-blue border border-navy-blue/10 shadow-[0_8px_20px_rgba(9,21,73,0.03)] hover:shadow-[0_15px_30px_rgba(9,21,73,0.08)]'
                  }`}>
                    
                    {tier.highlighted && (
-                     <div className="absolute top-0 right-6 -translate-y-1/2 bg-sky-blue text-navy-blue text-[10px] font-bold px-3 py-1 rounded-full shadow-lg">
-                       MOST POPULAR
+                     <div className="absolute top-0 right-6 -translate-y-1/2 rounded-full p-[2px] overflow-hidden shadow-[0_0_15px_rgba(56,189,248,0.5)] flex items-center justify-center z-20">
+                       {/* Spinning neon light effect */}
+                       <div className="absolute inset-[-500%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_0%,transparent_70%,#38bdf8_100%)]"></div>
+                       {/* Inner label */}
+                       <div className="relative bg-navy-blue text-white text-[10px] font-bold px-3 py-1 rounded-full z-10 w-full h-full flex items-center justify-center">
+                         MOST POPULAR
+                       </div>
                      </div>
                    )}
                    
-                   <div className="h-full w-full p-6 md:p-8">
-                     <h3 className="text-xl font-mono font-bold mb-1">{tier.name}</h3>
-                     <div className="flex items-end mb-3">
-                       <span className="text-4xl font-mono font-bold tracking-tight">{tier.price}</span>
-                       <span className={`ml-2 pb-1 text-xs font-sans ${tier.highlighted ? 'text-white/60' : 'text-navy-blue/60'}`}>USD/mo</span>
+                   <div className="h-full w-full p-5 md:p-6">
+                     <h3 className="text-xl md:text-2xl font-mono font-bold mb-1">{tier.name}</h3>
+                     <div className="flex items-end mb-2">
+                       <span className="text-4xl md:text-5xl font-mono font-bold tracking-tight">{tier.price}</span>
+                       <span className={`ml-2 pb-1 text-xs md:text-sm font-sans ${tier.highlighted ? 'text-white/60' : 'text-navy-blue/60'}`}>USD/mo</span>
                      </div>
-                     <p className={`text-xs mb-6 min-h-[36px] font-sans ${tier.highlighted ? 'text-white/80' : 'text-navy-blue/80'}`}>{tier.desc}</p>
+                     <p className={`text-sm mb-4 min-h-[40px] font-sans ${tier.highlighted ? 'text-white/90' : 'text-navy-blue/90'}`}>{tier.desc}</p>
                      
-                     <button className={`w-full py-2.5 px-4 rounded-xl font-mono font-bold uppercase tracking-wider text-xs mb-6 transition-all ${
-                       tier.highlighted 
-                         ? 'bg-sky-blue hover:bg-[#7bc0db] text-navy-blue shadow-[0_0_15px_rgba(135,206,235,0.4)] hover:-translate-y-0.5' 
-                         : 'bg-navy-blue/5 hover:bg-navy-blue/10 text-navy-blue border border-navy-blue/10 hover:-translate-y-0.5'
-                     }`}>
+                     <button className="w-full py-2.5 px-4 rounded-xl font-mono font-bold uppercase tracking-wider text-sm mb-5 transition-all duration-300 border-0 bg-sky-blue hover:bg-[#7bc0db] text-navy-blue shadow-[0_0_15px_rgba(135,206,235,0.4)] hover:shadow-[0_0_25px_rgba(56,189,248,0.7)] hover:scale-105">
                        Get Started
                      </button>
                      
-                     <div className={`text-[10px] tracking-wider uppercase font-semibold mb-3 font-sans ${tier.highlighted ? 'text-white/50' : 'text-navy-blue/50'}`}>Includes:</div>
-                     <ul className="space-y-3">
+                     <div className={`text-xs tracking-wider uppercase font-semibold mb-2 font-sans ${tier.highlighted ? 'text-white/60' : 'text-navy-blue/60'}`}>Includes:</div>
+                     <ul className="space-y-2.5">
                        {tier.features.map(feature => (
                          <li key={feature} className="flex items-start leading-tight">
                            <svg className={`w-4 h-4 mr-2 shrink-0 ${tier.highlighted ? 'text-sky-blue' : 'text-navy-blue/40'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
-                           <span className={`text-[11px] font-sans ${tier.highlighted ? 'text-white/90' : 'text-navy-blue/90'}`}>{feature}</span>
+                           <span className={`text-sm font-sans ${tier.highlighted ? 'text-white/90' : 'text-navy-blue/90'}`}>{feature}</span>
                          </li>
                        ))}
                      </ul>
@@ -210,7 +224,7 @@ const Pricing: React.FC = () => {
           </div>
           
           <div className="mt-8 text-center">
-            <p className="text-navy-blue/40 text-xs">Transparent pricing. No hidden fees.</p>
+            <p className="text-navy-blue/40 text-xs text-right">Transparent pricing. No hidden fees.</p>
           </div>
         </div>
       </div>

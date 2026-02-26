@@ -9,7 +9,7 @@ import CTA from './components/sections/CTA';
 
 function App() {
   return (
-    <div className={`min-h-screen font-sans selection:bg-sky-blue selection:text-off-white transition-all duration-500 ease-in-out bg-off-white text-navy-blue`}>
+    <div className={`min-h-screen font-sans selection:bg-sky-blue selection:text-off-white transition-all duration-500 ease-in-out bg-off-white text-navy-blue w-full overflow-clip`}>
       <Navbar />
       
       <main>

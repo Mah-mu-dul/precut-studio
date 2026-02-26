@@ -5,11 +5,11 @@ const Portfolio: React.FC = () => {
   const videos = [1, 2, 3, 4, 5, 6, 7];
 
   return (
-    <section className="py-24 relative z-20" id="work">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 text-center mb-16">
+    <section className="py-12 relative z-20" id="work">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 text-center ">
         <h2 className="text-4xl md:text-5xl font-mono font-bold mb-6 text-navy-blue">
           Everything You Need.<br/>
-          <span className="text-sky-blue">In one Creative Studio.</span>
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-sky-600">In one Creative Studio.</span>
         </h2>
         <p className="text-navy-blue/70 text-lg max-w-3xl mx-auto">
           From short-form to brand films, we turn simple footage into performance-driven cinematic content.
@@ -17,14 +17,14 @@ const Portfolio: React.FC = () => {
       </div>
 
       {/* Marquee Wrapper */}
-      <div className="relative w-full overflow-hidden flex flex-col gap-6 py-12">
+      <div className="relative w-full overflow-hidden flex flex-col gap-6 py-8">
         
         {/* Row 1: Left to right */}
         <div className="flex w-[200vw] animate-marquee-left hover:[animation-play-state:paused] space-x-6 px-6">
           {[...videos, ...videos].map((item, index) => (
             <div 
               key={`row1-${index}`} 
-              className="relative w-80 h-[28rem] rounded-2xl bg-navy-blue shrink-0 overflow-hidden group cursor-pointer transition-all duration-500 shadow-[0_8px_30px_rgba(9,21,73,0.15)] hover:scale-110 hover:-translate-y-2 hover:z-30 hover:shadow-[0_30px_60px_rgba(9,21,73,0.3)]"
+              className="relative w-80 h-[28rem] rounded-2xl bg-navy-blue shrink-0 overflow-hidden group cursor-pointer transition-all duration-500 shadow-[0_8px_30px_rgba(9,21,73,0.15)] hover:scale-105 hover:z-30 hover:shadow-[0_30px_60px_rgba(9,21,73,0.3)]"
             >
               {/* Overlay Gradient for luxury feel */}
               <div className="absolute inset-0 bg-gradient-to-t from-navy-blue via-navy-blue/20 to-transparent z-10 opacity-70 group-hover:opacity-40 transition-opacity duration-300"></div>

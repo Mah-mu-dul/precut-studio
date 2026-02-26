@@ -17,7 +17,7 @@ const Navbar: React.FC = () => {
   return (
     <nav
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-        isScrolled ? 'bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-200 py-4' : 'bg-transparent py-6'
+        isScrolled ? 'bg-gradient-to-b from-off-white via-off-white to-transparent backdrop-blur-sm pt-6 pb-12' : 'bg-transparent py-6'
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
@@ -40,30 +40,36 @@ const Navbar: React.FC = () => {
           <a href="#pricing" className="hover:text-sky-blue transition-colors">Pricing</a>
           
           <div 
-            className="relative"
+            className="relative group"
             onMouseEnter={() => setIsDropdownOpen(true)}
             onMouseLeave={() => setIsDropdownOpen(false)}
           >
-            <button className="flex items-center hover:text-sky-blue transition-colors focus:outline-none">
+            <button 
+              className="flex items-center hover:text-sky-blue transition-colors focus:outline-none py-2"
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            >
               More
-              <svg className={`w-4 h-4 ml-1 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+              <svg className={`w-4 h-4 ml-1 transition-transform ${isDropdownOpen ? 'rotate-180' : 'group-hover:rotate-180'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
             </button>
             
             {/* Dropdown Menu */}
-            {isDropdownOpen && (
-              <div className="absolute top-full right-0 mt-2 w-48 glass-panel rounded-xl shadow-2xl py-2 flex flex-col items-start overflow-hidden">
-                <a href="#about" className="w-full text-left px-4 py-3 hover:bg-white/10 transition-colors">About Us</a>
-                <a href="#privacy" className="w-full text-left px-4 py-3 hover:bg-white/10 transition-colors">Privacy Policy</a>
-                <a href="#terms" className="w-full text-left px-4 py-3 hover:bg-white/10 transition-colors">Terms & Conditions</a>
-                <a href="#affiliate" className="w-full text-left px-4 py-3 hover:bg-white/10 transition-colors text-sky-blue">Affiliate Program</a>
-              </div>
-            )}
+            <div className={`absolute top-full right-0 mt-2 w-48 bg-white backdrop-blur-md rounded-xl shadow-2xl py-2 flex flex-col items-start overflow-hidden transition-all duration-300 pointer-events-auto border border-navy-blue/10 ${
+              isDropdownOpen 
+                ? 'opacity-100 visible delay-0' 
+                : 'opacity-0 invisible group-hover:opacity-100 group-hover:visible delay-200 group-hover:delay-0 pointer-events-none group-hover:pointer-events-auto'
+            }`}>
+              {/* Note: The 'glass-panel' class applies the background, checking if reducing hover opacity on links is what user meant */}
+              <a href="#about" className="w-full text-left px-4 py-3 hover:bg-navy-blue/5 transition-colors">About Us</a>
+              <a href="#privacy" className="w-full text-left px-4 py-3 hover:bg-navy-blue/5 transition-colors">Privacy Policy</a>
+              <a href="#terms" className="w-full text-left px-4 py-3 hover:bg-navy-blue/5 transition-colors">Terms & Conditions</a>
+              <a href="#affiliate" className="w-full text-left px-4 py-3 hover:bg-navy-blue/5 transition-colors text-sky-blue">Affiliate Program</a>
+            </div>
           </div>
 
           {/* CTA Button */}
           <a 
             href="#call" 
-            className="hidden md:inline-block font-mono font-bold uppercase tracking-wider bg-gradient-to-r from-navy-blue to-sky-blue border border-sky-blue/30 px-6 py-2.5 rounded-full text-white hover:shadow-[0_0_15px_rgba(135,206,235,0.5)] transition-all duration-300"
+            className="hidden md:inline-block font-mono font-bold uppercase tracking-wider bg-gradient-to-r from-navy-blue to-sky-blue border-0 px-6 py-2.5 rounded-full text-white shadow-[0_0_10px_rgba(135,206,235,0.3)] hover:shadow-[0_0_25px_rgba(56,189,248,0.8)] transition-all duration-300 transform hover:scale-105"
           >
             Book A Call
           </a>

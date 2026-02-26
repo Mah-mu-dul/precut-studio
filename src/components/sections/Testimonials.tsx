@@ -42,10 +42,10 @@ const Testimonials: React.FC = () => {
   ];
 
   return (
-    <section id="testimonials" className="py-24 relative z-20 overflow-hidden">
+    <section id="testimonials" className="py-12 relative z-20 overflow-hidden">
       
       {/* Intro Text Sequence */}
-      <div className={`max-w-4xl mx-auto px-6 text-center mb-32 transition-all duration-1000 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}`}>
+      <div className={`max-w-4xl mx-auto px-6 text-center mb-16 transition-all duration-1000 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}`}>
         <h3 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
           Submit your request.
         </h3>
@@ -59,7 +59,7 @@ const Testimonials: React.FC = () => {
       
       {/* Testimonials Grid */}
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <div className="mb-16 text-center md:text-left">
+        <div className="mb-12 text-center md:text-left">
           <h2 className="text-4xl md:text-5xl font-mono font-bold mb-4 text-navy-blue">
             Success Stories<br/>
             <span className="text-navy-blue/60 font-sans">from the Creative Frontline</span>
@@ -69,9 +69,9 @@ const Testimonials: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {reviews.map((review) => (
-             <div 
+              <div 
                key={review.id} 
-              className="bg-white p-8 rounded-2xl border border-navy-blue/5 shadow-[0_8px_30px_rgba(9,21,73,0.04)] flex flex-col justify-between hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(9,21,73,0.08)] transition-all duration-300"
+              className="bg-white p-8 rounded-2xl border border-navy-blue/5 shadow-[0_8px_30px_rgba(9,21,73,0.04)] flex flex-col justify-between hover:scale-105 hover:shadow-[0_20px_40px_rgba(9,21,73,0.08)] transition-all duration-300"
             >
               <div className="flex text-sky-blue mb-6">
                 {[1,2,3,4,5].map(star => (

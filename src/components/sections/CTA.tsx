@@ -2,7 +2,7 @@ import React from 'react';
 
 const CTA: React.FC = () => {
   return (
-    <section id="call" className="py-24 md:py-32 relative z-20 overflow-hidden">
+    <section id="call" className="py-12 md:py-20 relative z-20 overflow-hidden">
       
       {/* Background glow for the section */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-sky-blue/5 rounded-full blur-[120px] pointer-events-none"></div>
@@ -12,7 +12,7 @@ const CTA: React.FC = () => {
           
           {/* Left Text */}
           <div>
-            <div className="text-sky-blue uppercase tracking-widest text-sm font-bold mb-6">Why Us?</div>
+            <div id='why-us' className="text-sky-blue uppercase tracking-widest text-sm font-bold mb-6">Why Us?</div>
             <h2 className="text-4xl md:text-6xl font-mono font-bold mb-8 leading-tight text-navy-blue">
               Let’s Make Magic <br/>Together.
             </h2>
@@ -25,7 +25,7 @@ const CTA: React.FC = () => {
             
             <a 
               href="#call" 
-              className="inline-block bg-gradient-to-r from-navy-blue to-sky-blue border border-sky-blue/30 px-8 py-4 rounded-full text-white font-medium hover:shadow-[0_0_20px_rgba(56,189,248,0.6)] transition-all duration-300 transform hover:-translate-y-1"
+              className="inline-block bg-gradient-to-r from-navy-blue to-sky-blue border-0 px-8 py-4 rounded-full text-white font-medium shadow-[0_0_10px_rgba(56,189,248,0.3)] hover:shadow-[0_0_25px_rgba(56,189,248,0.8)] transition-all duration-300 transform hover:scale-105"
             >
               Book Your Free Strategy Call
             </a>
@@ -38,7 +38,7 @@ const CTA: React.FC = () => {
           
           {/* Right Calendar Mockup */}
           <div className="relative">
-            <div className="glass-panel p-2 rounded-2xl shadow-2xl border border-white/10 relative z-10">
+            <div className="glass-panel p-0 rounded-2xl shadow-2xl relative z-10">
                <div className="bg-[#111827] rounded-xl overflow-hidden aspect-[4/3] flex flex-col">
                  {/* Mock Calendar Header */}
                  <div className="border-b border-white/10 p-4 flex justify-between items-center">
