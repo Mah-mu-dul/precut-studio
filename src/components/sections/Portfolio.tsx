@@ -7,8 +7,8 @@ const Portfolio: React.FC = () => {
   return (
     <section className="py-12 relative z-20" id="work">
       <div className="max-w-7xl mx-auto px-6 md:px-12 text-center ">
-        <h2 className="text-4xl md:text-5xl font-mono font-bold mb-6 text-navy-blue">
-          Everything You Need.<br/>
+        <h2 className="text-3xl md:text-5xl font-mono font-bold mb-6 text-navy-blue">
+          Everything You Need.<br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-sky-600">In one Creative Studio.</span>
         </h2>
         <p className="text-navy-blue/70 text-lg max-w-3xl mx-auto">
@@ -18,30 +18,30 @@ const Portfolio: React.FC = () => {
 
       {/* Marquee Wrapper */}
       <div className="relative w-full overflow-hidden flex flex-col gap-6 py-8">
-        
+
         {/* Row 1: Left to right */}
         <div className="flex w-[200vw] animate-marquee-left hover:[animation-play-state:paused] space-x-6 px-6">
           {[...videos, ...videos].map((item, index) => (
-            <div 
-              key={`row1-${index}`} 
+            <div
+              key={`row1-${index}`}
               className="relative w-80 h-[28rem] rounded-2xl bg-navy-blue shrink-0 overflow-hidden group cursor-pointer transition-all duration-500 shadow-[0_8px_30px_rgba(9,21,73,0.15)] hover:scale-105 hover:z-30 hover:shadow-[0_30px_60px_rgba(9,21,73,0.3)]"
             >
               {/* Overlay Gradient for luxury feel */}
               <div className="absolute inset-0 bg-gradient-to-t from-navy-blue via-navy-blue/20 to-transparent z-10 opacity-70 group-hover:opacity-40 transition-opacity duration-300"></div>
-              
+
               {/* Content info on hover */}
               <div className="absolute bottom-6 left-6 z-20 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
                 <span className="bg-sky-blue text-navy-blue font-bold text-xs tracking-wider uppercase px-3 py-1 rounded-full mb-3 inline-block">Short Form</span>
                 <h3 className="text-white font-mono font-bold text-lg">Brand Magic {item}</h3>
               </div>
-              
+
               <div className="w-full h-full flex items-center justify-center text-white/30 font-mono tracking-widest text-sm uppercase">
-                 [Video Placeholder]
+                [Video Placeholder]
               </div>
             </div>
           ))}
         </div>
-        
+
         <style>{`
           @keyframes marqueeLeft {
             0% { transform: translateX(0); }
