@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-const HowItWorks: React.FC = () => {
+const HowItWorks: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => {
   const sectionRef = useRef<HTMLElement>(null);
   const wordRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -84,7 +84,7 @@ const HowItWorks: React.FC = () => {
     <section id="how-it-works" className="relative z-20 h-[300vh]" ref={sectionRef}>
 
       {/* Sticky container pins to top (below navbar) while scrolling through the 300vh tall section */}
-      <div className="sticky top-[80px] md:top-[35px] h-[calc(100vh-35px)] md:h-[calc(100vh-35px)] w-full flex flex-col justify-center md:justify-start pt-12 md:pt-20 pb-8 md:pb-0 overflow-hidden bg-off-white">
+      <div className={`sticky top-[80px] md:top-[35px] h-[calc(100vh-35px)] md:h-[calc(100vh-35px)] w-full flex flex-col justify-center md:justify-start pt-12 md:pt-20 pb-8 md:pb-0 overflow-hidden transition-colors duration-1000 ${isDarkMode ? 'bg-transparent' : 'bg-off-white'}`}>
         <div className="max-w-7xl mx-auto px-6 md:px-12 w-full">
 
           <div className="text-center relative">
@@ -98,7 +98,7 @@ const HowItWorks: React.FC = () => {
                   <span
                     key={i}
                     ref={el => { if (el) wordRefs.current[i] = el; }}
-                    className={`relative z-10 px-4 py-2 transition-all duration-500 ease-out origin-center inline-block ${activeIndex === i ? 'text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-sky-600 scale-110 md:scale-[1.15]' : 'text-navy-blue scale-100'}`}
+                    className={`relative z-10 px-4 py-2 transition-all duration-500 ease-out origin-center inline-block ${activeIndex === i ? 'text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-sky-600 scale-110 md:scale-[1.15]' : `transition-colors duration-1000 ${isDarkMode ? 'text-white' : 'text-navy-blue'} scale-100`}`}
                   >
                     {word}
                   </span>
@@ -106,7 +106,7 @@ const HowItWorks: React.FC = () => {
               </div>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-sky-600 font-sans mt-2">Zero Friction.</span>
             </h2>
-            <p className="text-navy-blue/70 text-lg max-w-2xl mx-auto">
+            <p className={`text-lg max-w-2xl mx-auto transition-colors duration-1000 ${isDarkMode ? 'text-white/70' : 'text-navy-blue/70'}`}>
               We handle the heavy lifting so you can focus on building your brand.
             </p>
           </div>
@@ -136,16 +136,12 @@ const HowItWorks: React.FC = () => {
               {steps.map((step, idx) => (
                 <div key={`card-${idx}`} className="h-full shrink-0 flex items-center justify-center p-4">
 
-                  {/* Container simulating the yellow background shadow offset from the image */}
-                  <div className="relative w-full max-w-lg">
-                    {/* Yellow offset background */}
-                    <div className="absolute inset-0 bg-[#F5F5DC] rounded-3xl translate-x-2 translate-y-2 md:translate-x-4 md:translate-y-4 -z-10"></div>
-
-                    {/* Main White Card */}
-                    <div className="bg-white rounded-3xl p-5 md:p-12 border border-black/5 shadow-sm relative z-10 w-full">
+                  {/* Main Card without any external shadow overlays */}
+                  <div className="relative w-full max-w-lg group">
+                    <div className={`rounded-3xl p-5 md:p-12 border relative w-full h-full transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-105 ${isDarkMode ? 'glass-panel bg-navy-blue/80 border-white/10 hover:border-sky-400/30' : 'bg-white border-black/5 hover:border-black/10'}`}>
                       <div className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-sky-600 font-mono text-3xl md:text-4xl font-bold mb-4">{step.num}</div>
-                      <h3 className="text-2xl md:text-3xl font-mono font-bold text-navy-blue mb-4">{step.title}</h3>
-                      <p className="text-navy-blue/70 leading-relaxed text-base md:text-lg">{step.desc}</p>
+                      <h3 className={`text-2xl md:text-3xl font-mono font-bold mb-4 transition-colors duration-1000 ${isDarkMode ? 'text-white' : 'text-navy-blue'}`}>{step.title}</h3>
+                      <p className={`leading-relaxed text-base md:text-lg transition-colors duration-1000 ${isDarkMode ? 'text-white/70' : 'text-navy-blue/70'}`}>{step.desc}</p>
                     </div>
                   </div>
 

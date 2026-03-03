@@ -16,7 +16,7 @@ const Footer: React.FC = () => {
           </div>
           
           <div className="col-span-1">
-            <h4 className="text-white font-medium mb-4 uppercase tracking-wider text-sm">Navigation</h4>
+            <h4 className="text-white font-medium mb-4 uppercase tracking-wider text-sm">Explore</h4>
             <ul className="space-y-3 text-sm text-white/50">
               <li><a href="#work" className="hover:text-sky-blue transition-colors">Our Work</a></li>
               <li><a href="#pricing" className="hover:text-sky-blue transition-colors">Pricing</a></li>

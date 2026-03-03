@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Navbar: React.FC = () => {
+const Navbar: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => {
 
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -14,20 +14,20 @@ const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
 
         {/* Top Left Navigation */}
-        <div className="flex items-center space-x-8 text-sm uppercase tracking-widest font-mono font-medium transition-colors duration-500 text-navy-blue opacity-80">
+        <div className={`flex items-center space-x-8 text-sm uppercase tracking-widest font-mono font-medium transition-colors duration-1000 ${isDarkMode ? 'text-white' : 'text-navy-blue'} opacity-80`}>
           <a href="#work" className="hover:text-sky-blue transition-colors">Our Work</a>
           <a href="#why-us" className="hover:text-sky-blue transition-colors">Why Us</a>
         </div>
 
         {/* Center Logo */}
         <div className="absolute left-1/2 transform -translate-x-1/2 cursor-pointer">
-          <a href="#" className="text-xl md:text-2xl font-bold font-mono tracking-[0.1em] transition-colors duration-500 text-navy-blue">
+          <a href="#" className={`text-xl md:text-2xl font-bold font-mono tracking-[0.1em] transition-colors duration-1000 ${isDarkMode ? 'text-white' : 'text-navy-blue'}`}>
             PRECUT<span className="text-sky-blue">STUDIO</span>
           </a>
         </div>
 
         {/* Top Right Navigation */}
-        <div className="flex items-center space-x-6 text-sm uppercase tracking-widest font-mono font-medium transition-colors duration-500 text-navy-blue opacity-80">
+        <div className={`flex items-center space-x-6 text-sm uppercase tracking-widest font-mono font-medium transition-colors duration-1000 ${isDarkMode ? 'text-white' : 'text-navy-blue'} opacity-80`}>
           <a href="#pricing" className="hover:text-sky-blue transition-colors">Pricing</a>
 
           <div
@@ -44,15 +44,15 @@ const Navbar: React.FC = () => {
             </button>
 
             {/* Dropdown Menu */}
-            <div className={`absolute top-full right-0 mt-2 w-48 bg-white backdrop-blur-md rounded-xl shadow-2xl py-2 flex flex-col items-start overflow-hidden transition-all duration-300 pointer-events-auto border border-navy-blue/10 ${isDropdownOpen
+            <div className={`absolute top-full right-0 mt-2 w-48 ${isDarkMode ? 'bg-navy-blue/90 border-white/10 text-white' : 'bg-white border-navy-blue/10 text-navy-blue'} backdrop-blur-md rounded-xl shadow-2xl py-2 flex flex-col items-start overflow-hidden transition-all duration-300 pointer-events-auto border ${isDropdownOpen
               ? 'opacity-100 visible delay-0'
               : 'opacity-0 invisible group-hover:opacity-100 group-hover:visible delay-200 group-hover:delay-0 pointer-events-none group-hover:pointer-events-auto'
               }`}>
               {/* Note: The 'glass-panel' class applies the background, checking if reducing hover opacity on links is what user meant */}
-              <a href="#about" className="w-full text-left px-4 py-3 hover:bg-navy-blue/5 transition-colors">About Us</a>
-              <a href="#privacy" className="w-full text-left px-4 py-3 hover:bg-navy-blue/5 transition-colors">Privacy Policy</a>
-              <a href="#terms" className="w-full text-left px-4 py-3 hover:bg-navy-blue/5 transition-colors">Terms & Conditions</a>
-              <a href="#affiliate" className="w-full text-left px-4 py-3 hover:bg-navy-blue/5 transition-colors ">Affiliate Program</a>
+              <a href="#about" className={`w-full text-left px-4 py-3 ${isDarkMode ? 'hover:bg-white/5' : 'hover:bg-navy-blue/5'} transition-colors`}>About Us</a>
+              <a href="#privacy" className={`w-full text-left px-4 py-3 ${isDarkMode ? 'hover:bg-white/5' : 'hover:bg-navy-blue/5'} transition-colors`}>Privacy Policy</a>
+              <a href="#terms" className={`w-full text-left px-4 py-3 ${isDarkMode ? 'hover:bg-white/5' : 'hover:bg-navy-blue/5'} transition-colors`}>Terms & Conditions</a>
+              <a href="#affiliate" className={`w-full text-left px-4 py-3 ${isDarkMode ? 'hover:bg-white/5' : 'hover:bg-navy-blue/5'} transition-colors`}>Affiliate Program</a>
             </div>
           </div>
 

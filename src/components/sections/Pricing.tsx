@@ -34,9 +34,11 @@ const Pricing: React.FC = () => {
       const rect = sectionRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
 
-      // Proportional scroll range: reaches 1.0 after 1.5 screen heights of scrolling
-      // This ensures the pinning feels "locked" until the cards are fully open
-      let p = -rect.top / (windowHeight * 1.5);
+      // Start separating when the section starts entering the screen (e.g., when its top is at 60% of viewport height).
+      // Reaches 1.0 after 1.5 screen heights of scrolling from that point.
+      // This ensures cards are partially open when the title hits the top and becomes sticky,
+      // and continue to open while sticky.
+      let p = (windowHeight * 0.6 - rect.top) / (windowHeight * 1.5);
       p = Math.max(0, Math.min(1, p));
 
       targetP = p;
@@ -158,16 +160,16 @@ const Pricing: React.FC = () => {
       <div id="pricing" className="absolute top-0 md:top-[150vh] left-0 pointer-events-none w-full"></div>
 
       {/* Sticky container stays on screen while scrolling the height on desktop */}
-      <div className="md:mt-20 p-0 md:sticky top-[80px] md:h-[calc(100vh-80px)] w-full flex flex-col justify-center overflow-visible md:py-12 ">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 w-full mt-4 md:mt-0">
+      <div className="md:mt-20 p-0 md:sticky top-[80px] md:h-[calc(100vh-80px)] w-full flex flex-col justify-center overflow-visible py-8 md:py-16 ">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 w-full mt-4 md:mt-0 pb-12">
 
-          <div className="text-center mb-10 md:mb-0 ">
+          <div className="text-left mb-10 md:mb-0 ">
             <div className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-sky-600 tracking-widest uppercase text-[10px] font-bold mb-2">Subscription Model</div>
-            <h2 className="text-3xl md:text-5xl font-mono font-bold mb-3 text-navy-blue ">
+            <h2 className="text-3xl md:text-5xl font-mono font-bold mb-3 text-white ">
               One Scalable Subscription.<br />
-              <span className="font-sans text-navy-blue/80">Built for Brands That Move Fast.</span>
+              <span className="font-sans text-white/80">Built for Brands That Move Fast.</span>
             </h2>
-            <p className="text-navy-blue/60 text-base">Unlimited video editing. Flexible plans. Built to scale with you.</p>
+            <p className="text-white/60 text-base">Unlimited video editing. Flexible plans. Built to scale with you.</p>
           </div>
 
           <div className="flex flex-col md:grid md:grid-cols-3 gap-6 md:gap-4 items-center max-w-5xl mx-auto relative perspective-[1200px]">
@@ -180,8 +182,8 @@ const Pricing: React.FC = () => {
               // Note: We use !important in tailwind equivalent classes to override the inline styles set by JS if `isDesktop` is false
               >
                 <div className={`h-full relative rounded-[2rem] transition-all duration-300 hover:scale-105 ${tier.highlighted
-                  ? 'bg-navy-blue text-white shadow-[0_20px_40px_rgba(9,21,73,0.15)] hover:shadow-[0_25px_50px_rgba(9,21,73,0.25)]'
-                  : 'bg-white text-navy-blue border border-navy-blue/10 shadow-[0_8px_20px_rgba(9,21,73,0.03)] hover:shadow-[0_15px_30px_rgba(9,21,73,0.08)]'
+                  ? 'bg-[#0a1128] text-white shadow-2xl shadow-sky-500/20'
+                  : 'glass-panel text-white hover:bg-white/10 shadow-xl shadow-black/20'
                   }`}>
 
                   {tier.highlighted && (
@@ -199,20 +201,20 @@ const Pricing: React.FC = () => {
                     <h3 className="text-xl md:text-2xl font-mono font-bold mb-1">{tier.name}</h3>
                     <div className="flex items-end mb-2">
                       <span className="text-4xl md:text-5xl font-mono font-bold tracking-tight">{tier.price}</span>
-                      <span className={`ml-2 pb-1 text-xs md:text-sm font-sans ${tier.highlighted ? 'text-white/60' : 'text-navy-blue/60'}`}>USD/mo</span>
+                      <span className="ml-2 pb-1 text-xs md:text-sm font-sans text-white/60">USD/mo</span>
                     </div>
-                    <p className={`text-sm mb-4 min-h-[40px] font-sans ${tier.highlighted ? 'text-white/90' : 'text-navy-blue/90'}`}>{tier.desc}</p>
+                    <p className="text-sm mb-4 min-h-[40px] font-sans text-white/80">{tier.desc}</p>
 
                     <button className="w-full py-2.5 px-4 rounded-xl font-mono font-bold uppercase tracking-wider text-sm mb-5 transition-all duration-300 border-0 bg-sky-blue hover:bg-[#7bc0db] text-navy-blue shadow-[0_0_15px_rgba(0,51,204,0.4)] hover:shadow-[0_0_25px_rgba(0,51,204,0.7)] hover:scale-105">
                       Get Started
                     </button>
 
-                    <div className={`text-xs tracking-wider uppercase font-semibold mb-2 font-sans ${tier.highlighted ? 'text-white/60' : 'text-navy-blue/60'}`}>Includes:</div>
+                    <div className="text-xs tracking-wider uppercase font-semibold mb-2 font-sans text-white/60">Includes:</div>
                     <ul className="space-y-2.5">
                       {tier.features.map(feature => (
                         <li key={feature} className="flex items-start leading-tight">
-                          <svg className={`w-4 h-4 mr-2 shrink-0 ${tier.highlighted ? 'text-sky-blue' : 'text-navy-blue/40'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
-                          <span className={`text-sm font-sans ${tier.highlighted ? 'text-white/90' : 'text-navy-blue/90'}`}>{feature}</span>
+                          <svg className={`w-4 h-4 mr-2 shrink-0 ${tier.highlighted ? 'text-sky-blue' : 'text-sky-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                          <span className="text-sm font-sans text-white/90">{feature}</span>
                         </li>
                       ))}
                     </ul>
@@ -223,7 +225,7 @@ const Pricing: React.FC = () => {
           </div>
 
           <div className="mt-8 text-center">
-            <p className="text-navy-blue/40 text-xs text-right">Transparent pricing. No hidden fees.</p>
+            <p className="text-white/40 text-xs text-right">Transparent pricing. No hidden fees.</p>
           </div>
         </div>
       </div>

@@ -13,13 +13,13 @@ const CTA: React.FC = () => {
           {/* Left Text */}
           <div>
             <div id='why-us' className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-sky-600 uppercase tracking-widest text-lg font-bold mb-6">Why Us?</div>
-            <h2 className="text-3xl md:text-6xl font-mono font-bold mb-8 leading-tight text-navy-blue">
+            <h2 className="text-3xl md:text-6xl font-mono font-bold mb-8 leading-tight text-white">
               Let’s Make Magic <br />Together.
             </h2>
-            <p className="text-navy-blue/80 text-lg md:text-xl mb-6">
+            <p className="text-white/80 text-lg md:text-xl mb-6">
               No contracts. No delays. Just consistent, high-performance content — delivered when you need it.
             </p>
-            <p className="text-navy-blue/60 text-base mb-10">
+            <p className="text-white/60 text-base mb-10">
               Schedule a quick strategy call. Your next level starts here.
             </p>
 
