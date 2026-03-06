@@ -44,22 +44,23 @@ const Navbar: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => {
             </button>
 
             {/* Dropdown Menu */}
-            <div className={`absolute top-full right-0 mt-2 w-48 ${isDarkMode ? 'bg-navy-blue/90 border-white/10 text-white' : 'bg-white border-navy-blue/10 text-navy-blue'} backdrop-blur-md rounded-xl shadow-2xl py-2 flex flex-col items-start overflow-hidden transition-all duration-300 pointer-events-auto border ${isDropdownOpen
+            <div className={`absolute top-full right-0 mt-5 w-56 ${isDarkMode ? 'bg-navy-blue border-white/10 text-white' : 'bg-white border-navy-blue/10 text-navy-blue'} rounded-xl shadow-2xl py-3 flex flex-col items-start overflow-hidden transition-all duration-300 pointer-events-auto border font-mono tracking-widest text-[11px] uppercase z-50 ${isDropdownOpen
               ? 'opacity-100 visible delay-0'
               : 'opacity-0 invisible group-hover:opacity-100 group-hover:visible delay-200 group-hover:delay-0 pointer-events-none group-hover:pointer-events-auto'
               }`}>
-              {/* Note: The 'glass-panel' class applies the background, checking if reducing hover opacity on links is what user meant */}
-              <a href="#about" className={`w-full text-left px-4 py-3 ${isDarkMode ? 'hover:bg-white/5' : 'hover:bg-navy-blue/5'} transition-colors`}>About Us</a>
-              <a href="#privacy" className={`w-full text-left px-4 py-3 ${isDarkMode ? 'hover:bg-white/5' : 'hover:bg-navy-blue/5'} transition-colors`}>Privacy Policy</a>
-              <a href="#terms" className={`w-full text-left px-4 py-3 ${isDarkMode ? 'hover:bg-white/5' : 'hover:bg-navy-blue/5'} transition-colors`}>Terms & Conditions</a>
-              <a href="#affiliate" className={`w-full text-left px-4 py-3 ${isDarkMode ? 'hover:bg-white/5' : 'hover:bg-navy-blue/5'} transition-colors`}>Affiliate Program</a>
+              <a href="#about" className={`w-full text-left px-5 py-3.5 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-navy-blue/5'} transition-colors`}>About Us</a>
+              <a href="#privacy" className={`w-full text-left px-5 py-3.5 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-navy-blue/5'} transition-colors`}>Privacy Policy</a>
+              <a href="#terms" className={`w-full text-left px-5 py-3.5 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-navy-blue/5'} transition-colors gap-1 flex flex-col`}><span>Terms &</span><span>Conditions</span></a>
+              <a href="#affiliate" className={`w-full text-left px-5 py-3.5 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-navy-blue/5'} transition-colors gap-1 flex flex-col`}><span>Affiliate</span><span>Program</span></a>
             </div>
           </div>
 
           {/* CTA Button */}
           <a
-            href="#call"
-            className="hidden md:inline-block font-mono font-bold uppercase tracking-wider bg-gradient-to-r from-navy-blue to-sky-blue border-0 px-6 py-2.5 rounded-full text-white shadow-[0_0_10px_rgba(0,51,204,0.3)] hover:shadow-[0_0_25px_rgba(0,51,204,0.8)] transition-all duration-300 transform hover:scale-105"
+            href="https://cal.com/precutstudio/booking"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cursor-pointer hidden md:inline-block font-mono font-bold uppercase tracking-wider bg-gradient-to-r from-navy-blue to-sky-blue border-0 px-6 py-2.5 rounded-full text-white shadow-[0_0_10px_rgba(0,51,204,0.3)] hover:shadow-[0_0_25px_rgba(0,51,204,0.8)] transition-all duration-300 transform hover:scale-105"
           >
             Book A Call
           </a>

@@ -1,6 +1,61 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { getCalApi } from "@calcom/embed-react";
 
 const CTA: React.FC = () => {
+  useEffect(() => {
+    (async function () {
+      const cal = await getCalApi({ namespace: "booking" });
+      cal("ui", {
+        cssVarsPerTheme: {
+          light: { "cal-brand": "#091549" },
+          dark: { "cal-brand": "#87ceeb" }
+        },
+        hideEventTypeDetails: true,
+        layout: "month_view"
+      });
+    })();
+  }, []);
+
+  const today = new Date();
+
+  // State for the currently displayed month and year
+  const [currentMonth, setCurrentMonth] = useState(today.getMonth());
+  const [currentYear, setCurrentYear] = useState(today.getFullYear());
+
+  const handlePrevMonth = () => {
+    if (currentMonth === 0) {
+      setCurrentMonth(11);
+      setCurrentYear(currentYear - 1);
+    } else {
+      setCurrentMonth(currentMonth - 1);
+    }
+  };
+
+  const handleNextMonth = () => {
+    if (currentMonth === 11) {
+      setCurrentMonth(0);
+      setCurrentYear(currentYear + 1);
+    } else {
+      setCurrentMonth(currentMonth + 1);
+    }
+  };
+
+  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+  const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
+
+  const days = [];
+  for (let i = 0; i < firstDayOfMonth; i++) {
+    days.push(null);
+  }
+  for (let i = 1; i <= daysInMonth; i++) {
+    days.push(i);
+  }
+
+  const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+  // Prevent users from going to historical months (before current month/year)
+  const isPastMonth = currentYear < today.getFullYear() || (currentYear === today.getFullYear() && currentMonth <= today.getMonth());
+
   return (
     <section id="call" className="py-12 md:py-20 relative z-20 overflow-hidden">
 
@@ -23,69 +78,98 @@ const CTA: React.FC = () => {
               Schedule a quick strategy call. Your next level starts here.
             </p>
 
+            {/* Direct link to external calendar page as requested */}
             <a
-              href="#call"
+              href="https://cal.com/precutstudio/booking"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-block bg-gradient-to-r from-navy-blue to-sky-blue border-0 px-8 py-4 rounded-full text-white font-medium shadow-[0_0_10px_rgba(0,51,204,0.3)] hover:shadow-[0_0_25px_rgba(0,51,204,0.8)] transition-all duration-300 transform hover:scale-105"
             >
               Book Your Free Strategy Call
             </a>
-
-            {/* <div className="mt-8 flex items-center space-x-2 text-navy-blue/50 text-sm">
-              <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-              <span>Available to start immediately</span>
-            </div> */}
           </div>
 
-          {/* Right Calendar Mockup */}
-          <div className="relative">
-            <div className="glass-panel p-0 rounded-2xl shadow-2xl relative z-10">
-              <div className="bg-[#111827] rounded-xl overflow-hidden aspect-[4/3] flex flex-col">
-                {/* Mock Calendar Header */}
-                <div className="border-b border-white/10 p-4 flex justify-between items-center">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 rounded-full bg-sky-blue/20 flex items-center justify-center text-sky-400 font-bold">P</div>
-                    <div>
-                      <div className="text-white text-sm font-medium">Precut Studio</div>
-                    </div>
+          {/* Custom Interactive Mockup Triggering Cal.com Modal */}
+          <div className="glass-panel p-0 rounded-2xl shadow-2xl relative z-10 w-full max-w-lg mx-auto">
+            <div className="bg-[#111827] rounded-xl overflow-hidden flex flex-col pt-2 md:aspect-[4/3]">
+              {/* Mock Calendar Header */}
+              <div className="border-b border-white/10 p-4 flex justify-between items-center">
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 rounded-full bg-sky-blue/20 flex items-center justify-center text-sky-400 font-bold">P</div>
+                  <div>
+                    <div className="text-white text-sm font-medium">Precut Studio</div>
                   </div>
                 </div>
+              </div>
 
-                {/* Mock Calendar Body */}
-                <div className="flex-1 p-6 flex flex-col items-center justify-center relative">
-                  <div className="text-center w-full max-w-sm">
-                    <h4 className="text-white font-medium mb-4">Select a Date & Time</h4>
-                    <div className="grid grid-cols-7 gap-2 mb-4 text-white/40 text-xs">
-                      <div>S</div><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div>
-                      <div className="col-start-4 text-white hover:bg-sky-blue/20 cursor-pointer rounded-full w-8 h-8 flex items-center justify-center mx-auto transition-colors">1</div>
-                      <div className="text-white hover:bg-sky-blue/20 cursor-pointer rounded-full w-8 h-8 flex items-center justify-center mx-auto transition-colors">2</div>
-                      <div className="text-white hover:bg-sky-blue/20 cursor-pointer rounded-full w-8 h-8 flex items-center justify-center mx-auto transition-colors">3</div>
-                      <div className="text-white bg-sky-blue text-navy-blue font-bold rounded-full w-8 h-8 flex items-center justify-center mx-auto shadow-[0_0_10px_rgba(0,51,204,0.5)] cursor-pointer">4</div>
+              {/* Mock Calendar Body */}
+              <div className="flex-1 p-6 md:p-8 flex flex-col items-center justify-center relative">
+                <div className="text-center w-full max-w-md">
+                  <div className="flex items-center justify-between mb-4">
+                    <button
+                      onClick={handlePrevMonth}
+                      disabled={isPastMonth}
+                      className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${isPastMonth ? 'text-white/20 cursor-not-allowed' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </button>
+                    <h4 className="text-white font-medium">{monthNames[currentMonth]} {currentYear}</h4>
+                    <button
+                      onClick={handleNextMonth}
+                      className="w-8 h-8 flex items-center justify-center rounded-full text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                  </div>
 
-                      <div className="text-white hover:bg-sky-blue/20 cursor-pointer rounded-full w-8 h-8 flex items-center justify-center mx-auto transition-colors">5</div>
-                      <div className="text-white hover:bg-sky-blue/20 cursor-pointer rounded-full w-8 h-8 flex items-center justify-center mx-auto transition-colors">6</div>
-                      <div className="text-white hover:bg-sky-blue/20 cursor-pointer rounded-full w-8 h-8 flex items-center justify-center mx-auto transition-colors">7</div>
-                      <div className="text-white hover:bg-sky-blue/20 cursor-pointer rounded-full w-8 h-8 flex items-center justify-center mx-auto transition-colors">8</div>
-                      <div className="text-white hover:bg-sky-blue/20 cursor-pointer rounded-full w-8 h-8 flex items-center justify-center mx-auto transition-colors">9</div>
-                      <div className="text-white hover:bg-sky-blue/20 cursor-pointer rounded-full w-8 h-8 flex items-center justify-center mx-auto transition-colors">10</div>
-                      <div className="text-white hover:bg-sky-blue/20 cursor-pointer rounded-full w-8 h-8 flex items-center justify-center mx-auto transition-colors">11</div>
-                    </div>
+                  <div className="grid grid-cols-7 gap-x-4 md:gap-x-6  text-white/40 text-[10px] md:text-xs">
+                    <div>S</div><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div>
 
-                    {/* Timeslots Mock */}
-                    <div className="flex gap-2 justify-center">
-                      <div className="py-2 px-4 border border-sky-blue/30 text-sky-400 rounded-md text-xs cursor-pointer hover:bg-sky-blue/10">10:00am</div>
-                      <div className="py-2 px-4 border border-white/10 text-white/60 rounded-md text-xs cursor-pointer hover:bg-white/5 bg-white/5">11:30am</div>
-                      <div className="py-2 px-4 border border-white/10 text-white/60 rounded-md text-xs cursor-pointer hover:bg-white/5 bg-white/5">2:00pm</div>
-                    </div>
+                    {days.map((day, idx) => {
+                      if (day === null) {
+                        return <div key={`empty-${idx}`}></div>;
+                      }
+
+                      const dateObj = new Date(currentYear, currentMonth, day);
+                      const isWeekend = dateObj.getDay() === 0 || dateObj.getDay() === 6;
+                      const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+                      // Only highlight if it's the exact day AND the exact month AND the exact year
+                      const isToday = day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear();
+
+                      // Disable past dates, or today if it's already passed (we just use day < today.getDate() for simplicity of current month)
+                      const isPast = day < today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear();
+
+                      // We disable the button if it's in the past OR if it's a weekend
+                      if (isPast || isWeekend) {
+                        return (
+                          <div key={idx} className="text-white/20 w-8 h-8 md:w-10 md:h-10 flex items-center justify-center mx-auto cursor-not-allowed">
+                            {day}
+                          </div>
+                        );
+                      }
+
+                      return (
+                        <button
+                          key={idx}
+                          data-cal-namespace="booking"
+                          data-cal-link="precutstudio/booking"
+                          data-cal-config={JSON.stringify({ layout: "month_view", date: dateStr })}
+                          className={`rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center mx-auto transition-all cursor-pointer ${isToday ? 'text-black bg-sky-blue font-bold shadow-[0_0_10px_rgba(135,206,235,0.5)] hover:bg-white' : 'text-white hover:bg-sky-blue/20'}`}
+                        >
+                          {day}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
             </div>
-
-            {/* Decorative background shapes */}
-            <div className="absolute -bottom-6 -right-6 w-64 h-64 bg-sky-blue/10 rounded-full blur-[40px] z-0"></div>
-            <div className="absolute -top-6 -left-6 w-32 h-32 bg-sky-blue/20 rounded-full blur-[30px] z-0"></div>
           </div>
 
+          {/* Decorative background shapes */}
+          <div className="absolute -bottom-6 -right-6 w-64 h-64 bg-sky-blue/10 rounded-full blur-[40px] z-0"></div>
+          <div className="absolute -top-6 -left-6 w-32 h-32 bg-sky-blue/20 rounded-full blur-[30px] z-0"></div>
         </div>
       </div>
     </section>
