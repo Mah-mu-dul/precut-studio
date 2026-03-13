@@ -84,14 +84,14 @@ const HowItWorks: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) 
     <section id="how-it-works" className="relative z-20 h-[300vh]" ref={sectionRef}>
 
       {/* Sticky container pins to top (below navbar) while scrolling through the 300vh tall section */}
-      <div className={`sticky top-[80px] md:top-[35px] h-[calc(100vh-35px)] md:h-[calc(100vh-35px)] w-full flex flex-col justify-center md:justify-start pt-12 md:pt-20 pb-8 md:pb-0 overflow-hidden transition-colors duration-1000 ${isDarkMode ? 'bg-transparent' : 'bg-off-white'}`}>
+      <div className="sticky top-[80px] md:top-[35px] h-[calc(100vh-35px)] md:h-[calc(100vh-35px)] w-full flex flex-col justify-center md:justify-start pt-12 md:pt-20 pb-8 md:pb-0 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 md:px-12 w-full">
 
           <div className="text-center relative">
             <h2 className="text-3xl md:text-5xl font-mono font-bold mb-0 flex flex-col items-center">
 
               {/* Wrapping container for the sequential highlights */}
-              <div className="relative inline-flex flex-wrap justify-center gap-x-1 sm:gap-x-2 py-2">
+              <div className="relative inline-flex flex-wrap justify-center gap-x-1 sm:gap-x-2 ">
 
                 {/* The 3 Words */}
                 {words.map((word, i) => (
@@ -104,7 +104,7 @@ const HowItWorks: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) 
                   </span>
                 ))}
               </div>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-sky-600 font-sans mt-2">Zero Friction.</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-sky-600 font-sans ">Zero Friction.</span>
             </h2>
             <p className={`text-lg max-w-2xl mx-auto transition-colors duration-1000 ${isDarkMode ? 'text-white/70' : 'text-navy-blue/70'}`}>
               We handle the heavy lifting so you can focus on building your brand.
@@ -128,9 +128,8 @@ const HowItWorks: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) 
             </div>
 
             {/* The Cards Column (Right) */}
-            {/* Adding a delay-200 so it slides up slightly after the number, as requested */}
             <div
-              className="absolute right-0 md:right-12 w-2/3 md:w-1/2 h-full flex flex-col transition-transform duration-700 delay-150 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+              className="absolute right-0 md:right-12 w-2/3 md:w-1/2 h-full flex flex-col transition-transform duration-700 delay-75 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
               style={{ transform: `translateY(-${Math.max(0, activeIndex) * 100}%)` }}
             >
               {steps.map((step, idx) => (
@@ -138,10 +137,10 @@ const HowItWorks: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) 
 
                   {/* Main Card without any external shadow overlays */}
                   <div className="relative w-full max-w-lg group">
-                    <div className={`rounded-3xl p-5 md:p-12 border relative w-full h-full transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-105 ${isDarkMode ? 'glass-panel bg-navy-blue/80 border-white/10 hover:border-sky-400/30' : 'bg-white border-black/5 hover:border-black/10'}`}>
+                    <div className={`rounded-3xl p-5 md:p-12 border relative w-full h-full transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-105 ${isDarkMode ? `glass-panel text-white bg-gradient-to-br from-sky-500/20 via-sky-500/10 ${idx === 1 ? 'via-[30%]' : 'via-[70%]'} to-[#091549]/60 border-white/10 hover:border-sky-400/30` : `bg-gradient-to-br from-sky-200 via-sky-100 ${idx === 1 ? 'via-[30%]' : 'via-[70%]'} to-[#091549] text-white border-transparent shadow-xl hover:shadow-2xl`}`}>
                       <div className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-sky-600 font-mono text-3xl md:text-4xl font-bold mb-4">{step.num}</div>
-                      <h3 className={`text-2xl md:text-3xl font-mono font-bold mb-4 transition-colors duration-1000 ${isDarkMode ? 'text-white' : 'text-navy-blue'}`}>{step.title}</h3>
-                      <p className={`leading-relaxed text-base md:text-lg transition-colors duration-1000 ${isDarkMode ? 'text-white/70' : 'text-navy-blue/70'}`}>{step.desc}</p>
+                      <h3 className={`text-2xl md:text-3xl font-mono font-bold mb-4 transition-colors duration-1000 ${isDarkMode ? 'text-white' : 'text-navy-blue group-hover:text-white/90'}`}>{step.title}</h3>
+                      <p className={`leading-relaxed text-base md:text-lg transition-colors duration-1000 ${isDarkMode ? 'text-white/70' : 'text-navy-blue/70 group-hover:text-white/70'}`}>{step.desc}</p>
                     </div>
                   </div>
 
@@ -150,6 +149,7 @@ const HowItWorks: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) 
             </div>
 
           </div>
+          
 
         </div>
       </div>

@@ -3,6 +3,7 @@ import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import Hero from './components/sections/Hero';
 import Portfolio from './components/sections/Portfolio';
+import TrustedBy from './components/sections/TrustedBy';
 import HowItWorks from './components/sections/HowItWorks';
 import Testimonials from './components/sections/Testimonials';
 import Pricing from './components/sections/Pricing';
@@ -13,15 +14,26 @@ function App() {
 
   useEffect(() => {
     const handleScroll = () => {
+      let dark = false;
       const howItWorks = document.getElementById('how-it-works');
+      const pricing = document.getElementById('pricing-section');
+
       if (howItWorks) {
         const rect = howItWorks.getBoundingClientRect();
-        if (rect.top < window.innerHeight * 0.6) {
-          setIsDarkMode(true);
-        } else {
-          setIsDarkMode(false);
+        if (rect.top <= window.innerHeight * 0.35) {
+          dark = true;
         }
       }
+
+      if (pricing) {
+        const rect = pricing.getBoundingClientRect();
+        if (rect.top <= window.innerHeight * 0.7) {
+          // Revert to light mode just before the Subscription section
+          dark = false;
+        }
+      }
+
+      setIsDarkMode(dark);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -36,11 +48,12 @@ function App() {
 
       <main>
         <Hero />
+        <TrustedBy />
         <Portfolio />
         <HowItWorks isDarkMode={isDarkMode} />
         <Testimonials />
-        <Pricing />
-        <CTA />
+        <Pricing isDarkMode={isDarkMode} />
+        <CTA isDarkMode={isDarkMode} />
       </main>
 
       <Footer />

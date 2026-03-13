@@ -1,20 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Navbar: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => {
-
-
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
-  // Define static text colors for contrast against the off-white background
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      // Hide on scroll down, show on scroll up
+      if (currentScrollY > lastScrollY && currentScrollY > 50) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 py-4`}
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 py-4 ${isVisible ? 'translate-y-0' : '-translate-y-full'
+        }`}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
 
         {/* Top Left Navigation */}
-        <div className={`flex items-center space-x-8 text-sm uppercase tracking-widest font-mono font-medium transition-colors duration-1000 ${isDarkMode ? 'text-white' : 'text-navy-blue'} opacity-80`}>
+        <div className={`flex items-center space-x-8 text-sm uppercase tracking-widest font-mono font-medium transition-colors duration-1000 ${isDarkMode ? 'text-white/80' : 'text-navy-blue/80'}`}>
           <a href="#work" className="hover:text-sky-blue transition-colors">Our Work</a>
           <a href="#why-us" className="hover:text-sky-blue transition-colors">Why Us</a>
         </div>
@@ -27,7 +44,7 @@ const Navbar: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => {
         </div>
 
         {/* Top Right Navigation */}
-        <div className={`flex items-center space-x-6 text-sm uppercase tracking-widest font-mono font-medium transition-colors duration-1000 ${isDarkMode ? 'text-white' : 'text-navy-blue'} opacity-80`}>
+        <div className={`flex items-center space-x-6 text-sm uppercase tracking-widest font-mono font-medium transition-colors duration-1000 ${isDarkMode ? 'text-white/80' : 'text-navy-blue/80'}`}>
           <a href="#pricing" className="hover:text-sky-blue transition-colors">Pricing</a>
 
           <div
@@ -44,14 +61,14 @@ const Navbar: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => {
             </button>
 
             {/* Dropdown Menu */}
-            <div className={`absolute top-full right-0 mt-5 w-56 ${isDarkMode ? 'bg-navy-blue border-white/10 text-white' : 'bg-white border-navy-blue/10 text-navy-blue'} rounded-xl shadow-2xl py-3 flex flex-col items-start overflow-hidden transition-all duration-300 pointer-events-auto border font-mono tracking-widest text-[11px] uppercase z-50 ${isDropdownOpen
+            <div className={`absolute top-full right-0 mt-5  text-nowrap ${isDarkMode ? 'bg-navy-blue border-white/10 text-white' : 'bg-white border-navy-blue/10 text-navy-blue'} rounded-xl shadow-2xl py-3 flex flex-col items-start overflow-hidden transition-all duration-300 pointer-events-auto border font-mono tracking-widest text-[11px] uppercase z-50 ${isDropdownOpen
               ? 'opacity-100 visible delay-0'
               : 'opacity-0 invisible group-hover:opacity-100 group-hover:visible delay-200 group-hover:delay-0 pointer-events-none group-hover:pointer-events-auto'
               }`}>
               <a href="#about" className={`w-full text-left px-5 py-3.5 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-navy-blue/5'} transition-colors`}>About Us</a>
               <a href="#privacy" className={`w-full text-left px-5 py-3.5 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-navy-blue/5'} transition-colors`}>Privacy Policy</a>
-              <a href="#terms" className={`w-full text-left px-5 py-3.5 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-navy-blue/5'} transition-colors gap-1 flex flex-col`}><span>Terms &</span><span>Conditions</span></a>
-              <a href="#affiliate" className={`w-full text-left px-5 py-3.5 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-navy-blue/5'} transition-colors gap-1 flex flex-col`}><span>Affiliate</span><span>Program</span></a>
+              <a href="#terms" className={`w-full text-left px-5 py-3.5 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-navy-blue/5'} transition-colors`}>Terms & Conditions</a>
+              <a href="#affiliate" className={`w-full text-left px-5 py-3.5 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-navy-blue/5'} transition-colors`}>Affiliate Program</a>
             </div>
           </div>
 

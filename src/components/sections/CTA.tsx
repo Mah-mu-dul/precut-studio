@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { getCalApi } from "@calcom/embed-react";
+import logo from '../../assets/website PNG.png';
 
-const CTA: React.FC = () => {
+const CTA: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => {
   useEffect(() => {
     (async function () {
       const cal = await getCalApi({ namespace: "booking" });
@@ -60,7 +61,7 @@ const CTA: React.FC = () => {
     <section id="call" className="py-12 md:py-20 relative z-20 overflow-hidden">
 
       {/* Background glow for the section */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-sky-blue/5 rounded-full blur-[120px] pointer-events-none"></div>
+
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
@@ -68,13 +69,14 @@ const CTA: React.FC = () => {
           {/* Left Text */}
           <div>
             <div id='why-us' className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-sky-600 uppercase tracking-widest text-lg font-bold mb-6">Why Us?</div>
-            <h2 className="text-3xl md:text-6xl font-mono font-bold mb-8 leading-tight text-white">
-              Let’s Make Magic <br />Together.
+            <h2 className={`text-3xl md:text-6xl font-mono font-bold mb-8 leading-tight transition-colors duration-1000 ${isDarkMode ? 'text-white' : 'text-navy-blue'}`}>
+              Let’s Make  <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-sky-600"> Magic Together.</span>
             </h2>
-            <p className="text-white/80 text-lg md:text-xl mb-6">
+            <p className={`text-lg md:text-xl mb-6 transition-colors duration-1000 ${isDarkMode ? 'text-white/80' : 'text-navy-blue/80'}`}>
               No contracts. No delays. Just consistent, high-performance content — delivered when you need it.
             </p>
-            <p className="text-white/60 text-base mb-10">
+            <p className={`text-base mb-10 transition-colors duration-1000 ${isDarkMode ? 'text-white/60' : 'text-navy-blue/70'}`}>
               Schedule a quick strategy call. Your next level starts here.
             </p>
 
@@ -83,19 +85,21 @@ const CTA: React.FC = () => {
               href="https://cal.com/precutstudio/booking"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block bg-gradient-to-r from-navy-blue to-sky-blue border-0 px-8 py-4 rounded-full text-white font-medium shadow-[0_0_10px_rgba(0,51,204,0.3)] hover:shadow-[0_0_25px_rgba(0,51,204,0.8)] transition-all duration-300 transform hover:scale-105"
+              className="inline-block bg-gradient-to-r from-navy-blue to-sky-blue border-0 px-8 py-4 rounded-full text-white font-medium transition-all duration-300 transform hover:scale-105"
             >
               Book Your Free Strategy Call
             </a>
           </div>
 
           {/* Custom Interactive Mockup Triggering Cal.com Modal */}
-          <div className="glass-panel p-0 rounded-2xl shadow-2xl relative z-10 w-full max-w-lg mx-auto">
+          <div className={`glass-panel p-0 rounded-2xl shadow-2xl relative z-10 w-full max-w-lg mx-auto ${isDarkMode ? '' : 'border-black/5 shadow-black/10'}`}>
             <div className="bg-[#111827] rounded-xl overflow-hidden flex flex-col pt-2 md:aspect-[4/3]">
               {/* Mock Calendar Header */}
               <div className="border-b border-white/10 p-4 flex justify-between items-center">
                 <div className="flex items-center space-x-3">
-                  <div className="w-8 h-8 rounded-full bg-sky-blue/20 flex items-center justify-center text-sky-400 font-bold">P</div>
+                  <div className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center bg-white/5">
+                    <img src={logo} alt="Precut Studio" className="w-[150%] h-[150%] object-cover scale-75" />
+                  </div>
                   <div>
                     <div className="text-white text-sm font-medium">Precut Studio</div>
                   </div>
@@ -155,7 +159,7 @@ const CTA: React.FC = () => {
                           data-cal-namespace="booking"
                           data-cal-link="precutstudio/booking"
                           data-cal-config={JSON.stringify({ layout: "month_view", date: dateStr })}
-                          className={`rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center mx-auto transition-all cursor-pointer ${isToday ? 'text-black bg-sky-blue font-bold shadow-[0_0_10px_rgba(135,206,235,0.5)] hover:bg-white' : 'text-white hover:bg-sky-blue/20'}`}
+                          className={`rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center mx-auto transition-all cursor-pointer ${isToday ? 'text-black bg-sky-blue font-bold hover:bg-white' : 'text-white hover:bg-sky-blue/20'}`}
                         >
                           {day}
                         </button>
@@ -167,9 +171,7 @@ const CTA: React.FC = () => {
             </div>
           </div>
 
-          {/* Decorative background shapes */}
-          <div className="absolute -bottom-6 -right-6 w-64 h-64 bg-sky-blue/10 rounded-full blur-[40px] z-0"></div>
-          <div className="absolute -top-6 -left-6 w-32 h-32 bg-sky-blue/20 rounded-full blur-[30px] z-0"></div>
+
         </div>
       </div>
     </section>

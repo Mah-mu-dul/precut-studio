@@ -1,14 +1,68 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const Portfolio: React.FC = () => {
-  // Placeholder data for the marquee
-  const videos = [1, 2, 3, 4, 5, 6, 7];
+// Dynamically import all mp4 files from the portfolio-videos folder
+const videoFiles = import.meta.glob('../../assets/portfolio-videos/*.mp4', {
+  eager: true,
+  import: 'default',
+}) as Record<string, string>;
+
+const videos = Object.values(videoFiles);
+
+const VideoItem = ({ src }: { src: string }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
 
   return (
+    <div className="relative h-[28rem] aspect-[9/16] rounded-2xl bg-navy-blue shrink-0 group cursor-pointer transition-all duration-500 hover:scale-105 hover:z-30 hover:shadow-[0_0_40px_-10px_rgba(135,206,235,0.6)]">
+      <div className="absolute inset-0 rounded-2xl overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-blue via-navy-blue/20 to-transparent z-10 opacity-70 group-hover:opacity-40 transition-opacity duration-300"></div>
+
+        <div className="w-full h-full bg-navy-blue relative">
+          {!isLoaded && (
+            <div className="absolute inset-0 bg-navy-blue/80 animate-pulse z-0"></div>
+          )}
+          <video
+            src={src}
+            className={`w-full h-full object-cover transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+            autoPlay
+            muted
+            loop
+            playsInline
+            onLoadedData={() => setIsLoaded(true)}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const HEADING_WORDS = ["Everything", "You", "Need,"];
+
+const Portfolio: React.FC = () => {
+  return (
     <section className="py-12 relative z-20" id="work">
+      <style>{`
+        @keyframes wordFadeUp {
+          from { opacity: 0; transform: translateY(18px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .word-fade-up {
+          display: inline-block;
+          opacity: 0;
+          animation: wordFadeUp 0.55s ease forwards;
+        }
+      `}</style>
       <div className="max-w-7xl mx-auto px-6 md:px-12 text-center ">
         <h2 className="text-3xl md:text-5xl font-mono font-bold mb-6 text-navy-blue">
-          Everything You Need.<br />
+          {HEADING_WORDS.map((word, i) => (
+            <span
+              key={i}
+              className="word-fade-up"
+              style={{ animationDelay: `${i * 0.15}s` }}
+            >
+              {word}{i < HEADING_WORDS.length - 1 ? '\u00A0' : ''}
+            </span>
+          ))}
+          <br />
           <span className="ml-5 text-transparent bg-clip-text bg-gradient-to-r from-sky-blue to-[#091549]">In one Creative Studio.</span>
         </h2>
         <p className="text-navy-blue/70 text-lg max-w-3xl mx-auto">
@@ -20,29 +74,10 @@ const Portfolio: React.FC = () => {
       <div className="relative w-full overflow-hidden flex flex-col gap-6 py-8">
 
         {/* Row 1: Left to right */}
-        {/* Reduced padding to original space-x-6 px-6 without excessive py */}
-        <div className="flex w-[200vw] animate-marquee-left hover:[animation-play-state:paused] space-x-6 px-6 py-4">
+        {/* Adjusted padding/margin for a seamless infinite loop */}
+        <div className="flex w-max animate-marquee-left hover:[animation-play-state:paused] gap-6 pr-6 py-4">
           {[...videos, ...videos].map((item, index) => (
-            <div
-              key={`row1-${index}`}
-              className="relative w-80 h-[28rem] rounded-2xl bg-navy-blue shrink-0 group cursor-pointer transition-all duration-500 hover:scale-105 hover:z-30"
-            >
-              {/* Added a strict overflow hidden container inside for the background/image but allowing shadow on parent */}
-              <div className="absolute inset-0 rounded-2xl overflow-hidden">
-                {/* Overlay Gradient for luxury feel */}
-                <div className="absolute inset-0 bg-gradient-to-t from-navy-blue via-navy-blue/20 to-transparent z-10 opacity-70 group-hover:opacity-40 transition-opacity duration-300"></div>
-
-                {/* Content info on hover */}
-                <div className="absolute bottom-6 left-6 z-20 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                  <span className="bg-sky-blue text-navy-blue font-bold text-xs tracking-wider uppercase px-3 py-1 rounded-full mb-3 inline-block">Short Form</span>
-                  <h3 className="text-white font-mono font-bold text-lg">Brand Magic {item}</h3>
-                </div>
-
-                <div className="w-full h-full flex items-center justify-center text-white/30 font-mono tracking-widest text-sm uppercase">
-                  [Video Placeholder]
-                </div>
-              </div>
-            </div>
+            <VideoItem key={`row1-${index}`} src={item} />
           ))}
         </div>
 

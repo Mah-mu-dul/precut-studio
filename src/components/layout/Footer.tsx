@@ -36,13 +36,10 @@ const Footer: React.FC = () => {
 
         </div>
 
-        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center">
+        <div className="pt-8 border-t border-white/10 flex justify-center md:justify-start items-center">
           <p className="text-white/40 text-xs text-center md:text-left">
             &copy; {new Date().getFullYear()} Precut Studio. All rights reserved. Built for creators and brands.
           </p>
-          <div className="text-white/40 text-xs mt-4 md:mt-0">
-            Designed for Performance.
-          </div>
         </div>
       </div>
     </footer>

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-const Pricing: React.FC = () => {
+const Pricing: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => {
   const sectionRef = useRef<HTMLElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
   const [isDesktop, setIsDesktop] = useState(true);
@@ -118,7 +118,8 @@ const Pricing: React.FC = () => {
         "Mon–Fri workflow",
         "Cancel anytime"
       ],
-      highlighted: false
+      highlighted: false,
+      link: "https://link.payoneer.com/Token?t=7F1BCA416FCE458AA463157B9EFB36AD&src=pl"
     },
     {
       name: "Pro",
@@ -133,7 +134,8 @@ const Pricing: React.FC = () => {
         "Mon–Fri workflow",
         "Advanced color grading"
       ],
-      highlighted: true
+      highlighted: true,
+      link: "https://link.payoneer.com/Token?t=B815CE12B60E414892ACA647A10C5330&src=pl"
     },
     {
       name: "Agency",
@@ -149,12 +151,13 @@ const Pricing: React.FC = () => {
         "Advanced motion design",
         "Mon–Fri workflow"
       ],
-      highlighted: false
+      highlighted: false,
+      link: "https://link.payoneer.com/Token?t=8C79A1EA1FC24581B09B0586B3AE4EAF&src=pl"
     }
   ];
 
   return (
-    <section ref={sectionRef} className="relative z-20 md:h-[300vh]">
+    <section id="pricing-section" ref={sectionRef} className="relative z-20 md:h-[300vh]">
       {/* Hidden anchor point positioned so that scrolling to it sets p >= 1.0 */}
       {/* Animation reaches 1.0 after 1.5 screen heights (150vh). We put the anchor there. */}
       <div id="pricing" className="absolute top-0 md:top-[150vh] left-0 pointer-events-none w-full"></div>
@@ -164,15 +167,15 @@ const Pricing: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 md:px-8 w-full mt-4 md:mt-0 pb-12">
 
           <div className="text-left mb-10 md:mb-0 ">
-            <div className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-sky-600 tracking-widest uppercase text-[10px] font-bold mb-2">Subscription Model</div>
-            <h2 className="text-3xl md:text-5xl font-mono font-bold mb-3 text-white ">
+            <div className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-sky-600 tracking-widest uppercase text-sm md:text-base font-bold mb-2">Subscription Model</div>
+            <h2 className={`text-3xl md:text-5xl font-mono font-bold mb-3 transition-colors duration-1000 ${isDarkMode ? 'text-white' : 'text-navy-blue'}`}>
               One Scalable Subscription.<br />
-              <span className="font-sans text-white/80">Built for Brands That Move Fast.</span>
+              <span className="font-sans font-bold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-sky-600">Built for Brands That Move Fast.</span>
             </h2>
-            <p className="text-white/60 text-base">Unlimited video editing. Flexible plans. Built to scale with you.</p>
+            <p className={`text-base transition-colors duration-1000 ${isDarkMode ? 'text-white/60' : 'text-navy-blue/70'}`}>Unlimited video editing. Flexible plans. Built to scale with you.</p>
           </div>
 
-          <div className="flex flex-col md:grid md:grid-cols-3 gap-6 md:gap-4 items-center max-w-5xl mx-auto relative perspective-[1200px]">
+          <div className="flex justify-between  relative max-w-5xl mx-auto">
             {tiers.map((tier, idx) => (
               <div
                 key={tier.name}
@@ -182,17 +185,16 @@ const Pricing: React.FC = () => {
               // Note: We use !important in tailwind equivalent classes to override the inline styles set by JS if `isDesktop` is false
               >
                 <div className={`h-full relative rounded-[2rem] transition-all duration-300 hover:scale-105 ${tier.highlighted
-                  ? 'bg-[#0a1128] text-white shadow-2xl shadow-sky-500/20'
-                  : 'glass-panel text-white hover:bg-white/10 shadow-xl shadow-black/20'
+                  ? 'bg-[#0d2060] text-white shadow-2xl shadow-sky-500/20'
+                  : `glass-panel transition-colors duration-1000 ${isDarkMode ? 'text-white hover:bg-white/10' : 'text-navy-blue hover:bg-white border-navy-blue/10'} shadow-[0_8px_32px_rgba(9,21,73,0.18)]`
                   }`}>
 
                   {tier.highlighted && (
-                    <div className="absolute top-0 right-6 -translate-y-1/2 rounded-full p-[2px] overflow-hidden shadow-[0_0_15px_rgba(0,51,204,0.5)] flex items-center justify-center z-20">
-                      {/* Spinning neon light effect */}
-                      <div className="absolute inset-[-500%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_0%,transparent_70%,#38bdf8_100%)]"></div>
-                      {/* Inner label */}
-                      <div className="relative bg-navy-blue text-white text-[10px] font-bold px-3 py-1 rounded-full z-10 w-full h-full flex items-center justify-center">
-                        MOST POPULAR
+                    <div className="absolute top-0 right-6 -translate-y-1/2 rounded-full shadow-[0_4px_15px_rgba(156,163,175,0.6)] z-20 bg-[#0d2060] border border-white/10 text-white overflow-hidden group/badge cursor-default">
+                      <div className="relative font-bold text-[10px] tracking-wider px-4 py-1.5 flex items-center justify-center">
+                        <span className="relative z-10">MOST POPULAR</span>
+                        {/* Hover shine effect */}
+                        <div className="absolute top-0 left-0 w-[150%] h-full bg-gradient-to-r from-transparent via-white to-transparent opacity-90 -translate-x-full group-hover/badge:translate-x-full transition-transform duration-700 ease-in-out -skew-x-12 z-0"></div>
                       </div>
                     </div>
                   )}
@@ -201,20 +203,25 @@ const Pricing: React.FC = () => {
                     <h3 className="text-xl md:text-2xl font-mono font-bold mb-1">{tier.name}</h3>
                     <div className="flex items-end mb-2">
                       <span className="text-4xl md:text-5xl font-mono font-bold tracking-tight">{tier.price}</span>
-                      <span className="ml-2 pb-1 text-xs md:text-sm font-sans text-white/60">USD/mo</span>
+                      <span className={`ml-2 pb-1 text-xs md:text-sm font-sans transition-colors duration-1000 ${tier.highlighted ? 'text-white/60' : (isDarkMode ? 'text-white/60' : 'text-navy-blue/60')}`}>USD/mo</span>
                     </div>
-                    <p className="text-sm mb-4 min-h-[40px] font-sans text-white/80">{tier.desc}</p>
+                    <p className={`text-sm mb-4 min-h-[40px] font-sans transition-colors duration-1000 ${tier.highlighted ? 'text-white/80' : (isDarkMode ? 'text-white/80' : 'text-navy-blue/80')}`}>{tier.desc}</p>
 
-                    <button className="w-full py-2.5 px-4 rounded-xl font-mono font-bold uppercase tracking-wider text-sm mb-5 transition-all duration-300 border-0 bg-sky-blue hover:bg-[#7bc0db] text-navy-blue shadow-[0_0_15px_rgba(0,51,204,0.4)] hover:shadow-[0_0_25px_rgba(0,51,204,0.7)] hover:scale-105">
+                    <a
+                      href={tier.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block text-center w-full py-2.5 px-4 rounded-xl font-mono font-bold uppercase tracking-wider text-sm mb-5 transition-all duration-300 border-0 bg-sky-blue hover:bg-[#7bc0db] text-navy-blue hover:scale-105"
+                    >
                       Get Started
-                    </button>
+                    </a>
 
-                    <div className="text-xs tracking-wider uppercase font-semibold mb-2 font-sans text-white/60">Includes:</div>
+                    <div className={`text-xs tracking-wider uppercase font-semibold mb-2 font-sans transition-colors duration-1000 ${tier.highlighted ? 'text-white/60' : (isDarkMode ? 'text-white/60' : 'text-navy-blue/60')}`}>Includes:</div>
                     <ul className="space-y-2.5">
                       {tier.features.map(feature => (
                         <li key={feature} className="flex items-start leading-tight">
                           <svg className={`w-4 h-4 mr-2 shrink-0 ${tier.highlighted ? 'text-sky-blue' : 'text-sky-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
-                          <span className="text-sm font-sans text-white/90">{feature}</span>
+                          <span className={`text-sm font-sans transition-colors duration-1000 ${tier.highlighted ? 'text-white/90' : (isDarkMode ? 'text-white/90' : 'text-navy-blue/90')}`}>{feature}</span>
                         </li>
                       ))}
                     </ul>
@@ -223,10 +230,10 @@ const Pricing: React.FC = () => {
               </div>
             ))}
           </div>
-
-          <div className="mt-8 text-center">
-            <p className="text-white/40 text-xs text-right">Transparent pricing. No hidden fees.</p>
+          <div className="mt-8  max-w-5xl pr-[25px] mx-auto flex justify-end">
+            <p className="text-xs text-navy-blue font-medium">Transparent pricing. No hidden fees.</p>
           </div>
+
         </div>
       </div>
     </section>
