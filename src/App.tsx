@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import Hero from './components/sections/Hero';
@@ -8,8 +9,9 @@ import HowItWorks from './components/sections/HowItWorks';
 import Testimonials from './components/sections/Testimonials';
 import Pricing from './components/sections/Pricing';
 import CTA from './components/sections/CTA';
+import About from './pages/About';
 
-function App() {
+function HomePage() {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
@@ -27,8 +29,8 @@ function App() {
 
       if (pricing) {
         const rect = pricing.getBoundingClientRect();
-        if (rect.top <= window.innerHeight * 0.7) {
-          // Revert to light mode just before the Subscription section
+        if (rect.top <= 0) {
+          // Revert to light mode when the Subscription Model section reaches the top
           dark = false;
         }
       }
@@ -58,6 +60,17 @@ function App() {
 
       <Footer />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

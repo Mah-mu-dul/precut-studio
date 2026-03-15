@@ -12,7 +12,7 @@ const VideoItem = ({ src }: { src: string }) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   return (
-    <div className="relative h-[28rem] aspect-[9/16] rounded-2xl bg-navy-blue shrink-0 group cursor-pointer transition-all duration-500 hover:scale-105 hover:z-30 hover:shadow-[0_0_40px_-10px_rgba(135,206,235,0.6)]">
+    <div className="relative h-[28rem] aspect-[9/16] rounded-2xl bg-navy-blue shrink-0 group cursor-pointer transition-all duration-500 hover:scale-105 hover:z-30 hover:shadow-[0_0_40px_-5px_rgba(9,21,73,0.9)]">
       <div className="absolute inset-0 rounded-2xl overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-t from-navy-blue via-navy-blue/20 to-transparent z-10 opacity-70 group-hover:opacity-40 transition-opacity duration-300"></div>
 

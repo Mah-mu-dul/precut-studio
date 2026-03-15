@@ -44,7 +44,7 @@ const TrustedBy: React.FC = () => {
         <div className="absolute left-0 top-0 h-full w-32 bg-gradient-to-r from-off-white to-transparent z-10 pointer-events-none" />
         <div className="absolute right-0 top-0 h-full w-32 bg-gradient-to-l from-off-white to-transparent z-10 pointer-events-none" />
 
-        <div className="flex w-max animate-marquee-brands items-center gap-16 px-8">
+        <div className="flex w-max animate-marquee-brands items-center gap-20 px-8">
           {doubled.map((src, i) => (
             <div
               key={i}

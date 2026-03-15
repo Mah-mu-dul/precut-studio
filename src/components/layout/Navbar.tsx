@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import privacyPolicy from '../../assets/pdfs/Privacy Policy.pdf';
+import { Link } from 'react-router-dom';
+
 
 const Navbar: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -32,20 +35,24 @@ const Navbar: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => {
 
         {/* Top Left Navigation */}
         <div className={`flex items-center space-x-8 text-sm uppercase tracking-widest font-mono font-medium transition-colors duration-1000 ${isDarkMode ? 'text-white/80' : 'text-navy-blue/80'}`}>
-          <a href="#work" className="hover:text-sky-blue transition-colors">Our Work</a>
-          <a href="#why-us" className="hover:text-sky-blue transition-colors">Why Us</a>
+          <a href="/#work" className="hover:text-sky-blue transition-colors">Our Work</a>
+          <a href="/#why-us" className="hover:text-sky-blue transition-colors">Why Us</a>
         </div>
 
         {/* Center Logo */}
         <div className="absolute left-1/2 transform -translate-x-1/2 cursor-pointer">
-          <a href="#" className={`text-xl md:text-2xl font-bold font-mono tracking-[0.1em] transition-colors duration-1000 ${isDarkMode ? 'text-white' : 'text-navy-blue'}`}>
+          <Link 
+            to="/" 
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className={`text-xl md:text-2xl font-bold font-mono tracking-[0.1em] transition-colors duration-1000 ${isDarkMode ? 'text-white' : 'text-navy-blue'}`}
+          >
             PRECUT<span className="text-sky-blue">STUDIO</span>
-          </a>
+          </Link>
         </div>
 
         {/* Top Right Navigation */}
         <div className={`flex items-center space-x-6 text-sm uppercase tracking-widest font-mono font-medium transition-colors duration-1000 ${isDarkMode ? 'text-white/80' : 'text-navy-blue/80'}`}>
-          <a href="#pricing" className="hover:text-sky-blue transition-colors">Pricing</a>
+          <a href="/#pricing" className="hover:text-sky-blue transition-colors">Pricing</a>
 
           <div
             className="relative group"
@@ -65,10 +72,10 @@ const Navbar: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => {
               ? 'opacity-100 visible delay-0'
               : 'opacity-0 invisible group-hover:opacity-100 group-hover:visible delay-200 group-hover:delay-0 pointer-events-none group-hover:pointer-events-auto'
               }`}>
-              <a href="#about" className={`w-full text-left px-5 py-3.5 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-navy-blue/5'} transition-colors`}>About Us</a>
-              <a href="#privacy" className={`w-full text-left px-5 py-3.5 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-navy-blue/5'} transition-colors`}>Privacy Policy</a>
-              <a href="#terms" className={`w-full text-left px-5 py-3.5 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-navy-blue/5'} transition-colors`}>Terms & Conditions</a>
-              <a href="#affiliate" className={`w-full text-left px-5 py-3.5 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-navy-blue/5'} transition-colors`}>Affiliate Program</a>
+              <a href="/about" className={`w-full text-left px-5 py-3.5 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-navy-blue/5'} transition-colors`}>About Us</a>
+              <a href={privacyPolicy} download="Privacy Policy.pdf" className={`w-full text-left px-5 py-3.5 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-navy-blue/5'} transition-colors`}>Privacy Policy</a>
+              <a href="/terms" className={`w-full text-left px-5 py-3.5 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-navy-blue/5'} transition-colors`}>Terms & Conditions</a>
+              <a href="/affiliate" className={`w-full text-left px-5 py-3.5 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-navy-blue/5'} transition-colors`}>Affiliate Program</a>
             </div>
           </div>
 

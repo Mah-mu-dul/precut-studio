@@ -1,4 +1,5 @@
 import React from 'react';
+import privacyPolicy from '../../assets/pdfs/Privacy Policy.pdf';
 
 const Footer: React.FC = () => {
   return (
@@ -28,7 +29,8 @@ const Footer: React.FC = () => {
             <h4 className="text-white font-medium mb-4 uppercase tracking-wider text-sm">Legal & More</h4>
             <ul className="space-y-3 text-sm text-white/50">
               <li><a href="#about" className="hover:text-sky-blue transition-colors">About Us</a></li>
-              <li><a href="#privacy" className="hover:text-sky-blue transition-colors">Privacy Policy</a></li>
+              <li><a href={privacyPolicy} download="Privacy Policy.pdf" className="hover:text-sky-blue transition-colors">Privacy Policy</a></li>
+
               <li><a href="#terms" className="hover:text-sky-blue transition-colors">Terms & Conditions</a></li>
               <li><a href="#affiliate" className="hover:text-sky-blue transition-colors">Affiliate Program</a></li>
             </ul>
