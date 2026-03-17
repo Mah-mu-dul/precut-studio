@@ -10,6 +10,9 @@ import Testimonials from './components/sections/Testimonials';
 import Pricing from './components/sections/Pricing';
 import CTA from './components/sections/CTA';
 import About from './pages/About';
+import Privacy from './pages/Privacy';
+import Terms from './pages/Terms';
+import Affiliate from './pages/Affiliate';
 
 function HomePage() {
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -22,11 +25,10 @@ function HomePage() {
       const pricing = document.getElementById('pricing-section');
 
       // 1. Initial Hero Monitor Phase (Dark Background)
-      // Hero is 400vh, scrollable range is 300vh. Phase ends at 0.45 progress.
-      // 0.45 * 300vh = 135vh.
-      if (currentScrollY < window.innerHeight * 1.35) {
+      // Transition point moved earlier per user request (from 1.35 to 0.7)
+      if (currentScrollY < window.innerHeight * 0.7) {
         dark = true;
-      } 
+      }
       // 2. How It Works Section (Dark Background)
       else if (howItWorks) {
         const rect = howItWorks.getBoundingClientRect();
@@ -77,6 +79,9 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<About />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/affiliate" element={<Affiliate />} />
       </Routes>
     </BrowserRouter>
   );

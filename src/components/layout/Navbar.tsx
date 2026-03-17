@@ -1,32 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import privacyPolicy from '../../assets/pdfs/Privacy Policy.pdf';
-import termsOfService from '../../assets/pdfs/Terms of Services.pdf';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 
 const Navbar: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isLogoVisible, setIsLogoVisible] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      const heroThreshold = window.innerHeight * 2.5; // Stay visible throughout most of hero animation
+      const logoThreshold = window.innerHeight * 0.2;
+      const navbarThreshold = window.innerHeight * 0.8; // Duration of the "PRECUT STUDIO" intro
 
-      // Hide only if we are past the hero section AND scrolling down
-      if (currentScrollY > heroThreshold && currentScrollY > lastScrollY && currentScrollY > 50) {
+      // 1. Navbar Visibility (Always visible in first section, then hide-on-scroll)
+      if (currentScrollY < navbarThreshold) {
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY.current && currentScrollY > 50) {
         setIsVisible(false);
       } else {
         setIsVisible(true);
       }
 
-      setLastScrollY(currentScrollY);
+      // 2. Logo Visibility (Hide in the first section)
+      if (currentScrollY > logoThreshold) {
+        setIsLogoVisible(true);
+      } else {
+        setIsLogoVisible(false);
+      }
+
+      lastScrollY.current = currentScrollY;
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Initial check
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
+  }, []);
 
   return (
     <nav
@@ -42,7 +52,7 @@ const Navbar: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => {
         </div>
 
         {/* Center Logo */}
-        <div className="absolute left-1/2 transform -translate-x-1/2 cursor-pointer">
+        <div className={`absolute left-1/2 transform -translate-x-1/2 cursor-pointer transition-all duration-500 ease-out ${isLogoVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-90 pointer-events-none'}`}>
           <Link
             to="/"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
@@ -74,10 +84,10 @@ const Navbar: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => {
               ? 'opacity-100 visible delay-0'
               : 'opacity-0 invisible group-hover:opacity-100 group-hover:visible delay-200 group-hover:delay-0 pointer-events-none group-hover:pointer-events-auto'
               }`}>
-              <a href="/about" className={`w-full text-left px-5 py-3.5 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-navy-blue/5'} transition-colors`}>About Us</a>
-              <a href={privacyPolicy} download="Privacy Policy.pdf" className={`w-full text-left px-5 py-3.5 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-navy-blue/5'} transition-colors`}>Privacy Policy</a>
-              <a href={termsOfService} download="Terms of Service.pdf" className={`w-full text-left px-5 py-3.5 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-navy-blue/5'} transition-colors`}>Terms & Conditions</a>
-              <a href="/affiliate" className={`w-full text-left px-5 py-3.5 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-navy-blue/5'} transition-colors`}>Affiliate Program</a>
+              <Link to="/about" className={`w-full text-left px-5 py-3.5 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-navy-blue/5'} transition-colors`}>About Us</Link>
+              <Link to="/privacy" className={`w-full text-left px-5 py-3.5 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-navy-blue/5'} transition-colors`}>Privacy Policy</Link>
+              <Link to="/terms" className={`w-full text-left px-5 py-3.5 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-navy-blue/5'} transition-colors`}>Terms & Conditions</Link>
+              <Link to="/affiliate" className={`w-full text-left px-5 py-3.5 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-navy-blue/5'} transition-colors`}>Affiliate Program</Link>
             </div>
           </div>
 
@@ -86,7 +96,7 @@ const Navbar: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => {
             href="https://cal.com/precutstudio/booking"
             target="_blank"
             rel="noopener noreferrer"
-            className="cursor-pointer hidden md:inline-block font-mono font-bold uppercase tracking-wider bg-gradient-to-r from-navy-blue to-sky-blue border-0 px-6 py-2.5 rounded-full text-white shadow-[0_0_10px_rgba(0,51,204,0.3)] hover:shadow-[0_0_25px_rgba(0,51,204,0.8)] transition-all duration-300 transform hover:scale-105"
+            className="cursor-pointer hidden md:inline-block font-mono font-bold uppercase tracking-wider bg-gradient-to-r from-navy-blue to-sky-blue border-0 px-6 py-2.5 rounded-full text-white shadow-[0_0_15px_rgba(0,102,255,0.4)] hover:shadow-[0_0_30px_rgba(0,102,255,0.8)] transition-all duration-300 transform hover:scale-105"
           >
             Book A Call
           </a>

@@ -1,6 +1,5 @@
 import React from 'react';
-import privacyPolicy from '../../assets/pdfs/Privacy Policy.pdf';
-import termsOfService from '../../assets/pdfs/Terms of Services.pdf';
+import { Link } from 'react-router-dom';
 
 const Footer: React.FC = () => {
   return (
@@ -30,8 +29,8 @@ const Footer: React.FC = () => {
           <div className="col-span-1">
             <h4 className="text-white font-medium mb-4 uppercase tracking-wider text-sm">Explore</h4>
             <ul className="space-y-3 text-sm text-white/50">
-              <li><a href="#work" className="hover:text-sky-blue transition-colors">Our Work</a></li>
-              <li><a href="#pricing" className="hover:text-sky-blue transition-colors">Pricing</a></li>
+              <li><a href="/#work" className="hover:text-sky-blue transition-colors">Our Work</a></li>
+              <li><a href="/#pricing" className="hover:text-sky-blue transition-colors">Pricing</a></li>
               <li><a href="https://cal.com/precutstudio/booking" target="_blank" rel="noopener noreferrer" className="hover:text-sky-blue transition-colors">Book a Call</a></li>
             </ul>
           </div>
@@ -39,11 +38,10 @@ const Footer: React.FC = () => {
           <div className="col-span-1">
             <h4 className="text-white font-medium mb-4 uppercase tracking-wider text-sm">Legal & More</h4>
             <ul className="space-y-3 text-sm text-white/50">
-              <li><a href="#about" className="hover:text-sky-blue transition-colors">About Us</a></li>
-              <li><a href={privacyPolicy} download="Privacy Policy.pdf" className="hover:text-sky-blue transition-colors">Privacy Policy</a></li>
-
-              <li><a href={termsOfService} download="Terms of Service.pdf" className="hover:text-sky-blue transition-colors">Terms & Conditions</a></li>
-              <li><a href="#affiliate" className="hover:text-sky-blue transition-colors">Affiliate Program</a></li>
+              <li><Link to="/about" className="hover:text-sky-blue transition-colors">About Us</Link></li>
+              <li><Link to="/privacy" className="hover:text-sky-blue transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/terms" className="hover:text-sky-blue transition-colors">Terms & Conditions</Link></li>
+              <li><Link to="/affiliate" className="hover:text-sky-blue transition-colors">Affiliate Program</Link></li>
             </ul>
           </div>
 

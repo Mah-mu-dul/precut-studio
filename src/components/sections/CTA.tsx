@@ -85,7 +85,7 @@ const CTA: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => {
               href="https://cal.com/precutstudio/booking"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block bg-gradient-to-r from-navy-blue to-sky-blue border-0 px-8 py-4 rounded-full text-white font-medium transition-all duration-300 transform hover:scale-105"
+              className="inline-block bg-gradient-to-r from-navy-blue to-sky-blue border-0 px-8 py-4 rounded-full text-white font-medium transition-all duration-300 transform hover:scale-105 shadow-[0_0_15px_rgba(0,102,255,0.4)] hover:shadow-[0_0_30px_rgba(0,102,255,0.8)]"
             >
               Book Your Free Strategy Call
             </a>

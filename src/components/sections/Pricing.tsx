@@ -211,7 +211,7 @@ const Pricing: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => 
                       href={tier.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block text-center w-full py-2.5 px-4 rounded-xl font-mono font-bold uppercase tracking-wider text-sm mb-5 transition-all duration-300 border-0 bg-sky-blue hover:bg-[#7bc0db] text-navy-blue hover:scale-105"
+                      className="block text-center w-full py-2.5 px-4 rounded-xl font-mono font-bold uppercase tracking-wider text-sm mb-5 transition-all duration-300 border-0 bg-sky-blue hover:bg-[#7bc0db] text-navy-blue hover:scale-105 shadow-[0_0_15px_rgba(135,206,235,0.4)] hover:shadow-[0_0_25px_rgba(135,206,235,0.8)]"
                     >
                       Get Started
                     </a>

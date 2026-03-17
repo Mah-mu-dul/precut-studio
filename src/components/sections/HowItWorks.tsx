@@ -65,7 +65,7 @@ const HowItWorks: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) 
     {
       num: "01",
       title: "Submit Footage",
-      desc: "Upload your raw clips to your dedicated dashboard. Add notes, references, or instructions easily."
+      desc: "Upload your raw clips to your dedicated hub. Add notes, references, or instructions easily."
     },
     {
       num: "02",

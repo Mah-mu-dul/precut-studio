@@ -1,9 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValueEvent } from 'framer-motion';
+
 const heroVideo = "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%201.mp4";
-import Monitor3D from '../ui/Monitor3D';
-// Removed TextAnimate as it's no longer used
-// COORDINATED THRESHOLDS (Must sync with Monitor3D.tsx logic)
 
 const Hero: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -19,27 +17,17 @@ const Hero: React.FC = () => {
     restDelta: 0.001,
   });
 
-
   // ─── VIDEO PLAYBACK ──────────────────────────────────────────
-
   useMotionValueEvent(smoothYProgress, 'change', (latest) => {
     if (!videoRef.current) return;
-
-    // Video play/pause
     if (latest > 0.65) {
       videoRef.current.play().catch(() => { });
     } else {
       videoRef.current.pause();
     }
-
   });
 
   // ─── ANIMATION STAGES ───────────────────────────────────────────────────────
-  // 1. Rotate & Enter (0.00 -> 0.45): Monitor does its thing.
-  // 2. Content Rise   (0.45 -> 0.65): Text + Video slide into view.
-  // 3. Video Zoom     (0.65 -> 0.85): Video expands.
-  // 4. Final Scroll   (0.85 -> 1.00): Rest of the page follows.
-
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -48,54 +36,57 @@ const Hero: React.FC = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const lockOffset = isMobile ? -520 : -820;
-  const endOffset = lockOffset - 250;
-
-  // Monitor visibility: fades out as we "enter" the screen
-  const monitorOpacity = useTransform(smoothYProgress, [0.35, 0.45], [1, 0]);
-  const monitorScale = useTransform(smoothYProgress, [0.35, 0.45], [1, 1.5]);
-
-  // Content visibility: fades in earlier while monitor is zooming (0.25 to 0.45)
-  // so it is visible through the screen
-  const contentOpacity = useTransform(smoothYProgress, [0.25, 0.40], [0, 1]);
-
-  // Monitor background: Fades out before content appears entirely
-  const monitorBgOpacity = useTransform(smoothYProgress, [0.15, 0.30], [1, 0]);
+  const lockOffset = isMobile ? -360 : -350; // Locked position at the top
+  const endOffset = lockOffset - 400; // Final scroll exit
 
   const scrollYOffset = useTransform(
     smoothYProgress,
-    [0, 0.45, 0.65, 0.85, 1],
-    [0, 0, lockOffset, lockOffset, endOffset]
+    [0, 0.45, 0.85, 1], // Map: Start -> Locked -> Full Zoom -> Exit
+    [0, lockOffset, lockOffset, endOffset]
   );
 
-  const videoWidth = useTransform(smoothYProgress, [0.65, 0.85], ['40%', '100%']);
-  const videoScale = useTransform(smoothYProgress, [0.65, 0.85], [0.85, 1]);
-  const borderRadius = useTransform(smoothYProgress, [0.65, 0.85], ['40px', '32px']);
-  const videoX = useTransform(smoothYProgress, [0.65, 0.85], ['-50%', '0%']);
+  // Content visibility: fades in as we scroll past background text
+  const contentOpacity = useTransform(smoothYProgress, [0.10, 0.25], [0, 1]);
+
+  // Monitor background: Fades out to sync with App.tsx dark mode change
+  const monitorBgOpacity = useTransform(smoothYProgress, [0.10, 0.25], [1, 0]);
+
+  // Video Zoom Phase (0.55 -> 0.85): Happens while text is locked
+  const videoWidth = useTransform(smoothYProgress, [0.55, 0.85], ['40%', '100%']);
+  const videoScale = useTransform(smoothYProgress, [0.55, 0.85], [0.85, 1]);
+  const borderRadius = useTransform(smoothYProgress, [0.55, 0.85], ['40px', '32px']);
+  const videoX = useTransform(smoothYProgress, [0.55, 0.85], ['-50%', '0%']);
   const plusOpacity = useTransform(smoothYProgress, [0.85, 0.95], [0, 1]);
 
-  // Main Heading & Paragraph Stagger
-  const h1Opacity = useTransform(smoothYProgress, [0.26, 0.32], [0, 1]);
-  const h1Y = useTransform(smoothYProgress, [0.26, 0.32], [20, 0]);
-  const pOpacity = useTransform(smoothYProgress, [0.28, 0.34], [0, 1]);
-  const pY = useTransform(smoothYProgress, [0.28, 0.34], [20, 0]);
+  // Main Heading & Paragraph Stagger - Finishes by the time we lock
+  const h1Opacity = useTransform(smoothYProgress, [0.15, 0.25], [0, 1]);
+  const h1Y = useTransform(smoothYProgress, [0.15, 0.25], [20, 0]);
+  const pOpacity = useTransform(smoothYProgress, [0.18, 0.28], [0, 1]);
+  const pY = useTransform(smoothYProgress, [0.18, 0.28], [20, 0]);
+
+  const textColor = useTransform(
+    smoothYProgress,
+    [0.18, 0.28], // Synced with monitorBgOpacity and App.tsx transition
+    ['#ffffff', '#0c1b55ff']
+  );
+
+  const headingText = "Unlimited video editing";
 
   return (
-    <section ref={containerRef} className="relative h-[400vh] transition-colors duration-1000" id="home">
+    <section ref={containerRef} className="relative h-[400vh]" id="home">
       <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
-        {/* Dark Background Gradient - Visible only during monitor phase */}
+        {/* Dark Background Gradient */}
         <motion.div
           style={{ opacity: monitorBgOpacity }}
           className="absolute inset-0 bg-gradient-to-b from-black via-[#050b24] to-[#091549] z-0"
         />
 
-        {/* Background Large Text */}
+        {/* Background Large Text (PRECUT STUDIO) */}
         <motion.div
           style={{
-            // Fades out completely by the time the monitor is front-facing
-            opacity: useTransform(smoothYProgress, [0, 0.25], [0.4, 0]),
-            y: useTransform(smoothYProgress, [0, 0.25], [0, -50]),
-            scale: useTransform(smoothYProgress, [0, 0.25], [1, 1.1])
+            opacity: useTransform(smoothYProgress, [0, 0.20], [0.4, 0]),
+            y: useTransform(smoothYProgress, [0, 0.20], [0, -50]),
+            scale: useTransform(smoothYProgress, [0, 0.20], [1, 1.1])
           }}
           className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10 select-none overflow-hidden md:overflow-visible"
         >
@@ -115,20 +106,6 @@ const Hero: React.FC = () => {
           </div>
         </motion.div>
 
-        {/* 3D Monitor Container */}
-        <motion.div
-          style={{
-            y: scrollYOffset,
-            opacity: monitorOpacity,
-            scale: monitorScale
-          }}
-          className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-30"
-        >
-          <div className="w-full h-screen">
-            <Monitor3D scrollProgress={smoothYProgress} />
-          </div>
-        </motion.div>
-
         {/* Main Content (Text + Video) */}
         <motion.div
           style={{
@@ -139,25 +116,41 @@ const Hero: React.FC = () => {
         >
           {/* Hero Text */}
           <div className="flex flex-col items-center">
-
             <motion.h1
-              style={{ opacity: h1Opacity, y: h1Y }}
-              className="text-center font-mono font-bold tracking-tight mb-6 leading-tight transition-colors duration-500 text-navy-blue flex flex-col items-center"
+              style={{ opacity: h1Opacity, y: h1Y, color: textColor }}
+              className="text-center font-mono font-bold tracking-tight mb-6 leading-tight flex flex-col items-center"
             >
-              <span className="text-3xl md:text-5xl">Unlimited video editing</span>
-              <span className="text-3xl md:text-[3.25rem] mt-2 block w-full">
-                <span className="font-sans font-medium text-transparent bg-clip-text bg-gradient-to-r from-sky-blue to-[#091549]">
+              <span className="text-3xl md:text-5xl flex flex-wrap justify-center overflow-hidden py-1">
+                {headingText.split("").map((char, i) => (
+                  <motion.span
+                    key={i}
+                    initial={{ y: 20, opacity: 0, scale: 0.5 }}
+                    whileInView={{ y: 0, opacity: 1, scale: 1 }}
+                    transition={{
+                      duration: 0.5,
+                      delay: i * 0.02,
+                      ease: [0.34, 1.56, 0.64, 1] // Bouncy popup popup effect
+                    }}
+                    viewport={{ once: true }}
+                    className="inline-block whitespace-pre"
+                  >
+                    {char === " " ? "\u00A0" : char}
+                  </motion.span>
+                ))}
+              </span>
+              <span className="text-3xl md:text-[3.25rem] mt-2 block w-full px-4">
+                <span className="font-sans font-medium text-transparent bg-clip-text bg-gradient-to-r from-sky-300 via-sky-blue to-sky-400">
                   One subscription,
                 </span>
-                <span className="ml-5 text-transparent bg-clip-text bg-gradient-to-r from-sky-blue to-[#091549]">
+                <span className="ml-5 text-transparent bg-clip-text bg-gradient-to-r from-sky-300 via-sky-blue to-sky-400">
                   Zero bottlenecks.
                 </span>
               </span>
             </motion.h1>
 
             <motion.p
-              style={{ opacity: pOpacity, y: pY }}
-              className="text-center text-base md:text-xl max-w-2xl mx-auto transition-colors duration-500 text-navy-blue opacity-70"
+              style={{ opacity: pOpacity, y: pY, color: textColor }}
+              className="text-center text-base md:text-xl max-w-2xl mx-auto opacity-70"
             >
               From short-form to brand films, we turn simple footage into performance-driven cinematic content.
             </motion.p>
@@ -174,7 +167,7 @@ const Hero: React.FC = () => {
               style={{
                 width: videoWidth,
                 scale: videoScale,
-                borderRadius,
+                borderRadius: borderRadius,
                 x: videoX,
               }}
               className="relative aspect-video bg-navy-blue/10 overflow-hidden shadow-xl border border-navy-blue/5 origin-bottom-left"

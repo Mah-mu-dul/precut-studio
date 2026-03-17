@@ -6,8 +6,9 @@ import * as THREE from 'three';
 import logoUrl from '../../assets/image.png';
 
 // ── CONSTANTS ──────────────────────────────────────────────────────────────
-const ROTATE_END = 0.25;
-const ZOOM_ENTRY_END = 0.45;
+const PHASE1_END = 0.15; // Rotated to front-facing
+const PHASE2_END = 0.30; // Small to large
+const ZOOM_ENTRY_END = 0.45; // Deep zoom
 
 function Model(props: any) {
   const { scene } = useGLTF('/monitor/scene.gltf');
@@ -17,15 +18,33 @@ function Model(props: any) {
 function ScreenLogo() {
   const texture = useTexture(logoUrl);
   return (
-    <mesh position={[0, 0, 0.05]} scale={[0.8, 0.45, 1]}>
-      <planeGeometry args={[1, 1]} />
-      <meshBasicMaterial
-        map={texture}
-        transparent={true}
-        side={THREE.DoubleSide}
-        depthWrite={false}
-      />
-    </mesh>
+    <group position={[0, 0, 0.051]}>
+      {/* The Black Screen Content */}
+      <mesh scale={[0.8, 0.44, 1]}>
+        <planeGeometry args={[1, 1]} />
+        <meshStandardMaterial
+          map={texture}
+          transparent={true}
+          emissive="#ffffff"
+          emissiveIntensity={0.05}
+          roughness={0.15}
+          metalness={0.4}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+
+      {/* Glass Overlay for Realism/Reflection */}
+      <mesh scale={[0.8, 0.44, 1]} position={[0, 0, 0.005]}>
+        <planeGeometry args={[1, 1]} />
+        <meshStandardMaterial
+          color="#000000"
+          transparent={true}
+          opacity={0.15}
+          roughness={0.05}
+          metalness={0.9}
+        />
+      </mesh>
+    </group>
   );
 }
 
@@ -42,59 +61,66 @@ const SceneContent = ({ scrollProgress }: SceneContentProps) => {
   useFrame((state) => {
     const sp = scrollProgress.get();
 
-    // PHASE 1: ROTATION (0 to 0.25)
-    const pRotate = Math.min(sp / ROTATE_END, 1);
+    // Progress 0->1 for each phase
+    const p1 = Math.min(Math.max(sp / PHASE1_END, 0), 1);
+    const p2 = Math.min(Math.max((sp - PHASE1_END) / (PHASE2_END - PHASE1_END), 0), 1);
+    const p3 = Math.min(Math.max((sp - PHASE2_END) / (ZOOM_ENTRY_END - PHASE2_END), 0), 1);
 
-    // PHASE 1-2: Model Transform
     if (modelRef.current) {
-      const s = 12.0 + 3.0 * pRotate;
+      const s = 12.0;
       modelRef.current.scale.set(s, s, s);
-      
-      // Transitions from very low (Image 1) to centered (Image 2) - Shifted up slightly
-      let yPos = -3.8 * (1 - pRotate) + (-1.0 * pRotate);
-      
-      if (sp > ROTATE_END) {
-        const pZoom = Math.min((sp - ROTATE_END) / (ZOOM_ENTRY_END - ROTATE_END), 1);
-        yPos += 0.1 * pZoom; 
-      }
-      
-      modelRef.current.position.y = yPos;
+      modelRef.current.position.y = -1.0; 
     }
 
-    // PHASE 1: Camera Transition (Bottom Left POV to Centered Frontal)
-    const camX = -6.0 * (1 - pRotate) + 0 * pRotate;
-    const camY = -5.0 * (1 - pRotate) + (-1.0 * pRotate);
-    const camZ = 10.0 * (1 - pRotate) + 6.5 * pRotate;
-    
-    state.camera.position.set(camX, camY, camZ);
+    // Step 1: Rotate to front
+    const startRadius = 9.5; // zoomed out more so the monitor is smaller initially
+    const endRadius = 8.5;
+    const currentRadius = startRadius * (1 - p1) + endRadius * p1;
 
-    // Dynamic lookAt target: Lifted to keep monitor centered and visible
-    const targetYStart = -0.5; 
-    const targetYEnd = -1.0;
-    const currentTargetY = targetYStart * (1 - pRotate) + targetYEnd * pRotate;
+    const startAngle = -Math.PI / 8; // less tilted (was -Math.PI / 4)
+    const currentAngle = startAngle * (1 - p1);
 
-    // PHASE 2: DEEP ZOOM (0.25 to 0.45)
-    if (sp > ROTATE_END) {
-      const pZoom = Math.min((sp - ROTATE_END) / (ZOOM_ENTRY_END - ROTATE_END), 1);
+    const camX = Math.sin(currentAngle) * currentRadius;
+    let baseZ = Math.cos(currentAngle) * currentRadius;
 
-      const startZ = 6.5; 
-      const endZ = 3.3; 
+    const startCamY = -2.5; // adjust bottom pov for new zoom
+    const endCamY = -1.0;
+    let camY = startCamY * (1 - p1) + endCamY * p1;
 
-      state.camera.position.z = startZ - (startZ - endZ) * pZoom;
-      state.camera.position.x = 0;
-      state.camera.position.y = -1.0; 
+    const startTargetY = 0.2; // look slightly higher to cut the stand
+    const endTargetY = -1.0;
+    let targetY = startTargetY * (1 - p1) + endTargetY * p1;
 
-      const cam = state.camera as THREE.PerspectiveCamera;
-      cam.fov = 45 - 15 * pZoom; 
-      cam.updateProjectionMatrix();
-      
-      state.camera.lookAt(0, -1.0, 0);
+    // Step 2 & 3: Zoom / Scale up
+    let camZ = baseZ;
+    const zPhase2End = 5.0; // "Large front face monitor"
+    const zPhase3End = 3.3; // Deep zoom
+
+    if (p2 > 0) {
+      camZ = baseZ - (baseZ - zPhase2End) * p2;
+      // move the monitor down during Phase 2
+      camY = endCamY + 0.5 * p2; // camera moves up to push monitor down
+      targetY = endTargetY + 0.5 * p2;
+    }
+    if (p3 > 0) {
+      camZ = zPhase2End - (zPhase2End - zPhase3End) * p3;
+    }
+
+    // FOV logic for deep zoom
+    if (p3 > 0) {
+       const cam = state.camera as THREE.PerspectiveCamera;
+       cam.fov = 45 - 15 * p3;
+       cam.updateProjectionMatrix();
+       camY = -1.0 - 0.5 * p3; // Shift Y down to focus on screen center
+       targetY = -1.0 - 0.5 * p3;
     } else {
-      const cam = state.camera as THREE.PerspectiveCamera;
-      cam.fov = 45;
-      cam.updateProjectionMatrix();
-      state.camera.lookAt(0, currentTargetY, 0);
+       const cam = state.camera as THREE.PerspectiveCamera;
+       cam.fov = 45;
+       cam.updateProjectionMatrix();
     }
+
+    state.camera.position.set(camX, camY, camZ);
+    state.camera.lookAt(0, targetY, 0);
   });
 
   return (
