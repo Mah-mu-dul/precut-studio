@@ -17,8 +17,14 @@ import t3 from '../assets/testimonials/Testimonial 3.png';
 import t4 from '../assets/testimonials/Testimonial 4.png';
 import t5 from '../assets/testimonials/Testimonial 5.png';
 
-const videoFiles = import.meta.glob('../assets/portfolio-videos/*.mp4', { eager: true, import: 'default' }) as Record<string, string>;
-const videos = Object.values(videoFiles);
+const videos = [
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%201.mp4",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%202.mp4",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%203.mp4",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%204.mp4",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%205.mp4",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%209.mp4"
+];
 const logos = [Daraz, Oraimo, RealtorCA, RightAway, ShahCement, Shubham, VIPUS, VermaAccounting];
 const testimonialImages = [t1, t2, t3, t4, t5];
 
@@ -229,13 +235,13 @@ const About: React.FC = () => {
                 <span className="inline-block text-xs font-mono font-bold uppercase tracking-[0.25em] text-sky-blue border border-sky-blue/30 rounded-full px-4 py-1.5 mb-6">About Us</span>
               </Reveal>
               <Reveal delay={100}>
-                <h1 className={`text-5xl md:text-6xl lg:text-7xl font-mono font-bold leading-[1.05] mb-6 transition-colors duration-1000 ${H}`}>
+                <h1 className={`text-5xl md:text-6xl lg:text-7xl font-mono font-bold leading-[1.05] mb-6 transition-colors duration-500 ${H}`}>
                   Turning Ideas<br />
                   <span className={`text-transparent bg-clip-text bg-gradient-to-r ${G}`}>Into Visual</span>
                 </h1>
               </Reveal>
               <Reveal delay={220}>
-                <p className={`font-sans text-lg leading-relaxed max-w-md mb-8 transition-colors duration-1000 ${B}`}>
+                <p className={`font-sans text-lg leading-relaxed max-w-md mb-8 transition-colors duration-500 ${B}`}>
                   At Precut Studio, we combine creative direction with sharp editing to produce scroll-stopping videos and graphics that match your brand and drive results across every platform.
                 </p>
               </Reveal>
@@ -268,7 +274,7 @@ const About: React.FC = () => {
       </section>
 
       {/* ══ 2. TRUSTED BY ════════════════════════════════ */}
-      <section id="sec-trusted" className={`py-12 border-y transition-colors duration-1000 ${BR} overflow-hidden`}>
+      <section id="sec-trusted" className={`py-12 border-y transition-colors duration-500 ${BR} overflow-hidden`}>
         <div className="max-w-7xl mx-auto px-6 md:px-12 mb-8">
           <Reveal>
             <h2 className={`text-3xl md:text-4xl font-mono font-bold transition-colors duration-1000 ${H}`}>

@@ -12,25 +12,33 @@ import CTA from './components/sections/CTA';
 import About from './pages/About';
 
 function HomePage() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
       let dark = false;
+      const currentScrollY = window.scrollY;
       const howItWorks = document.getElementById('how-it-works');
       const pricing = document.getElementById('pricing-section');
 
-      if (howItWorks) {
+      // 1. Initial Hero Monitor Phase (Dark Background)
+      // Hero is 400vh, scrollable range is 300vh. Phase ends at 0.45 progress.
+      // 0.45 * 300vh = 135vh.
+      if (currentScrollY < window.innerHeight * 1.35) {
+        dark = true;
+      } 
+      // 2. How It Works Section (Dark Background)
+      else if (howItWorks) {
         const rect = howItWorks.getBoundingClientRect();
         if (rect.top <= window.innerHeight * 0.35) {
           dark = true;
         }
       }
 
+      // 3. Pricing Section (Back to Light Background)
       if (pricing) {
         const rect = pricing.getBoundingClientRect();
         if (rect.top <= 0) {
-          // Revert to light mode when the Subscription Model section reaches the top
           dark = false;
         }
       }

@@ -1,5 +1,6 @@
 import React from 'react';
 import privacyPolicy from '../../assets/pdfs/Privacy Policy.pdf';
+import termsOfService from '../../assets/pdfs/Terms of Services.pdf';
 
 const Footer: React.FC = () => {
   return (
@@ -14,6 +15,16 @@ const Footer: React.FC = () => {
             <p className="text-white/50 text-sm max-w-sm">
               Unlimited video editing. One subscription. Zero bottlenecks. We turn simple footage into performance-driven cinematic content.
             </p>
+
+            <br />
+            <h4 className="text-white mb-2 font-medium uppercase tracking-wider text-sm">Contact</h4>
+            <a href="mailto: info@precutstudio.com" className="hover:text-sky-blue text-white/50 text-sm max-w-sm">
+              info@precutstudio.com
+            </a>
+            <br />
+            <a href="mailto: ahmedrohan591@gmail.com" className="hover:text-sky-blue text-white/50 text-sm max-w-sm">
+             ahmedrohan591@gmail.com
+            </a>
           </div>
 
           <div className="col-span-1">
@@ -31,7 +42,7 @@ const Footer: React.FC = () => {
               <li><a href="#about" className="hover:text-sky-blue transition-colors">About Us</a></li>
               <li><a href={privacyPolicy} download="Privacy Policy.pdf" className="hover:text-sky-blue transition-colors">Privacy Policy</a></li>
 
-              <li><a href="#terms" className="hover:text-sky-blue transition-colors">Terms & Conditions</a></li>
+              <li><a href={termsOfService} download="Terms of Service.pdf" className="hover:text-sky-blue transition-colors">Terms & Conditions</a></li>
               <li><a href="#affiliate" className="hover:text-sky-blue transition-colors">Affiliate Program</a></li>
             </ul>
           </div>

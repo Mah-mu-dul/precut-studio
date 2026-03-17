@@ -13,9 +13,7 @@ const Testimonials: React.FC = () => {
       const section = document.getElementById('testimonials');
       if (section) {
         const top = section.getBoundingClientRect().top;
-        if (top < window.innerHeight * 0.75) {
-          setIsVisible(true);
-        }
+        setIsVisible(top < window.innerHeight * 0.75);
       }
     };
 

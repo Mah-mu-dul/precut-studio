@@ -1,94 +1,200 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import heroVideo from '../../assets/portfolio-videos/Video 1.mp4';
+import React, { useRef, useEffect, useState } from 'react';
+import { motion, useScroll, useTransform, useSpring, useMotionValueEvent } from 'framer-motion';
+const heroVideo = "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%201.mp4";
+import Monitor3D from '../ui/Monitor3D';
+// Removed TextAnimate as it's no longer used
+// COORDINATED THRESHOLDS (Must sync with Monitor3D.tsx logic)
 
 const Hero: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  
+  const videoRef = useRef<HTMLVideoElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end end"]
+    offset: ['start start', 'end end'],
   });
 
-  // Smooth out the scroll progress
   const smoothYProgress = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
-    restDelta: 0.001
+    restDelta: 0.001,
   });
 
-  // Transform values for text scrolling UP
-  const textY = useTransform(smoothYProgress, [0, 0.4], [0, -300]);
-  const textOpacity = useTransform(smoothYProgress, [0, 0.3], [1, 0]);
 
-  // Transform values for the video growth and movement
-  // Starts small at the left and lower, moves to center and full width
-  const width = useTransform(smoothYProgress, [0, 0.8], ["40%", "100%"]);
-  const scale = useTransform(smoothYProgress, [0, 0.8], [0.85, 1]);
-  const borderRadius = useTransform(smoothYProgress, [0, 0.8], ["40px", "0px"]);
-  
-  // X: move from far left to center
-  const videoX = useTransform(smoothYProgress, [0, 0.8], ["-50%", "0%"]);
-  // Y: move from lower position up to center
-  const videoY = useTransform(smoothYProgress, [0, 0.8], ["60%", "0%"]);
+  // ─── VIDEO PLAYBACK ──────────────────────────────────────────
+
+  useMotionValueEvent(smoothYProgress, 'change', (latest) => {
+    if (!videoRef.current) return;
+
+    // Video play/pause
+    if (latest > 0.65) {
+      videoRef.current.play().catch(() => { });
+    } else {
+      videoRef.current.pause();
+    }
+
+  });
+
+  // ─── ANIMATION STAGES ───────────────────────────────────────────────────────
+  // 1. Rotate & Enter (0.00 -> 0.45): Monitor does its thing.
+  // 2. Content Rise   (0.45 -> 0.65): Text + Video slide into view.
+  // 3. Video Zoom     (0.65 -> 0.85): Video expands.
+  // 4. Final Scroll   (0.85 -> 1.00): Rest of the page follows.
+
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const lockOffset = isMobile ? -520 : -820;
+  const endOffset = lockOffset - 250;
+
+  // Monitor visibility: fades out as we "enter" the screen
+  const monitorOpacity = useTransform(smoothYProgress, [0.35, 0.45], [1, 0]);
+  const monitorScale = useTransform(smoothYProgress, [0.35, 0.45], [1, 1.5]);
+
+  // Content visibility: fades in earlier while monitor is zooming (0.25 to 0.45)
+  // so it is visible through the screen
+  const contentOpacity = useTransform(smoothYProgress, [0.25, 0.40], [0, 1]);
+
+  // Monitor background: Fades out before content appears entirely
+  const monitorBgOpacity = useTransform(smoothYProgress, [0.15, 0.30], [1, 0]);
+
+  const scrollYOffset = useTransform(
+    smoothYProgress,
+    [0, 0.45, 0.65, 0.85, 1],
+    [0, 0, lockOffset, lockOffset, endOffset]
+  );
+
+  const videoWidth = useTransform(smoothYProgress, [0.65, 0.85], ['40%', '100%']);
+  const videoScale = useTransform(smoothYProgress, [0.65, 0.85], [0.85, 1]);
+  const borderRadius = useTransform(smoothYProgress, [0.65, 0.85], ['40px', '32px']);
+  const videoX = useTransform(smoothYProgress, [0.65, 0.85], ['-50%', '0%']);
+  const plusOpacity = useTransform(smoothYProgress, [0.85, 0.95], [0, 1]);
+
+  // Main Heading & Paragraph Stagger
+  const h1Opacity = useTransform(smoothYProgress, [0.26, 0.32], [0, 1]);
+  const h1Y = useTransform(smoothYProgress, [0.26, 0.32], [20, 0]);
+  const pOpacity = useTransform(smoothYProgress, [0.28, 0.34], [0, 1]);
+  const pY = useTransform(smoothYProgress, [0.28, 0.34], [20, 0]);
 
   return (
-    <section ref={containerRef} className="relative h-[250vh] transition-colors duration-1000" id="home">
-      {/* Sticky Hero Backdrop/Container */}
+    <section ref={containerRef} className="relative h-[400vh] transition-colors duration-1000" id="home">
       <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
-        
-        {/* Text Content - Absolute so it can be transformed independently */}
-        <motion.div 
-          style={{ y: textY, opacity: textOpacity }}
-          className="absolute top-32 flex flex-col items-center text-center w-full px-6 z-20 mx-auto pointer-events-none"
+        {/* Dark Background Gradient - Visible only during monitor phase */}
+        <motion.div
+          style={{ opacity: monitorBgOpacity }}
+          className="absolute inset-0 bg-gradient-to-b from-black via-[#050b24] to-[#091549] z-0"
+        />
+
+        {/* Background Large Text */}
+        <motion.div
+          style={{
+            // Fades out completely by the time the monitor is front-facing
+            opacity: useTransform(smoothYProgress, [0, 0.25], [0.4, 0]),
+            y: useTransform(smoothYProgress, [0, 0.25], [0, -50]),
+            scale: useTransform(smoothYProgress, [0, 0.25], [1, 1.1])
+          }}
+          className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10 select-none overflow-hidden md:overflow-visible"
         >
-          <h1 className="text-center font-mono font-bold tracking-tight mb-6 leading-tight transition-colors duration-500 text-navy-blue flex flex-col items-center">
-            <span className="text-3xl md:text-5xl">Unlimited video editing</span>
-            <span className="text-3xl md:text-[3.25rem] mt-2 block w-full">
-              <span className="font-sans font-medium text-transparent bg-clip-text bg-gradient-to-r from-sky-blue to-[#091549]">
-                One subscription,
-              </span>
-              <span className="ml-5 text-transparent bg-clip-text bg-gradient-to-r from-sky-blue to-[#091549]">
-                Zero bottlenecks.
-              </span>
+          <div className="flex flex-col items-center justify-center font-black italic tracking-tighter leading-[0.8] text-center w-full">
+            <span
+              className="text-[18vw] md:text-[22vw] text-transparent bg-clip-text bg-gradient-to-b from-[#f3f4f6] via-[#9ca3af] to-[#4b5563]"
+              style={{ WebkitTextStroke: '1px rgba(255,255,255,0.05)' }}
+            >
+              PRECUT
             </span>
-          </h1>
-          <p className="text-center text-base md:text-xl max-w-2xl mx-auto transition-colors duration-500 text-navy-blue opacity-70">
-            From short-form to brand films, we turn simple footage into performance-driven cinematic content.
-          </p>
+            <span
+              className="text-[18vw] md:text-[22vw] text-transparent bg-clip-text bg-gradient-to-b from-[#f3f4f6] via-[#9ca3af] to-[#4b5563] -mt-[4vw]"
+              style={{ WebkitTextStroke: '1px rgba(255,255,255,0.05)' }}
+            >
+              STUDIO
+            </span>
+          </div>
         </motion.div>
 
-        {/* Animated Video Placeholder - Centered Grid Container */}
-        <div className="w-full max-w-7xl px-6 md:px-12 flex justify-center items-center z-10 w-full mb-52 pt-20">
-          <motion.div
-            style={{
-              width,
-              scale,
-              borderRadius,
-              x: videoX,
-              y: videoY,
-            }}
-            className="relative aspect-video bg-navy-blue/10 overflow-hidden shadow-xl border border-navy-blue/5 origin-bottom-left"
-          >
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="absolute inset-0 w-full h-full object-cover"
+        {/* 3D Monitor Container */}
+        <motion.div
+          style={{
+            y: scrollYOffset,
+            opacity: monitorOpacity,
+            scale: monitorScale
+          }}
+          className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-30"
+        >
+          <div className="w-full h-screen">
+            <Monitor3D scrollProgress={smoothYProgress} />
+          </div>
+        </motion.div>
+
+        {/* Main Content (Text + Video) */}
+        <motion.div
+          style={{
+            y: scrollYOffset,
+            opacity: contentOpacity
+          }}
+          className="absolute top-1/2 -translate-y-1/2 flex flex-col items-center text-center w-full px-6 z-20 mx-auto pointer-events-none"
+        >
+          {/* Hero Text */}
+          <div className="flex flex-col items-center">
+
+            <motion.h1
+              style={{ opacity: h1Opacity, y: h1Y }}
+              className="text-center font-mono font-bold tracking-tight mb-6 leading-tight transition-colors duration-500 text-navy-blue flex flex-col items-center"
             >
-              <source src={heroVideo} type="video/mp4" />
-            </video>
-            
-            {/* Visual Polish: Glass Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
-          </motion.div>
-        </div>
+              <span className="text-3xl md:text-5xl">Unlimited video editing</span>
+              <span className="text-3xl md:text-[3.25rem] mt-2 block w-full">
+                <span className="font-sans font-medium text-transparent bg-clip-text bg-gradient-to-r from-sky-blue to-[#091549]">
+                  One subscription,
+                </span>
+                <span className="ml-5 text-transparent bg-clip-text bg-gradient-to-r from-sky-blue to-[#091549]">
+                  Zero bottlenecks.
+                </span>
+              </span>
+            </motion.h1>
+
+            <motion.p
+              style={{ opacity: pOpacity, y: pY }}
+              className="text-center text-base md:text-xl max-w-2xl mx-auto transition-colors duration-500 text-navy-blue opacity-70"
+            >
+              From short-form to brand films, we turn simple footage into performance-driven cinematic content.
+            </motion.p>
+          </div>
+
+          {/* Video Container */}
+          <div className="w-full max-w-7xl px-6 md:px-12 flex justify-center items-center z-10 mt-2 md:mt-4 relative pointer-events-auto">
+            <motion.div style={{ opacity: plusOpacity }} className="absolute -top-8 left-0 text-navy-blue/20 font-bold text-xl">+</motion.div>
+            <motion.div style={{ opacity: plusOpacity }} className="absolute -top-8 right-0 text-navy-blue/20 font-bold text-xl">+</motion.div>
+            <motion.div style={{ opacity: plusOpacity }} className="absolute -bottom-8 left-0 text-navy-blue/20 font-bold text-xl">+</motion.div>
+            <motion.div style={{ opacity: plusOpacity }} className="absolute -bottom-8 right-0 text-navy-blue/20 font-bold text-xl">+</motion.div>
+
+            <motion.div
+              style={{
+                width: videoWidth,
+                scale: videoScale,
+                borderRadius,
+                x: videoX,
+              }}
+              className="relative aspect-video bg-navy-blue/10 overflow-hidden shadow-xl border border-navy-blue/5 origin-bottom-left"
+            >
+              <video
+                ref={videoRef}
+                loop
+                muted
+                playsInline
+                className="absolute inset-0 w-full h-full object-cover"
+              >
+                <source src={heroVideo} type="video/mp4" />
+              </video>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+            </motion.div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
 };
-
-
 
 export default Hero;

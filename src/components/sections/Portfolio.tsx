@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 
-// Dynamically import all mp4 files from the portfolio-videos folder
-const videoFiles = import.meta.glob('../../assets/portfolio-videos/*.mp4', {
-  eager: true,
-  import: 'default',
-}) as Record<string, string>;
-
-const videos = Object.values(videoFiles);
+const videos = [
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%201.mp4",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%202.mp4",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%203.mp4",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%204.mp4",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%205.mp4",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%209.mp4"
+];
 
 const VideoItem = ({ src }: { src: string }) => {
   const [isLoaded, setIsLoaded] = useState(false);
