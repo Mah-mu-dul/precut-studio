@@ -68,10 +68,10 @@ const CTA: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => {
 
           {/* Left Text */}
           <div>
-            <div id='why-us' className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-sky-600 uppercase tracking-widest text-lg font-bold mb-6">Why Us?</div>
+            <div id='why-us' className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-[#091549] uppercase tracking-widest text-lg font-bold mb-6">Why Us?</div>
             <h2 className={`text-3xl md:text-6xl font-mono font-bold mb-8 leading-tight transition-colors duration-1000 ${isDarkMode ? 'text-white' : 'text-navy-blue'}`}>
               Let’s Make  <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-sky-600"> Magic Together.</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-[#091549]"> Magic Together.</span>
             </h2>
             <p className={`text-lg md:text-xl mb-6 transition-colors duration-1000 ${isDarkMode ? 'text-white/80' : 'text-navy-blue/80'}`}>
               No contracts. No delays. Just consistent, high-performance content — delivered when you need it.

@@ -170,7 +170,7 @@ const Pricing: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => 
             <div className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-sky-600 tracking-widest uppercase text-sm md:text-base font-bold mb-2">Subscription Model</div>
             <h2 className={`text-3xl md:text-5xl font-mono font-bold mb-3 transition-colors duration-1000 ${isDarkMode ? 'text-white' : 'text-navy-blue'}`}>
               One Scalable Subscription.<br />
-              <span className="font-sans font-bold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-sky-600">Built for Brands That Move Fast.</span>
+              <span className="font-sans font-bold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-sky-700">Built for Brands That Move Fast.</span>
             </h2>
             <p className={`text-base transition-colors duration-1000 ${isDarkMode ? 'text-white/60' : 'text-navy-blue/70'}`}>Unlimited video editing. Flexible plans. Built to scale with you.</p>
           </div>
@@ -180,13 +180,17 @@ const Pricing: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => 
               <div
                 key={tier.name}
                 ref={(el) => { if (el) cardsRef.current[idx] = el; }}
-                style={{ willChange: 'transform, opacity' }}
+                style={{ 
+                  willChange: 'transform, opacity',
+                  backfaceVisibility: 'hidden',
+                  WebkitBackfaceVisibility: 'hidden'
+                }}
                 className={`w-full max-w-sm mx-auto ${!isDesktop ? "relative !opacity-100 !transform-none" : "absolute inset-0 md:relative"}`}
               // Note: We use !important in tailwind equivalent classes to override the inline styles set by JS if `isDesktop` is false
               >
-                <div className={`h-full relative rounded-[2rem] transition-all duration-300 hover:scale-105 ${tier.highlighted
+                <div className={`h-full relative rounded-[2rem] transition-all duration-500 hover:scale-105 transform-gpu ${tier.highlighted
                   ? 'bg-[#0d2060] text-white shadow-2xl shadow-sky-500/20'
-                  : `glass-panel transition-colors duration-1000 ${isDarkMode ? 'text-white hover:bg-white/10' : 'text-navy-blue hover:bg-white border-navy-blue/10'} shadow-[0_8px_32px_rgba(9,21,73,0.18)]`
+                  : `glass-panel ${isDarkMode ? 'text-white hover:bg-white/10' : 'text-navy-blue hover:bg-white border-navy-blue/10'} shadow-[0_8px_32px_rgba(9,21,73,0.18)]`
                   }`}>
 
                   {tier.highlighted && (
@@ -205,7 +209,7 @@ const Pricing: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => 
                       <span className="text-4xl md:text-5xl font-mono font-bold tracking-tight">{tier.price}</span>
                       <span className={`ml-2 pb-1 text-xs md:text-sm font-sans transition-colors duration-1000 ${tier.highlighted ? 'text-white/60' : (isDarkMode ? 'text-white/60' : 'text-navy-blue/60')}`}>USD/mo</span>
                     </div>
-                    <p className={`text-sm mb-4 min-h-[40px] font-sans transition-colors duration-1000 ${tier.highlighted ? 'text-white/80' : (isDarkMode ? 'text-white/80' : 'text-navy-blue/80')}`}>{tier.desc}</p>
+                    <p className={`text-sm mb-4 min-h-[40px] font-sans transition-colors duration-1000 ${tier.highlighted ? 'text-white/90' : (isDarkMode ? 'text-white/90' : 'text-navy-blue')}`}>{tier.desc}</p>
 
                     <a
                       href={tier.link}
@@ -216,12 +220,12 @@ const Pricing: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => 
                       Get Started
                     </a>
 
-                    <div className={`text-xs tracking-wider uppercase font-semibold mb-2 font-sans transition-colors duration-1000 ${tier.highlighted ? 'text-white/60' : (isDarkMode ? 'text-white/60' : 'text-navy-blue/60')}`}>Includes:</div>
+                    <div className={`text-xs tracking-wider uppercase font-semibold mb-2 font-sans transition-colors duration-1000 ${tier.highlighted ? 'text-white/70' : (isDarkMode ? 'text-white/70' : 'text-navy-blue')}`}>Includes:</div>
                     <ul className="space-y-2.5">
                       {tier.features.map(feature => (
                         <li key={feature} className="flex items-start leading-tight">
                           <svg className={`w-4 h-4 mr-2 shrink-0 ${tier.highlighted ? 'text-sky-blue' : 'text-sky-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
-                          <span className={`text-sm font-sans transition-colors duration-1000 ${tier.highlighted ? 'text-white/90' : (isDarkMode ? 'text-white/90' : 'text-navy-blue/90')}`}>{feature}</span>
+                          <span className={`text-sm font-sans transition-colors duration-1000 ${tier.highlighted ? 'text-white' : (isDarkMode ? 'text-white' : 'text-navy-blue')}`}>{feature}</span>
                         </li>
                       ))}
                     </ul>

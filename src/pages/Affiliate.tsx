@@ -57,13 +57,13 @@ const Affiliate: React.FC = () => {
     {
       number: '04',
       title: 'Earn recurring savings',
-      desc: 'Your 5% discount activates automatically on your next billing cycle.'
+      desc: 'Your 10% discount activates automatically on your next billing cycle.'
     }
   ];
 
   const benefits = [
     {
-      title: '5% Recurring Discount',
+      title: '10% Recurring Discount',
       desc: 'Save every month as long as your referred client stays subscribed to Precut Studio.'
     },
     {
@@ -108,7 +108,7 @@ const Affiliate: React.FC = () => {
             </Reveal>
             <Reveal delay={300}>
               <p className={`max-w-2xl mx-auto text-lg md:text-xl leading-relaxed mb-12 transition-colors duration-500 ${B}`}>
-                Love the workflow? Invite another creator or brand. Once they join, you get 5% off your plan every month. No complicated rules. Just recurring savings.
+                Love the workflow? Invite another creator or brand. Once they join, you get 10% off your plan every month. No complicated rules. Just recurring savings.
               </p>
             </Reveal>
             <Reveal delay={400}>

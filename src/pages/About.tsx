@@ -117,11 +117,11 @@ const ALL_SECTION_IDS = [
   'sec-stats',
   'sec-faq', 'sec-cta',
 ];
-const DARK_SET = new Set(['sec-mission','sec-videos','sec-creative','sec-testimonials','sec-story']);
+const DARK_SET = new Set(['sec-hero', 'sec-mission','sec-videos','sec-creative','sec-testimonials','sec-story']);
 
 /* ═══════ MAIN COMPONENT ═══════ */
 const About: React.FC = () => {
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(true);
   const [statsStarted, setStatsStarted] = useState(false);
   const [missionStarted, setMissionStarted] = useState(false);
   const statsRef = useRef<HTMLElement>(null);
@@ -184,24 +184,25 @@ const About: React.FC = () => {
   const B  = isDark ? 'text-off-white/65' : 'text-navy-blue/65';
   const M  = isDark ? 'text-off-white/40' : 'text-navy-blue/40';
   const BR = isDark ? 'border-white/10' : 'border-navy-blue/10';
-  const G  = isDark ? 'from-sky-blue to-[#5bb8d4]' : 'from-sky-blue to-[#091549]';
+  const G  = 'from-sky-300 via-sky-blue to-sky-700';
 
   return (
     <div className={`min-h-screen w-full overflow-x-hidden font-sans transition-colors duration-1000 ease-in-out ${isDark ? 'bg-navy-blue' : 'bg-off-white'}`}>
       <Navbar isDarkMode={isDark} />
 
       {/* ══ 1. HERO ══════════════════════════════════════ */}
-      <section id="sec-hero" className="relative pt-36 pb-20 md:pt-44 md:pb-28 overflow-hidden">
-        <div className="absolute -top-32 -left-32 w-[500px] h-[500px] bg-sky-blue/15 rounded-full blur-[120px] pointer-events-none animate-pulse" />
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
+      <section id="sec-hero" className="relative pt-36 pb-20 md:pt-44 md:pb-28 overflow-hidden bg-navy-blue">
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-[#050b24] to-[#091549] z-0" />
+        <div className="absolute -top-32 -left-32 w-[500px] h-[500px] bg-sky-blue/15 rounded-full blur-[120px] pointer-events-none animate-pulse z-10" />
+        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-20">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <Reveal delay={0}>
                 <span className="inline-block text-xs font-mono font-bold uppercase tracking-[0.25em] text-sky-blue border border-sky-blue/30 rounded-full px-4 py-1.5 mb-6">About Us</span>
               </Reveal>
               <Reveal delay={100}>
-                <h1 className={`text-5xl md:text-6xl lg:text-7xl font-mono font-bold leading-[1.05] mb-6 transition-colors duration-500 ${H}`}>
-                  Turning Ideas<br />
+                <h1 className="text-5xl md:text-6xl lg:text-7xl font-mono symbols font-bold leading-[1.05] mb-6">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-b from-[#f3f4f6] via-[#9ca3af] to-[#4b5563]">Turning Ideas</span><br />
                   <span className={`text-transparent bg-clip-text bg-gradient-to-r ${G}`}>Into Visual</span>
                 </h1>
               </Reveal>
@@ -222,7 +223,7 @@ const About: React.FC = () => {
                 <div className="relative h-[420px] md:h-[500px] rounded-3xl overflow-hidden bg-navy-blue shadow-2xl hover:shadow-[0_0_50px_rgba(135,206,235,0.3)] transition-all duration-700 group">
                   <img src="https://i.ibb.co.com/DDLx0Kcb/Moon.jpg" alt="Moon" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-t from-navy-blue/80 via-transparent to-transparent opacity-60" />
-                  <div className="absolute bottom-6 left-6 right-6 bg-white/10 backdrop-blur-md rounded-2xl px-5 py-4 border border-white/10">
+                  <div className="absolute bottom-6 left-6 right-6 bg-white/10 rounded-2xl px-5 py-4 border border-white/10">
                     <p className="text-white font-mono font-bold text-sm">Premium Creative Studio</p>
                     <p className="text-white/50 font-sans text-xs mt-0.5">Video · Motion · Brand</p>
                   </div>
@@ -290,9 +291,9 @@ const About: React.FC = () => {
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <Reveal className="text-center mb-12">
             <span className="inline-block text-xs font-mono font-bold uppercase tracking-[0.25em] text-sky-blue/70 mb-4">Our Drive</span>
-            <h2 className={`text-4xl md:text-5xl lg:text-6xl font-mono font-bold leading-tight max-w-3xl mx-auto transition-colors duration-500 ${H}`}>
+            <h2 className={`text-3xl md:text-4xl lg:text-5xl font-mono font-bold leading-tight max-w-3xl mx-auto transition-colors duration-500 ${H}`}>
               On A Mission to Shape The{' '}
-              <span className={`text-transparent bg-clip-text bg-gradient-to-r ${isDark ? 'from-sky-blue to-[#5bb8d4]' : G}`}>Future Of Content</span>
+              <span className={`text-transparent bg-clip-text bg-gradient-to-r ${G}`}>Future Of Content</span>
             </h2>
           </Reveal>
           <div ref={missionRef} className="flex items-center justify-center gap-2 md:gap-3 mb-6 flex-wrap">
@@ -300,7 +301,7 @@ const About: React.FC = () => {
               d === ',' ? (
                 <span key={i} className="text-5xl md:text-7xl font-mono font-bold text-sky-blue self-end pb-1">,</span>
               ) : (
-                <div key={i} className={`w-14 h-20 md:w-20 md:h-28 border border-sky-blue/30 rounded-xl flex items-center justify-center ${isDark ? 'bg-white/5' : 'bg-navy-blue/5'} backdrop-blur-sm transition-all duration-300 hover:border-sky-blue/60 hover:bg-white/10`}>
+                <div key={i} className={`w-14 h-20 md:w-20 md:h-28 border border-sky-blue/30 rounded-xl flex items-center justify-center ${isDark ? 'bg-white/5' : 'bg-navy-blue/5'} transition-all duration-300 hover:border-sky-blue/60 hover:bg-white/10`}>
                   <span className={`text-4xl md:text-6xl font-mono font-bold transition-colors duration-500 ${H}`}>{d}</span>
                 </div>
               )
@@ -398,7 +399,7 @@ const About: React.FC = () => {
                   <div className="absolute top-6 right-6 w-12 h-12 border-t-2 border-r-2 border-sky-blue/40 rounded-tr-lg" />
                   <div className="absolute bottom-6 left-6 w-12 h-12 border-b-2 border-l-2 border-sky-blue/40 rounded-bl-lg" />
                 </div>
-                <div className="absolute -bottom-5 -left-5 bg-white/10 border border-white/20 backdrop-blur-md rounded-2xl shadow-xl px-5 py-4">
+                <div className="absolute -bottom-5 -left-5 bg-white/10 border border-white/20 rounded-2xl shadow-xl px-5 py-4">
                   <p className="text-off-white font-mono font-bold text-sm">Est. 2023</p>
                   <p className="text-off-white/50 font-sans text-xs">Built for Creators &amp; Brands</p>
                 </div>

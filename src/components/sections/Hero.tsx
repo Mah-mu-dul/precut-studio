@@ -139,10 +139,9 @@ const Hero: React.FC = () => {
                 ))}
               </span>
               <span className="text-3xl md:text-[3.25rem] mt-2 block w-full px-4">
-                <span className="font-sans font-medium text-transparent bg-clip-text bg-gradient-to-r from-sky-300 via-sky-blue to-sky-400">
+                <span className="font-sans font-medium text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-[#091549]">
                   One subscription,
-                </span>
-                <span className="ml-5 text-transparent bg-clip-text bg-gradient-to-r from-sky-300 via-sky-blue to-sky-400">
+
                   Zero bottlenecks.
                 </span>
               </span>
