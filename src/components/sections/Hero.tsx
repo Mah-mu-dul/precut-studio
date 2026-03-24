@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValueEvent } from 'framer-motion';
 
-const heroVideo = "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%201.mp4";
+const heroVideo = "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/VSL%20video%20%20(1).mp4";
 
 const Hero: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
