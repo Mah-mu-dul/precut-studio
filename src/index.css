@@ -13,4 +13,11 @@
   .glass-panel {
     @apply bg-white/10 border border-white/10 shadow-lg;
   }
+  .bg-aurora {
+    background: radial-gradient(circle at 80% 20%, rgba(48, 25, 122, 0.5) 0%, transparent 60%),
+                radial-gradient(circle at 20% 80%, rgba(9, 21, 73, 0.4) 0%, transparent 60%),
+                radial-gradient(circle at 50% 50%, rgba(48, 25, 122, 0.3) 0%, transparent 80%),
+                linear-gradient(135deg, #020617 0%, #091549 100%);
+    background-attachment: fixed;
+  }
 }

@@ -94,7 +94,7 @@ const Affiliate: React.FC = () => {
             transition={{ duration: 0.6 }}
           >
             <Reveal delay={100}>
-              <span className="inline-block text-xs font-mono font-bold uppercase tracking-[0.25em] text-transparent bg-clip-text bg-gradient-to-r from-sky-blue to-navy-blue border border-sky-blue/30 rounded-full px-4 py-1.5 mb-8">
+              <span className="inline-block text-sm md:text-base font-mono font-bold uppercase tracking-[0.25em] text-transparent bg-clip-text bg-gradient-to-r from-sky-blue to-navy-blue border border-sky-blue/30 rounded-full px-4 py-1.5 mb-8">
                 Affiliate Program
               </span>
             </Reveal>
@@ -130,7 +130,7 @@ const Affiliate: React.FC = () => {
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-blue to-navy-blue font-mono text-xs font-bold uppercase tracking-widest">How it works</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-blue to-navy-blue font-mono text-sm md:text-base font-bold uppercase tracking-widest">How it works</span>
               <h2 className={`text-4xl md:text-5xl font-mono font-bold mt-4 transition-colors duration-500 ${H}`}>Simple Steps, <span className="italic font-sans font-light text-transparent bg-clip-text bg-gradient-to-r from-sky-blue to-navy-blue">Unlimited Potential</span></h2>
               <p className={`${B} mt-4 max-w-lg transition-colors duration-500`}>Apply, share your link, and earn. It's that easy.</p>
             </div>
@@ -140,12 +140,14 @@ const Affiliate: React.FC = () => {
             {steps.map((step, i) => (
               <Reveal key={i} delay={i * 100}>
                 <div className="group p-8 rounded-3xl bg-white border border-navy-blue/5 hover:border-sky-blue/30 transition-all duration-300 relative overflow-hidden h-full">
-                  <div className={`absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity ${H}`}>
-                    <span className="text-6xl font-black font-mono">{step.number}</span>
+                  <div className="absolute top-0 right-0 p-4 transition-opacity duration-300">
+                    <span className="text-6xl md:text-7xl font-black font-mono text-transparent bg-clip-text bg-gradient-to-br from-[#091549] to-blue-800/60 opacity-30 group-hover:opacity-80 transition-opacity">
+                      {step.number}
+                    </span>
                   </div>
-                  <div className="w-10 h-10 rounded-xl bg-navy-blue/5 flex items-center justify-center mb-6 group-hover:bg-sky-blue/10 transition-colors">
-                    <span className={`font-bold text-sm ${H}`}>{step.number}</span>
-                  </div>
+                  <br />
+                  <br />
+                  <br />
                   <h3 className={`text-lg font-mono font-bold mb-3 group-hover:text-sky-blue transition-colors line-clamp-1 ${H}`}>{step.title}</h3>
                   <p className={`text-sm leading-relaxed ${B}`}>{step.desc}</p>
                 </div>
@@ -159,7 +161,7 @@ const Affiliate: React.FC = () => {
       <section id="sec-perks" className="py-24 relative border-y border-navy-blue/5">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <Reveal className="text-center mb-20">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-blue to-navy-blue font-mono text-xs font-bold uppercase tracking-widest">Perks</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-blue to-navy-blue font-mono text-sm md:text-base font-bold uppercase tracking-widest">Perks</span>
             <h2 className={`text-4xl md:text-5xl font-mono font-bold mt-4 transition-colors duration-500 ${H}`}>Your Earnings, <span className="italic font-sans font-light text-transparent bg-clip-text bg-gradient-to-r from-sky-blue to-navy-blue">Elevated</span></h2>
           </Reveal>
 

@@ -55,7 +55,7 @@ function HomePage() {
   }, []);
 
   return (
-    <div className={`min-h-screen font-sans selection:bg-sky-blue selection:text-white transition-colors duration-1000 ease-in-out ${isDarkMode ? 'bg-navy-blue text-off-white' : 'bg-off-white text-navy-blue'} w-full overflow-clip`}>
+    <div className={`min-h-screen font-sans selection:bg-sky-blue selection:text-white transition-colors duration-1000 ease-in-out ${isDarkMode ? 'bg-aurora text-off-white' : 'bg-off-white text-navy-blue'} w-full overflow-clip`}>
       <Navbar isDarkMode={isDarkMode} />
 
       <main>

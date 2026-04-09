@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
 
 const videos = [
-  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/VSL%20video%20%20(1).mp4",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%201.mp4",
   "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%202.mp4",
   "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%203.mp4",
   "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%204.mp4",
   "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%205.mp4",
-  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%209.mp4"
+  // "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%206.mp4",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%207.mp4",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%208.mp4",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%209.mp4",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%2010.mp4",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%2011.mp4",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%2012.mp4",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%2013.mp4"
+
 ];
 
 const VideoItem = ({ src }: { src: string }) => {

@@ -17,12 +17,20 @@ import t4 from '../assets/testimonials/Testimonial 4.png';
 import t5 from '../assets/testimonials/Testimonial 5.png';
 
 const videos = [
-  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/VSL%20video%20%20(1).mp4",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%201.mp4",
   "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%202.mp4",
   "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%203.mp4",
   "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%204.mp4",
   "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%205.mp4",
-  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%209.mp4"
+  // "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%206.mp4",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%207.mp4",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%208.mp4",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%209.mp4",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%2010.mp4",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%2011.mp4",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%2012.mp4",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%2013.mp4"
+
 ];
 const logos = [Daraz, Oraimo, RealtorCA, RightAway, ShahCement, Shubham, VIPUS, VermaAccounting];
 const testimonialImages = [t1, t2, t3, t4, t5];
@@ -57,7 +65,7 @@ function useCountUp(target: number, duration = 2200, started = false) {
 }
 
 /* ─── REVEAL (reversible) ─ */
-interface RevealProps { children: React.ReactNode; delay?: number; from?: 'bottom'|'left'|'right'|'scale'; className?: string; threshold?: number; }
+interface RevealProps { children: React.ReactNode; delay?: number; from?: 'bottom' | 'left' | 'right' | 'scale'; className?: string; threshold?: number; }
 const Reveal: React.FC<RevealProps> = ({ children, delay = 0, from = 'bottom', className = '', threshold = 0.12 }) => {
   const [ref, vis] = useInView(threshold);
   const hidden = from === 'left' ? 'opacity-0 -translate-x-10' : from === 'right' ? 'opacity-0 translate-x-10' : from === 'scale' ? 'opacity-0 scale-90' : 'opacity-0 translate-y-8';
@@ -80,18 +88,18 @@ const faqs = [
   { q: 'Who is Precut Studio for?', a: 'Creators, personal brands, e-commerce businesses, agencies — anyone who needs premium video without a full in-house team.' },
 ];
 
-const FAQItem = ({ q, a }: { q: string; a: string; index: number; dark: boolean }) => {
+const FAQItem = ({ q, a, dark }: { q: string; a: string; index: number; dark: boolean }) => {
   const [open, setOpen] = useState(false);
   return (
-    <div className={`rounded-xl border border-navy-blue/10 bg-white transition-all duration-300 ${open ? 'shadow-md' : 'hover:shadow-sm'}`}>
+    <div className={`rounded-xl border transition-all duration-300 ${dark ? 'border-white/10 bg-white/5' : 'border-navy-blue/10 bg-white'} ${open ? 'shadow-md' : 'hover:shadow-sm'}`}>
       <button className="w-full flex items-center justify-between text-left py-5 px-6 gap-4 group" onClick={() => setOpen(!open)}>
-        <span className="font-sans font-medium text-navy-blue text-sm md:text-base group-hover:text-sky-blue transition-colors leading-snug">{q}</span>
-        <svg className={`shrink-0 w-5 h-5 text-navy-blue/50 transition-transform duration-300 ${open ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <span className={`font-sans font-medium text-sm md:text-base group-hover:text-sky-blue transition-colors leading-snug ${dark ? 'text-off-white' : 'text-navy-blue'}`}>{q}</span>
+        <svg className={`shrink-0 w-5 h-5 transition-transform duration-300 ${open ? 'rotate-180' : ''} ${dark ? 'text-off-white/50' : 'text-navy-blue/50'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
         </svg>
       </button>
       <div className="overflow-hidden transition-all duration-500 ease-in-out" style={{ maxHeight: open ? '300px' : '0' }}>
-        <p className="px-6 pb-5 font-sans text-sm md:text-base leading-relaxed text-navy-blue/60">{a}</p>
+        <p className={`px-6 pb-5 font-sans text-sm md:text-base leading-relaxed ${dark ? 'text-off-white/60' : 'text-navy-blue/60'}`}>{a}</p>
       </div>
     </div>
   );
@@ -109,7 +117,6 @@ const VideoThumb = ({ src }: { src: string }) => {
 };
 
 
-/* All section IDs in page order — used to find the current active section */
 const ALL_SECTION_IDS = [
   'sec-hero', 'sec-trusted', 'sec-statement',
   'sec-mission', 'sec-videos', 'sec-creative',
@@ -117,7 +124,7 @@ const ALL_SECTION_IDS = [
   'sec-stats',
   'sec-faq', 'sec-cta',
 ];
-const DARK_SET = new Set(['sec-hero', 'sec-mission','sec-videos','sec-creative','sec-testimonials','sec-story']);
+const DARK_SET = new Set(['sec-hero', 'sec-mission', 'sec-videos', 'sec-creative', 'sec-testimonials', 'sec-story', 'sec-stats', 'sec-faq']);
 
 /* ═══════ MAIN COMPONENT ═══════ */
 const About: React.FC = () => {
@@ -180,19 +187,19 @@ const About: React.FC = () => {
   const digits = [mStr[0], mStr[1], mStr[2], ',', mStr[3], mStr[4], mStr[5]];
 
   /* ── Theme-adaptive helpers */
-  const H  = isDark ? 'text-off-white' : 'text-navy-blue';
-  const B  = isDark ? 'text-off-white/65' : 'text-navy-blue/65';
-  const M  = isDark ? 'text-off-white/40' : 'text-navy-blue/40';
+  const H = isDark ? 'text-off-white' : 'text-navy-blue';
+  const B = isDark ? 'text-off-white/65' : 'text-navy-blue/65';
+  const M = isDark ? 'text-off-white/40' : 'text-navy-blue/40';
   const BR = isDark ? 'border-white/10' : 'border-navy-blue/10';
-  const G  = 'from-sky-300 via-sky-blue to-sky-700';
+  const G = 'from-sky-300 via-sky-blue to-sky-700';
 
   return (
-    <div className={`min-h-screen w-full overflow-x-hidden font-sans transition-colors duration-1000 ease-in-out ${isDark ? 'bg-navy-blue' : 'bg-off-white'}`}>
+    <div className={`min-h-screen w-full overflow-x-hidden font-sans transition-colors duration-500 ease-in-out ${isDark ? 'bg-aurora' : 'bg-off-white'}`}>
       <Navbar isDarkMode={isDark} />
 
       {/* ══ 1. HERO ══════════════════════════════════════ */}
-      <section id="sec-hero" className="relative pt-36 pb-20 md:pt-44 md:pb-28 overflow-hidden bg-navy-blue">
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-[#050b24] to-[#091549] z-0" />
+      <section id="sec-hero" className="relative pt-36 pb-20 md:pt-44 md:pb-28 overflow-hidden">
+        <div className="absolute inset-0 bg-aurora z-0 pointer-events-none" />
         <div className="absolute -top-32 -left-32 w-[500px] h-[500px] bg-sky-blue/15 rounded-full blur-[120px] pointer-events-none animate-pulse z-10" />
         <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-20">
           <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -202,7 +209,7 @@ const About: React.FC = () => {
               </Reveal>
               <Reveal delay={100}>
                 <h1 className="text-5xl md:text-6xl lg:text-7xl font-mono symbols font-bold leading-[1.05] mb-6">
-                  <span className="text-transparent bg-clip-text bg-gradient-to-b from-[#f3f4f6] via-[#9ca3af] to-[#4b5563]">Turning Ideas</span><br />
+                  <span className="text-[#F5F5DC]">Turning Ideas</span><br />
                   <span className={`text-transparent bg-clip-text bg-gradient-to-r ${G}`}>Into Visual</span>
                 </h1>
               </Reveal>
@@ -221,7 +228,7 @@ const About: React.FC = () => {
             <Reveal from="right" delay={200}>
               <div className="relative">
                 <div className="relative h-[420px] md:h-[500px] rounded-3xl overflow-hidden bg-navy-blue shadow-2xl hover:shadow-[0_0_50px_rgba(135,206,235,0.3)] transition-all duration-700 group">
-                  <img src="https://i.ibb.co.com/DDLx0Kcb/Moon.jpg" alt="Moon" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <img src="https://i.ibb.co.com/DDLx0Kcb/Moon.jpg" alt="Moon" className="absolute inset-0 w-full h-full object-cover object-[15%_center] transition-transform duration-700 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-t from-navy-blue/80 via-transparent to-transparent opacity-60" />
                   <div className="absolute bottom-6 left-6 right-6 bg-white/10 rounded-2xl px-5 py-4 border border-white/10">
                     <p className="text-white font-mono font-bold text-sm">Premium Creative Studio</p>
@@ -247,8 +254,10 @@ const About: React.FC = () => {
           </Reveal>
         </div>
         <div className="relative w-full overflow-hidden py-4">
-          <div className={`absolute left-0 top-0 h-full w-32 bg-gradient-to-r ${isDark ? 'from-navy-blue' : 'from-off-white'} to-transparent z-10 pointer-events-none transition-colors duration-1000`} />
-          <div className={`absolute right-0 top-0 h-full w-32 bg-gradient-to-l ${isDark ? 'from-navy-blue' : 'from-off-white'} to-transparent z-10 pointer-events-none transition-colors duration-1000`} />
+          <div className={`absolute left-0 top-0 h-full w-32 bg-gradient-to-r from-navy-blue to-transparent z-10 pointer-events-none transition-opacity duration-500 ${isDark ? 'opacity-100' : 'opacity-0'}`} />
+          <div className={`absolute left-0 top-0 h-full w-32 bg-gradient-to-r from-off-white to-transparent z-10 pointer-events-none transition-opacity duration-500 ${isDark ? 'opacity-0' : 'opacity-100'}`} />
+          <div className={`absolute right-0 top-0 h-full w-32 bg-gradient-to-l from-navy-blue to-transparent z-10 pointer-events-none transition-opacity duration-500 ${isDark ? 'opacity-100' : 'opacity-0'}`} />
+          <div className={`absolute right-0 top-0 h-full w-32 bg-gradient-to-l from-off-white to-transparent z-10 pointer-events-none transition-opacity duration-500 ${isDark ? 'opacity-0' : 'opacity-100'}`} />
           <div className="flex w-max items-center gap-20 px-8" style={{ animation: 'aboutLogos 28s linear infinite' }}>
             {doubled.map((src, i) => (
               <div key={i} className="shrink-0 flex items-center justify-center opacity-30 grayscale hover:opacity-60 hover:grayscale-0 transition-all duration-500">
@@ -283,14 +292,14 @@ const About: React.FC = () => {
         </div>
       </section>
 
-    
+
 
       {/* ══ 5. OUR DRIVE + DIGIT COUNTER ════════════════ */}
       <section id="sec-mission" className="py-20 md:py-28 overflow-hidden relative">
         <div className="absolute top-0 left-1/3 w-[600px] h-[600px] bg-sky-blue/5 rounded-full blur-[150px] pointer-events-none" />
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <Reveal className="text-center mb-12">
-            <span className="inline-block text-xs font-mono font-bold uppercase tracking-[0.25em] text-sky-blue/70 mb-4">Our Drive</span>
+            <span className={`inline-block text-sm md:text-base font-mono font-bold uppercase tracking-[0.25em] text-transparent bg-clip-text bg-gradient-to-r ${G} mb-4`}>Our Drive</span>
             <h2 className={`text-3xl md:text-4xl lg:text-5xl font-mono font-bold leading-tight max-w-3xl mx-auto transition-colors duration-500 ${H}`}>
               On A Mission to Shape The{' '}
               <span className={`text-transparent bg-clip-text bg-gradient-to-r ${G}`}>Future Of Content</span>
@@ -349,7 +358,7 @@ const About: React.FC = () => {
         </div>
       </section>
 
-      
+
 
 
       {/* ══ 10. WHAT OUR CLIENTS SAY (dark) ══════════════ */}
@@ -379,7 +388,8 @@ const About: React.FC = () => {
           <Reveal className="mb-14 max-w-3xl">
             <h2 className={`text-4xl md:text-5xl lg:text-6xl font-mono font-bold leading-tight transition-colors duration-500 ${H}`}>
               Turning Everyday Moments<br />
-              <span className={`text-transparent bg-clip-text bg-gradient-to-r ${G}`}>Into High-Impact Content</span>
+              <span className={`text-transparent bg-clip-text bg-gradient-to-r ${G}`}>Into High-Impact</span>{" "}
+              <span className={`text-transparent bg-clip-text bg-gradient-to-r ${G}`}>Content</span>
             </h2>
           </Reveal>
           <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-start">
@@ -393,15 +403,15 @@ const About: React.FC = () => {
             </div>
             <Reveal from="right" delay={150}>
               <div className="relative">
-                <div className="relative h-[420px] rounded-3xl overflow-hidden border border-white/10 bg-[#0d2060] hover:shadow-[0_0_40px_rgba(135,206,235,0.2)] transition-all duration-700 group">
+                <div className="relative h-[420px] rounded-3xl overflow-hidden border border-white/10 bg-aurora hover:shadow-[0_0_40px_rgba(135,206,235,0.2)] transition-all duration-700 group">
                   <img src="https://i.ibb.co.com/DPSdwDck/affiliate-page.png" alt="Our Story" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-br from-[#0d2060]/40 via-transparent to-[#091549]/40" />
                   <div className="absolute top-6 right-6 w-12 h-12 border-t-2 border-r-2 border-sky-blue/40 rounded-tr-lg" />
                   <div className="absolute bottom-6 left-6 w-12 h-12 border-b-2 border-l-2 border-sky-blue/40 rounded-bl-lg" />
                 </div>
-                <div className="absolute -bottom-5 -left-5 bg-white/10 border border-white/20 rounded-2xl shadow-xl px-5 py-4">
+                <div className="absolute top-4 left-4 bg-white/30 backdrop-blur-md border border-white/40 rounded-2xl shadow-xl px-5 py-4 z-10">
                   <p className="text-off-white font-mono font-bold text-sm">Est. 2023</p>
-                  <p className="text-off-white/50 font-sans text-xs">Built for Creators &amp; Brands</p>
+                  <p className="text-off-white/70 font-sans text-xs">Built for Creators &amp; Brands</p>
                 </div>
               </div>
             </Reveal>
@@ -413,7 +423,7 @@ const About: React.FC = () => {
       <section id="sec-stats" ref={statsRef as React.RefObject<HTMLElement>} className="py-20 overflow-hidden relative">
         <div className="max-w-7xl mx-auto px-6 md:px-12 text-center mb-14">
           <Reveal>
-            <span className="inline-block text-xs font-mono font-bold uppercase tracking-[0.25em] text-sky-blue mb-4">By the Numbers</span>
+            <span className="inline-block text-sm md:text-base font-mono font-bold uppercase tracking-[0.25em] text-sky-blue mb-4">By the Numbers</span>
             <h2 className={`text-4xl md:text-5xl font-mono font-bold transition-colors duration-1000 ${H}`}>
               Results That <span className={`text-transparent bg-clip-text bg-gradient-to-r ${G}`}>Speak</span>
             </h2>
@@ -432,22 +442,22 @@ const About: React.FC = () => {
       </section>
 
       {/* ══ 13. FAQ (always light, two-col) ══════════════════ */}
-      <section id="sec-faq" className="py-20 md:py-28 border-t border-navy-blue/10 bg-off-white relative overflow-hidden">
+      <section id="sec-faq" className="py-20 md:py-28 border-t border-navy-blue/10 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-start">
             {/* Left: heading + CTA */}
             <Reveal from="left" className="md:sticky md:top-28">
               <div className="flex items-center gap-2 mb-8">
                 <span className="w-2.5 h-2.5 rounded-full bg-sky-blue inline-block" />
-                <span className="text-xs font-sans font-semibold uppercase tracking-widest text-navy-blue/60">FAQ</span>
+                <span className={`text-xs font-sans font-semibold uppercase tracking-widest transition-colors duration-1000 ${M}`}>FAQ</span>
               </div>
-              <h2 className="text-4xl md:text-5xl font-sans font-bold text-navy-blue leading-[1.1] mb-12">
+              <h2 className={`text-4xl md:text-5xl font-sans font-bold leading-[1.1] mb-12 transition-colors duration-1000 ${H}`}>
                 Answers to the<br />frequently asked<br />
                 <em className="font-serif italic font-normal">questions.</em>
               </h2>
-              <div className="border-t border-navy-blue/10 pt-8">
-                <p className="font-sans font-bold text-navy-blue text-sm mb-1">Still have questions?</p>
-                <p className="font-sans text-navy-blue/55 text-sm mb-5">Didn't find what you were looking for? Our team is just a message away.</p>
+              <div className={`border-t pt-8 transition-colors duration-1000 ${BR}`}>
+                <p className={`font-sans font-bold text-sm mb-1 transition-colors duration-1000 ${H}`}>Still have questions?</p>
+                <p className={`font-sans text-sm mb-5 transition-colors duration-1000 ${B}`}>Didn't find what you were looking for? Our team is just a message away.</p>
                 <a href="https://cal.com/precutstudio/booking" target="_blank" rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-gradient-to-r from-navy-blue to-sky-blue border-0 px-8 py-4 rounded-full text-white font-medium transition-all duration-300 transform hover:scale-105 shadow-[0_0_15px_rgba(0,102,255,0.4)] hover:shadow-[0_0_30px_rgba(0,102,255,0.8)]">
                   Book a Call
@@ -461,14 +471,14 @@ const About: React.FC = () => {
             {/* Right: accordion cards */}
             <Reveal from="right" delay={100}>
               <div className="flex flex-col gap-3">
-                {faqs.map((item, i) => <FAQItem key={i} q={item.q} a={item.a} index={i} dark={false} />)}
+                {faqs.map((item, i) => <FAQItem key={i} q={item.q} a={item.a} index={i} dark={isDark} />)}
               </div>
             </Reveal>
           </div>
         </div>
       </section>
 
-    
+
 
       <Footer />
 

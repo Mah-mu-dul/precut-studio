@@ -116,7 +116,8 @@ const Pricing: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => 
         "1 active video 48hrs",
         "Unlimited revisions",
         "Mon–Fri workflow",
-        "Cancel anytime"
+        "Cancel anytime",
+        "Thumbnail Add-on"
       ],
       highlighted: false,
       link: "https://link.payoneer.com/Token?t=7F1BCA416FCE458AA463157B9EFB36AD&src=pl"
@@ -132,7 +133,8 @@ const Pricing: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => 
         "Dedicated Manager",
         "Priority turnaround",
         "Mon–Fri workflow",
-        "Advanced color grading"
+        "Advanced color grading",
+        "Thumbnail Add-on"
       ],
       highlighted: true,
       link: "https://link.payoneer.com/Token?t=B815CE12B60E414892ACA647A10C5330&src=pl"
@@ -147,9 +149,9 @@ const Pricing: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => 
         "Unlimited revisions",
         "Dedicated Manager",
         "Highest queue priority",
-        "Free thumbnails",
         "Advanced motion design",
-        "Mon–Fri workflow"
+        "Mon–Fri workflow",
+        "Thumbnail Add-on"
       ],
       highlighted: false,
       link: "https://link.payoneer.com/Token?t=8C79A1EA1FC24581B09B0586B3AE4EAF&src=pl"
@@ -180,7 +182,7 @@ const Pricing: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => 
               <div
                 key={tier.name}
                 ref={(el) => { if (el) cardsRef.current[idx] = el; }}
-                style={{ 
+                style={{
                   willChange: 'transform, opacity',
                   backfaceVisibility: 'hidden',
                   WebkitBackfaceVisibility: 'hidden'
@@ -189,12 +191,12 @@ const Pricing: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => 
               // Note: We use !important in tailwind equivalent classes to override the inline styles set by JS if `isDesktop` is false
               >
                 <div className={`h-full relative rounded-[2rem] transition-all duration-500 hover:scale-105 transform-gpu ${tier.highlighted
-                  ? 'bg-[#0d2060] text-white shadow-2xl shadow-sky-500/20'
+                  ? 'bg-aurora text-white shadow-2xl shadow-sky-500/20'
                   : `glass-panel ${isDarkMode ? 'text-white hover:bg-white/10' : 'text-navy-blue hover:bg-white border-navy-blue/10'} shadow-[0_8px_32px_rgba(9,21,73,0.18)]`
                   }`}>
 
                   {tier.highlighted && (
-                    <div className="absolute top-0 right-6 -translate-y-1/2 rounded-full shadow-[0_4px_15px_rgba(156,163,175,0.6)] z-20 bg-[#0d2060] border border-white/10 text-white overflow-hidden group/badge cursor-default">
+                    <div className="absolute top-0 right-6 -translate-y-1/2 rounded-full shadow-[0_4px_15px_rgba(156,163,175,0.6)] z-20 bg-aurora border border-white/10 text-white overflow-hidden group/badge cursor-default">
                       <div className="relative font-bold text-[10px] tracking-wider px-4 py-1.5 flex items-center justify-center">
                         <span className="relative z-10">MOST POPULAR</span>
                         {/* Hover shine effect */}

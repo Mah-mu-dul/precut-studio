@@ -11,6 +11,9 @@ const Hero: React.FC = () => {
     offset: ['start start', 'end end'],
   });
 
+  const [volume, setVolume] = useState(0);
+  const [isVideoHovered, setIsVideoHovered] = useState(false);
+
   const smoothYProgress = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
@@ -26,6 +29,13 @@ const Hero: React.FC = () => {
       videoRef.current.pause();
     }
   });
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.volume = volume;
+      videoRef.current.muted = volume === 0;
+    }
+  }, [volume]);
 
   // ─── ANIMATION STAGES ───────────────────────────────────────────────────────
   const [isMobile, setIsMobile] = useState(false);
@@ -75,10 +85,10 @@ const Hero: React.FC = () => {
   return (
     <section ref={containerRef} className="relative h-[400vh]" id="home">
       <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
-        {/* Dark Background Gradient */}
+        {/* Aurora Background Gradient */}
         <motion.div
           style={{ opacity: monitorBgOpacity }}
-          className="absolute inset-0 bg-gradient-to-b from-black via-[#050b24] to-[#091549] z-0"
+          className="absolute inset-0 bg-aurora z-0"
         />
 
         {/* Background Large Text (PRECUT STUDIO) */}
@@ -156,7 +166,11 @@ const Hero: React.FC = () => {
           </div>
 
           {/* Video Container */}
-          <div className="w-full max-w-7xl px-6 md:px-12 flex justify-center items-center z-10 mt-2 md:mt-4 relative pointer-events-auto">
+          <div 
+            className="w-full max-w-7xl px-6 md:px-12 flex justify-center items-center z-10 mt-2 md:mt-4 relative pointer-events-auto group/video"
+            onMouseEnter={() => setIsVideoHovered(true)}
+            onMouseLeave={() => setIsVideoHovered(false)}
+          >
             <motion.div style={{ opacity: plusOpacity }} className="absolute -top-8 left-0 text-navy-blue/20 font-bold text-xl">+</motion.div>
             <motion.div style={{ opacity: plusOpacity }} className="absolute -top-8 right-0 text-navy-blue/20 font-bold text-xl">+</motion.div>
             <motion.div style={{ opacity: plusOpacity }} className="absolute -bottom-8 left-0 text-navy-blue/20 font-bold text-xl">+</motion.div>
@@ -174,13 +188,37 @@ const Hero: React.FC = () => {
               <video
                 ref={videoRef}
                 loop
-                muted
                 playsInline
                 className="absolute inset-0 w-full h-full object-cover"
               >
                 <source src={heroVideo} type="video/mp4" />
               </video>
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+              
+              {/* Volume Slider Overlay */}
+              <div className={`absolute bottom-6 right-6 flex items-center gap-3 transition-opacity duration-500 z-30 ${isVideoHovered ? 'opacity-100' : 'opacity-30'}`}>
+                <div className="bg-black/40 backdrop-blur-md p-2 rounded-full border border-white/10 flex items-center gap-2">
+                  <button 
+                    onClick={() => setVolume(v => v > 0 ? 0 : 0.5)}
+                    className="text-white hover:text-sky-blue transition-colors"
+                  >
+                    {volume === 0 ? (
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" /></svg>
+                    ) : (
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /></svg>
+                    )}
+                  </button>
+                  <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    value={volume}
+                    onChange={(e) => setVolume(parseFloat(e.target.value))}
+                    className="w-20 md:w-24 h-1 bg-white/20 rounded-lg appearance-none cursor-pointer accent-sky-blue"
+                  />
+                </div>
+              </div>
             </motion.div>
           </div>
         </motion.div>
