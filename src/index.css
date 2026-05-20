@@ -18,6 +18,108 @@
                 radial-gradient(circle at 20% 80%, rgba(9, 21, 73, 0.4) 0%, transparent 60%),
                 radial-gradient(circle at 50% 50%, rgba(48, 25, 122, 0.3) 0%, transparent 80%),
                 linear-gradient(135deg, #020617 0%, #091549 100%);
-    background-attachment: fixed;
+    /* background-attachment: fixed disabled on mobile — it forces a full repaint
+       on every scroll frame because mobile browsers can't composite it.
+       Desktop keeps it for the parallax feel. */
+  }
+  @media (min-width: 768px) {
+    .bg-aurora {
+      background-attachment: fixed;
+    }
+  }
+}
+
+/* ─── YouTube-style skeleton shimmer ──────────────────────────────── */
+@keyframes skeletonShimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.skeleton-shimmer {
+  overflow: hidden;
+}
+.skeleton-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.04) 20%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.04) 80%,
+    transparent 100%
+  );
+  animation: skeletonShimmer 1.8s ease-in-out infinite;
+}
+
+/* ─── Video loading spinner ──────────────────────────────────────── */
+@keyframes videoSpinnerRotate {
+  0%   { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+.video-loading-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 3px solid rgba(135, 206, 235, 0.12);
+  border-top-color: rgba(135, 206, 235, 0.45);
+  animation: videoSpinnerRotate 0.9s linear infinite;
+  z-index: 15;
+  pointer-events: none;
+}
+
+/* ─── Global marquee animations (moved out of inline <style> tags) ── */
+@keyframes marqueeLeft {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes marqueeLeftTestimonials {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes marqueeBrands {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee-left {
+  animation: marqueeLeft 30s linear infinite;
+}
+.animate-marquee-left-slow {
+  animation: marqueeLeft 45s linear infinite;
+}
+.animate-marquee-left-testimonials {
+  animation: marqueeLeftTestimonials 40s linear infinite;
+}
+.animate-marquee-brands {
+  animation: marqueeBrands 30s linear infinite;
+}
+
+/* ─── Mobile performance optimizations ───────────────────────────── */
+@media (max-width: 767px) {
+  /* Lighter backdrop blur — heavy compositing cost on mobile */
+  .backdrop-blur-xl {
+    -webkit-backdrop-filter: blur(8px) !important;
+    backdrop-filter: blur(8px) !important;
+  }
+  .backdrop-blur-md {
+    -webkit-backdrop-filter: blur(4px) !important;
+    backdrop-filter: blur(4px) !important;
+  }
+  /* Disable expensive box-shadow transitions on mobile */
+  .shadow-xl,
+  .shadow-2xl {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+  }
+  /* Reduce transition-colors duration to avoid long repaints */
+  .transition-colors {
+    transition-duration: 300ms !important;
   }
 }

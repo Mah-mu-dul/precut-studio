@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { getCalApi } from "@calcom/embed-react";
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
+import LazyVideo from '../components/ui/LazyVideo';
 import Daraz from '../assets/brands/Daraz_Logo.png';
 import Oraimo from '../assets/brands/Oraimo.png';
 import RealtorCA from '../assets/brands/Realtor CA.svg';
@@ -17,19 +17,19 @@ import t4 from '../assets/testimonials/Testimonial 4.png';
 import t5 from '../assets/testimonials/Testimonial 5.png';
 
 const videos = [
-  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%201.mp4",
-  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%202.mp4",
-  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%203.mp4",
-  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%204.mp4",
-  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%205.mp4",
-  // "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%206.mp4",
-  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%207.mp4",
-  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%208.mp4",
-  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%209.mp4",
-  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%2010.mp4",
-  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%2011.mp4",
-  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%2012.mp4",
-  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%2013.mp4"
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%201/index.m3u8",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%202/index.m3u8",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%203/index.m3u8",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%204/index.m3u8",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%205/index.m3u8",
+  // "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%206/index.m3u8",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%207/index.m3u8",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%208/index.m3u8",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%209/index.m3u8",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%2010/index.m3u8",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%2011/index.m3u8",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%2012/index.m3u8",
+  "https://pub-b70b101e512244ea960326310542d6ae.r2.dev/Video%2013/index.m3u8"
 
 ];
 const logos = [Daraz, Oraimo, RealtorCA, RightAway, ShahCement, Shubham, VIPUS, VermaAccounting];
@@ -106,12 +106,16 @@ const FAQItem = ({ q, a, dark }: { q: string; a: string; index: number; dark: bo
 };
 
 const VideoThumb = ({ src }: { src: string }) => {
-  const [loaded, setLoaded] = useState(false);
   return (
     <div className="relative h-52 aspect-[9/16] rounded-2xl bg-white/5 shrink-0 overflow-hidden border border-white/10">
-      {!loaded && <div className="absolute inset-0 animate-pulse bg-white/5" />}
-      <video src={src} className={`w-full h-full object-cover transition-opacity duration-500 ${loaded ? 'opacity-100' : 'opacity-0'}`}
-        autoPlay muted loop playsInline onLoadedData={() => setLoaded(true)} />
+      <LazyVideo
+        src={src}
+        title="About Precut Studio Video"
+        aria-label="Showcase video highlight"
+        className="w-full h-full"
+        aspectClass="aspect-[9/16]"
+        rootMargin="400px 0px"
+      />
     </div>
   );
 };
@@ -131,8 +135,10 @@ const About: React.FC = () => {
   const [isDark, setIsDark] = useState(true);
   const [statsStarted, setStatsStarted] = useState(false);
   const [missionStarted, setMissionStarted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const statsRef = useRef<HTMLElement>(null);
   const missionRef = useRef<HTMLDivElement>(null);
+  const faqRef = useRef<HTMLElement>(null);
 
 
   const s1 = useCountUp(500, 2200, statsStarted);
@@ -143,32 +149,59 @@ const About: React.FC = () => {
 
   /* ── Scroll-based page bg — find the section currently "owning" the 80px line */
   useEffect(() => {
+    let rafId: number | null = null;
+
     const onScroll = () => {
-      let currentId = '';
-      for (const id of ALL_SECTION_IDS) {
-        const el = document.getElementById(id);
-        if (el && el.getBoundingClientRect().top <= 80) {
-          currentId = id;   // keep updating — last one with top ≤ 80 wins
+      // Throttle: only compute once per animation frame
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        let currentId = '';
+        for (const id of ALL_SECTION_IDS) {
+          const el = document.getElementById(id);
+          if (el && el.getBoundingClientRect().top <= 80) {
+            currentId = id;   // keep updating — last one with top ≤ 80 wins
+          }
         }
-      }
-      setIsDark(DARK_SET.has(currentId));
+        setIsDark(DARK_SET.has(currentId));
+      });
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (rafId !== null) cancelAnimationFrame(rafId);
+    };
   }, []);
 
 
-  /* ── Cal.com API init */
+  /* ── Cal.com API init (lazy — only when near FAQ/CTA section) */
   useEffect(() => {
-    (async function () {
-      const cal = await getCalApi({ namespace: "booking" });
-      cal("ui", {
-        cssVarsPerTheme: { light: { "cal-brand": "#091549" }, dark: { "cal-brand": "#87ceeb" } },
-        hideEventTypeDetails: true,
-        layout: "month_view"
-      });
-    })();
+    const el = faqRef.current;
+    if (!el) return;
+
+    let initialized = false;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !initialized) {
+          initialized = true;
+          observer.disconnect();
+          (async function () {
+            const { getCalApi } = await import("@calcom/embed-react");
+            const cal = await getCalApi({ namespace: "booking" });
+            cal("ui", {
+              cssVarsPerTheme: { light: { "cal-brand": "#091549" }, dark: { "cal-brand": "#87ceeb" } },
+              hideEventTypeDetails: true,
+              layout: "month_view"
+            });
+          })();
+        }
+      },
+      { rootMargin: '400px 0px' }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
   /* ── Count-up observers */
@@ -180,8 +213,18 @@ const About: React.FC = () => {
     return () => { o1.disconnect(); o2.disconnect(); };
   }, []);
 
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
   const doubled = [...logos, ...logos];
-  const doubledVideos = videos.length ? [...videos, ...videos, ...videos, ...videos] : [];
+  const doubledVideos = (() => {
+    const list = isMobile ? videos.slice(0, 5) : videos;
+    return [...list, ...list];
+  })();
   const doubledTestimonials = [...testimonialImages, ...testimonialImages];
   const mStr = String(missionCount).padStart(6, '0');
   const digits = [mStr[0], mStr[1], mStr[2], ',', mStr[3], mStr[4], mStr[5]];
@@ -194,12 +237,12 @@ const About: React.FC = () => {
   const G = 'from-sky-300 via-sky-blue to-sky-700';
 
   return (
-    <div className={`min-h-screen w-full overflow-x-hidden font-sans transition-colors duration-500 ease-in-out ${isDark ? 'bg-aurora' : 'bg-off-white'}`}>
+    <div className={`min-h-screen w-full overflow-x-hidden font-sans transition-colors duration-1000 ease-in-out ${isDark ? 'bg-aurora' : 'bg-off-white'}`}>
       <Navbar isDarkMode={isDark} />
 
       {/* ══ 1. HERO ══════════════════════════════════════ */}
       <section id="sec-hero" className="relative pt-36 pb-20 md:pt-44 md:pb-28 overflow-hidden">
-        <div className="absolute inset-0 bg-aurora z-0 pointer-events-none" />
+        {/* Removed local bg-aurora to allow page-level background to flow seamlessly */}
         <div className="absolute -top-32 -left-32 w-[500px] h-[500px] bg-sky-blue/15 rounded-full blur-[120px] pointer-events-none animate-pulse z-10" />
         <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-20">
           <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -228,7 +271,7 @@ const About: React.FC = () => {
             <Reveal from="right" delay={200}>
               <div className="relative">
                 <div className="relative h-[420px] md:h-[500px] rounded-3xl overflow-hidden bg-navy-blue shadow-2xl hover:shadow-[0_0_50px_rgba(135,206,235,0.3)] transition-all duration-700 group">
-                  <img src="https://i.ibb.co.com/DDLx0Kcb/Moon.jpg" alt="Moon" className="absolute inset-0 w-full h-full object-cover object-[15%_center] transition-transform duration-700 group-hover:scale-105" />
+                  <img src="https://i.ibb.co.com/DDLx0Kcb/Moon.jpg" alt="Moon" loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover object-[15%_center] transition-transform duration-700 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-t from-navy-blue/80 via-transparent to-transparent opacity-60" />
                   <div className="absolute bottom-6 left-6 right-6 bg-white/10 rounded-2xl px-5 py-4 border border-white/10">
                     <p className="text-white font-mono font-bold text-sm">Premium Creative Studio</p>
@@ -244,7 +287,7 @@ const About: React.FC = () => {
       </section>
 
       {/* ══ 2. TRUSTED BY ════════════════════════════════ */}
-      <section id="sec-trusted" className={`py-12 border-y transition-colors duration-500 ${BR} overflow-hidden`}>
+      <section id="sec-trusted" className={`py-12 border-y transition-colors duration-1000 ${BR} overflow-hidden`}>
         <div className="max-w-7xl mx-auto px-6 md:px-12 mb-8">
           <Reveal>
             <h2 className={`text-3xl md:text-4xl font-mono font-bold transition-colors duration-1000 ${H}`}>
@@ -254,14 +297,10 @@ const About: React.FC = () => {
           </Reveal>
         </div>
         <div className="relative w-full overflow-hidden py-4">
-          <div className={`absolute left-0 top-0 h-full w-32 bg-gradient-to-r from-navy-blue to-transparent z-10 pointer-events-none transition-opacity duration-500 ${isDark ? 'opacity-100' : 'opacity-0'}`} />
-          <div className={`absolute left-0 top-0 h-full w-32 bg-gradient-to-r from-off-white to-transparent z-10 pointer-events-none transition-opacity duration-500 ${isDark ? 'opacity-0' : 'opacity-100'}`} />
-          <div className={`absolute right-0 top-0 h-full w-32 bg-gradient-to-l from-navy-blue to-transparent z-10 pointer-events-none transition-opacity duration-500 ${isDark ? 'opacity-100' : 'opacity-0'}`} />
-          <div className={`absolute right-0 top-0 h-full w-32 bg-gradient-to-l from-off-white to-transparent z-10 pointer-events-none transition-opacity duration-500 ${isDark ? 'opacity-0' : 'opacity-100'}`} />
           <div className="flex w-max items-center gap-20 px-8" style={{ animation: 'aboutLogos 28s linear infinite' }}>
             {doubled.map((src, i) => (
               <div key={i} className="shrink-0 flex items-center justify-center opacity-30 grayscale hover:opacity-60 hover:grayscale-0 transition-all duration-500">
-                <img src={src} alt={`Brand ${i + 1}`} className="h-10 md:h-12 w-auto object-contain" />
+                <img src={src} alt={`Brand ${i + 1}`} loading="lazy" decoding="async" className="h-10 md:h-12 w-auto object-contain" />
               </div>
             ))}
           </div>
@@ -332,7 +371,7 @@ const About: React.FC = () => {
             </div>
             <Reveal from="right" delay={100}>
               <div className="relative h-80 rounded-3xl overflow-hidden border border-white/10 bg-[#0d2060] hover:border-sky-blue/30 transition-all duration-500 group">
-                <img src="https://i.ibb.co.com/gnTJ4RJ/logo-09.png" alt="Our Mission" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <img src="https://i.ibb.co.com/gnTJ4RJ/logo-09.png" alt="Our Mission" loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-br from-[#0d2060]/40 to-navy-blue/40" />
               </div>
             </Reveal>
@@ -374,7 +413,7 @@ const About: React.FC = () => {
           <div className="flex w-max space-x-6 px-6" style={{ animation: 'testimonialScroll 40s linear infinite' }}>
             {doubledTestimonials.map((src, i) => (
               <div key={i} className="w-80 md:w-96 shrink-0 rounded-xl overflow-hidden border border-white/10 hover:border-sky-blue/30 transition-colors duration-300">
-                <img src={src} alt={`Testimonial ${i + 1}`} className="w-full h-auto" />
+                <img src={src} alt={`Testimonial ${i + 1}`} loading="lazy" decoding="async" className="w-full h-auto" />
               </div>
             ))}
           </div>
@@ -404,7 +443,7 @@ const About: React.FC = () => {
             <Reveal from="right" delay={150}>
               <div className="relative">
                 <div className="relative h-[420px] rounded-3xl overflow-hidden border border-white/10 bg-aurora hover:shadow-[0_0_40px_rgba(135,206,235,0.2)] transition-all duration-700 group">
-                  <img src="https://i.ibb.co.com/DPSdwDck/affiliate-page.png" alt="Our Story" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <img src="https://i.ibb.co.com/DPSdwDck/affiliate-page.png" alt="Our Story" loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-br from-[#0d2060]/40 via-transparent to-[#091549]/40" />
                   <div className="absolute top-6 right-6 w-12 h-12 border-t-2 border-r-2 border-sky-blue/40 rounded-tr-lg" />
                   <div className="absolute bottom-6 left-6 w-12 h-12 border-b-2 border-l-2 border-sky-blue/40 rounded-bl-lg" />
@@ -442,7 +481,7 @@ const About: React.FC = () => {
       </section>
 
       {/* ══ 13. FAQ (always light, two-col) ══════════════════ */}
-      <section id="sec-faq" className="py-20 md:py-28 border-t border-navy-blue/10 relative overflow-hidden">
+      <section id="sec-faq" ref={faqRef} className="py-20 md:py-28 border-t border-navy-blue/10 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-start">
             {/* Left: heading + CTA */}
@@ -486,7 +525,7 @@ const About: React.FC = () => {
         @keyframes aboutLogos        { 0%{ transform:translateX(0) }    100%{ transform:translateX(-50%) } }
         @keyframes tickerL           { 0%{ transform:translateX(0) }    100%{ transform:translateX(-50%) } }
         @keyframes tickerR           { 0%{ transform:translateX(-50%) } 100%{ transform:translateX(0)   } }
-        @keyframes aboutVideos       { 0%{ transform:translateX(0) }    100%{ transform:translateX(-25%) } }
+        @keyframes aboutVideos       { 0%{ transform:translateX(0) }    100%{ transform:translateX(-50%) } }
         @keyframes testimonialScroll { 0%{ transform:translateX(0) }    100%{ transform:translateX(-50%) } }
       `}</style>
     </div>

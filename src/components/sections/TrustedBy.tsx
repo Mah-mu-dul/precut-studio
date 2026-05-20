@@ -19,15 +19,15 @@ const logos = [
   VermaAccounting
 ];
 
-const TrustedBy: React.FC = () => {
+const TrustedBy: React.FC = React.memo(() => {
   const doubled = [...logos, ...logos];
 
   return (
-    <section className="py-10 relative z-20 overflow-hidden">
+    <section className="py-5 relative z-20 overflow-hidden" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 150px' }}>
 
       {/* Heading */}
-      <div className="max-w-7xl mx-auto px-6 md:px-12 mb-8">
-        <h2 className="text-3xl md:text-4xl font-mono font-bold text-navy-blue">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 mb-4">
+        <h2 className="text-2xl md:text-4xl font-mono font-bold text-navy-blue">
           Trusted by{' '}
           <em className="not-italic font-sans font-semibold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-[#091549]">
             the Best.
@@ -40,11 +40,7 @@ const TrustedBy: React.FC = () => {
 
       {/* Marquee */}
       <div className="relative w-full overflow-hidden py-4">
-        {/* Edge fades */}
-        <div className="absolute left-0 top-0 h-full w-32 bg-gradient-to-r from-off-white to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 h-full w-32 bg-gradient-to-l from-off-white to-transparent z-10 pointer-events-none" />
-
-        <div className="flex w-max animate-marquee-brands items-center gap-20 px-8">
+        <div className="flex w-max animate-marquee-brands items-center gap-20 px-8" style={{ willChange: 'transform', backfaceVisibility: 'hidden' }}>
           {doubled.map((src, i) => (
             <div
               key={i}
@@ -53,24 +49,17 @@ const TrustedBy: React.FC = () => {
               <img
                 src={src}
                 alt={`Brand Logo ${(i % logos.length) + 1}`}
+                loading="lazy"
+                decoding="async"
                 className="h-10 md:h-12 w-auto object-contain opacity-30 grayscale transition-all duration-400"
               />
             </div>
           ))}
         </div>
 
-        <style>{`
-          @keyframes marqueeBrands {
-            0%   { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-          }
-          .animate-marquee-brands {
-            animation: marqueeBrands 30s linear infinite;
-          }
-        `}</style>
       </div>
     </section>
   );
-};
+});
 
 export default TrustedBy;

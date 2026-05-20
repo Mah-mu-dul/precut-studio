@@ -1,20 +1,40 @@
-import React, { useEffect, useState } from 'react';
-import { getCalApi } from "@calcom/embed-react";
+import React, { useEffect, useRef, useState } from 'react';
 import logo from '../../assets/website PNG.png';
 
 const CTA: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // Lazy-load Cal.com API only when the CTA section enters the viewport
+  // Uses dynamic import() so the ~150KB+ Cal.com SDK is not in the initial bundle
   useEffect(() => {
-    (async function () {
-      const cal = await getCalApi({ namespace: "booking" });
-      cal("ui", {
-        cssVarsPerTheme: {
-          light: { "cal-brand": "#091549" },
-          dark: { "cal-brand": "#87ceeb" }
-        },
-        hideEventTypeDetails: true,
-        layout: "month_view"
-      });
-    })();
+    const el = sectionRef.current;
+    if (!el) return;
+
+    let calInitialized = false;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !calInitialized) {
+          calInitialized = true;
+          observer.disconnect();
+          (async function () {
+            const { getCalApi } = await import("@calcom/embed-react");
+            const cal = await getCalApi({ namespace: "booking" });
+            cal("ui", {
+              cssVarsPerTheme: {
+                light: { "cal-brand": "#091549" },
+                dark: { "cal-brand": "#87ceeb" }
+              },
+              hideEventTypeDetails: true,
+              layout: "month_view"
+            });
+          })();
+        }
+      },
+      { rootMargin: '400px 0px' }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
   const today = new Date();
@@ -58,19 +78,19 @@ const CTA: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => {
   const isPastMonth = currentYear < today.getFullYear() || (currentYear === today.getFullYear() && currentMonth <= today.getMonth());
 
   return (
-    <section id="call" className="py-12 md:py-20 relative z-20 overflow-hidden">
+    <section ref={sectionRef} id="call" className="py-8 md:py-14 relative z-20 overflow-hidden" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 700px' }}>
 
       {/* Background glow for the section */}
 
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
 
           {/* Left Text */}
           <div>
             <div id='why-us' className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-[#091549] uppercase tracking-widest text-lg font-bold mb-6">Why Us?</div>
-            <h2 className={`text-3xl md:text-6xl font-mono font-bold mb-8 leading-tight transition-colors duration-1000 ${isDarkMode ? 'text-white' : 'text-navy-blue'}`}>
-              Let’s Make  <br />
+            <h2 className={`text-2xl md:text-6xl font-mono font-bold mb-8 leading-tight transition-colors duration-1000 ${isDarkMode ? 'text-white' : 'text-navy-blue'}`}>
+              Let's Make  <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-[#091549]"> Magic Together.</span>
             </h2>
             <p className={`text-lg md:text-xl mb-6 transition-colors duration-1000 ${isDarkMode ? 'text-white/80' : 'text-navy-blue/80'}`}>
@@ -98,7 +118,7 @@ const CTA: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => {
               <div className="border-b border-white/10 p-4 flex justify-between items-center">
                 <div className="flex items-center space-x-3">
                   <div className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center bg-white/5">
-                    <img src={logo} alt="Precut Studio" className="w-[150%] h-[150%] object-cover scale-75" />
+                    <img src={logo} alt="Precut Studio" className="w-[150%] h-[150%] object-cover scale-75" loading="lazy" decoding="async" />
                   </div>
                   <div>
                     <div className="text-white text-sm font-medium">Precut Studio</div>
