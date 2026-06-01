@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FaFacebook, FaInstagram } from 'react-icons/fa';
 
 const Footer: React.FC = React.memo(() => {
   return (
@@ -47,10 +48,30 @@ const Footer: React.FC = React.memo(() => {
 
         </div>
 
-        <div className="pt-8 border-t border-white/10 flex justify-center md:justify-start items-center">
+        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-white/40 text-xs text-center md:text-left">
             &copy; {new Date().getFullYear()} Precut Studio. All rights reserved. Built for creators and brands.
           </p>
+          <div className="flex items-center gap-4">
+            <a 
+              href="https://www.facebook.com/profile.php?id=61586396312198" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-white/50 hover:text-sky-blue transition-colors duration-300"
+              aria-label="Facebook"
+            >
+              <FaFacebook size={20} />
+            </a>
+            <a 
+              href="https://www.instagram.com/precut_studio/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-white/50 hover:text-sky-blue transition-colors duration-300"
+              aria-label="Instagram"
+            >
+              <FaInstagram size={20} />
+            </a>
+          </div>
         </div>
       </div>
     </footer>

@@ -168,14 +168,13 @@ const Pricing: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => 
   const tiers = [
     {
       name: "Starter",
-      price: "$399",
+      price: "$699",
       desc: "Best for individual creators & early-stage brands.",
       features: [
         "Unlimited requests",
         "1 active video 48hrs",
         "Unlimited revisions",
         "Mon–Fri workflow",
-        "Cancel anytime",
         "Thumbnail Add-on"
       ],
       highlighted: false,
@@ -183,7 +182,7 @@ const Pricing: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => 
     },
     {
       name: "Pro",
-      price: "$699",
+      price: "$1,099",
       desc: "Best for scaling brands & content-driven teams.",
       features: [
         "Unlimited requests",
@@ -200,7 +199,7 @@ const Pricing: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => 
     },
     {
       name: "Agency",
-      price: "$1,199",
+      price: "$1,899",
       desc: "Built for agencies & high-volume brands.",
       features: [
         "Unlimited requests",
@@ -208,7 +207,6 @@ const Pricing: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => 
         "Unlimited revisions",
         "Dedicated Manager",
         "Highest queue priority",
-        "Advanced motion design",
         "Mon–Fri workflow",
         "Thumbnail Add-on"
       ],
