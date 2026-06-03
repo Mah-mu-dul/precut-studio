@@ -8,7 +8,7 @@ const Pricing: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => 
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
   const [isDesktop, setIsDesktop] = useState(true);
   const [activeMobileIdx, setActiveMobileIdx] = useState(1); // Default to middle card (Pro)
-  const [billingPeriod, setBillingPeriod] = useState<BillingPeriod>('half-yearly');
+  const [billingPeriod, setBillingPeriod] = useState<BillingPeriod>('monthly');
   const currentPRef = useRef(0); // Track exact LERP scroll fanning progress
 
   const applyCardTransforms = useCallback((p: number) => {
@@ -470,10 +470,10 @@ const Pricing: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => 
           <div className="flex justify-center mb-12">
             <a
               href="mailto:info@precutstudio.com"
-              className="group inline-flex items-center gap-2 px-6 py-2.5 rounded-full font-mono font-bold uppercase tracking-wider text-[10px] md:text-xs transition-all duration-300 transform hover:scale-105 border-0 bg-gradient-to-r from-navy-blue to-sky-blue text-white shadow-[0_0_15px_rgba(0,102,255,0.4)] hover:shadow-[0_0_30px_rgba(0,102,255,0.8)]"
+              className="group inline-flex items-center gap-2 px-8 py-3.5 rounded-full font-mono font-bold uppercase tracking-wider text-xs md:text-sm transition-all duration-300 transform hover:scale-105 border-0 bg-gradient-to-r from-navy-blue to-sky-blue text-white shadow-[0_0_15px_rgba(0,102,255,0.4)] hover:shadow-[0_0_30px_rgba(0,102,255,0.8)]"
             >
               Custom Plan
-              <svg className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+              <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
             </a>
           </div>
 
@@ -484,37 +484,37 @@ const Pricing: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => 
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.7 }}
           >
-            <h3 className={`text-center text-xl md:text-3xl font-mono font-bold mb-8 transition-colors duration-1000 ${isDarkMode ? 'text-white' : 'text-navy-blue'}`}>
+            <h3 className="text-center text-xl md:text-3xl font-mono font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-800">
               Compare All Plans
             </h3>
 
-            <div className={`rounded-2xl overflow-hidden border transition-colors duration-1000 ${isDarkMode ? 'border-white/10 bg-white/5 backdrop-blur-sm' : 'border-navy-blue/10 bg-white shadow-[0_4px_24px_rgba(9,21,73,0.06)]'}`}>
+            <div className="rounded-2xl overflow-hidden border border-white/20 bg-gradient-to-br from-blue-900 to-navy-blue shadow-[0_4px_24px_rgba(9,21,73,0.15)] text-white">
 
               {/* ── Desktop / Tablet table (plans as columns) ── */}
               <table className="w-full hidden md:table">
                 <thead>
-                  <tr className={`border-b transition-colors duration-1000 ${isDarkMode ? 'border-white/10' : 'border-navy-blue/8'}`}>
+                  <tr className="border-b border-white/10">
                     <th className="p-6 w-[22%]"></th>
                     {tiers.map(tier => (
                       <th key={tier.name} className="p-6 text-center w-[26%]">
-                        <div className={`font-mono font-bold text-lg transition-colors duration-1000 ${isDarkMode ? 'text-white' : 'text-navy-blue'}`}>{tier.name}</div>
+                        <div className="font-mono font-bold text-lg text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-white">{tier.name}</div>
                       </th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className={`border-b transition-colors duration-1000 ${isDarkMode ? 'border-white/5' : 'border-navy-blue/5'}`}>
-                    <td className={`p-6 font-sans font-semibold text-sm transition-colors duration-1000 ${isDarkMode ? 'text-white/70' : 'text-navy-blue/70'}`}>Half Yearly</td>
+                  <tr className="border-b border-white/10">
+                    <td className="p-6 font-sans font-semibold text-sm text-white/80">Half Yearly</td>
                     {tiers.map(tier => (
-                      <td key={tier.name} className={`p-6 text-center font-mono font-bold text-base transition-colors duration-1000 ${isDarkMode ? 'text-white' : 'text-navy-blue'}`}>
+                      <td key={tier.name} className="p-6 text-center font-sans font-normal text-base text-white/90">
                         {tier.halfYearlyPrice}/mo
                       </td>
                     ))}
                   </tr>
                   <tr>
-                    <td className={`p-6 font-sans font-semibold text-sm transition-colors duration-1000 ${isDarkMode ? 'text-white/70' : 'text-navy-blue/70'}`}>Monthly</td>
+                    <td className="p-6 font-sans font-semibold text-sm text-white/80">Monthly</td>
                     {tiers.map(tier => (
-                      <td key={tier.name} className={`p-6 text-center font-mono font-bold text-base transition-colors duration-1000 ${isDarkMode ? 'text-white' : 'text-navy-blue'}`}>
+                      <td key={tier.name} className="p-6 text-center font-sans font-normal text-base text-white/90">
                         {tier.monthlyPrice}/mo
                       </td>
                     ))}
@@ -525,22 +525,22 @@ const Pricing: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode = false }) => 
               {/* ── Mobile table (plans as rows — transposed) ── */}
               <table className="w-full md:hidden">
                 <thead>
-                  <tr className={`border-b transition-colors duration-1000 ${isDarkMode ? 'border-white/10' : 'border-navy-blue/8'}`}>
+                  <tr className="border-b border-white/10">
                     <th className="p-4 w-[34%]"></th>
-                    <th className={`p-4 text-center font-sans font-semibold text-xs transition-colors duration-1000 ${isDarkMode ? 'text-white/70' : 'text-navy-blue/70'}`}>Half Yearly</th>
-                    <th className={`p-4 text-center font-sans font-semibold text-xs transition-colors duration-1000 ${isDarkMode ? 'text-white/70' : 'text-navy-blue/70'}`}>Monthly</th>
+                    <th className="p-4 text-center font-sans font-semibold text-xs text-white/80">Half Yearly</th>
+                    <th className="p-4 text-center font-sans font-semibold text-xs text-white/80">Monthly</th>
                   </tr>
                 </thead>
                 <tbody>
                   {tiers.map((tier, i) => (
-                    <tr key={tier.name} className={i < tiers.length - 1 ? `border-b transition-colors duration-1000 ${isDarkMode ? 'border-white/5' : 'border-navy-blue/5'}` : ''}>
+                    <tr key={tier.name} className={i < tiers.length - 1 ? "border-b border-white/10" : ""}>
                       <td className="p-4">
-                        <div className={`font-mono font-bold text-sm transition-colors duration-1000 ${isDarkMode ? 'text-white' : 'text-navy-blue'}`}>{tier.name}</div>
+                        <div className="font-mono font-bold text-sm text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-white">{tier.name}</div>
                       </td>
-                      <td className={`p-4 text-center font-mono font-bold text-sm transition-colors duration-1000 ${isDarkMode ? 'text-white' : 'text-navy-blue'}`}>
+                      <td className="p-4 text-center font-sans font-normal text-sm text-white/90">
                         {tier.halfYearlyPrice}/mo
                       </td>
-                      <td className={`p-4 text-center font-mono font-bold text-sm transition-colors duration-1000 ${isDarkMode ? 'text-white' : 'text-navy-blue'}`}>
+                      <td className="p-4 text-center font-sans font-normal text-sm text-white/90">
                         {tier.monthlyPrice}/mo
                       </td>
                     </tr>
